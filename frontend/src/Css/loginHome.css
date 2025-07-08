@@ -1,0 +1,76 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Container with a full-screen background image */
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  z-index: 1;
+  color: #fff;
+}
+
+/* Full-screen background image behind content */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url('../image/parliment1.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.9;
+  z-index: -1;
+}
+
+/* Title styling */
+.title {
+  margin: 10px 0;
+  font-size: 1.8em;
+  color: #fff;
+}
+
+/* Button container with gap between buttons */
+.button-box {
+  display: flex;
+  gap: 20px; /* Gap between Login and Result buttons */
+  margin: 30px auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Individual buttons */
+.lang-btn {
+  background-color: #b800b8;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 1em;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Hover effect */
+.lang-btn:hover {
+  background-color: #990099;
+}
+
+/* Footer styling */
+.footer {
+  margin-top: auto;
+  padding: 20px;
+  font-size: 0.9em;
+  color: #ddd;
+}

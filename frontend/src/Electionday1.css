@@ -1,0 +1,38 @@
+.chart-container {
+  position: relative;
+  width: 420px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.labels-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 0 15px;
+}
+
+.label {
+  width: 30%;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.percent {
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.green-label {
+  color: #28a745;
+}
+
+.red-label {
+  color: #dc3545;
+}
+
+.blue-label {
+  color: #17a2b8;
+}

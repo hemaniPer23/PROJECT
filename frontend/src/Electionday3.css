@@ -1,0 +1,67 @@
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  /* Background Image */
+  background-image: url('./image/clock.jpg'); /* Replace with your correct image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  /* Optional: Adds a nice blur behind the form */
+  backdrop-filter: blur(4px);
+}
+
+.timer-setup {
+  text-align: center;
+}
+
+.time-inputs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.time-inputs input {
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+  margin: 0 10px;
+}
+
+.time-inputs span {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.start-button {
+  padding: 10px 30px;
+  font-size: 1rem;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #333;
+}
+
+.timer-display {
+  font-size: 2rem;
+  color: white;
+}
