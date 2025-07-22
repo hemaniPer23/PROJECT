@@ -1,17 +1,31 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import "./Css/LoginPage.css";
+import API from "./API.js"; // Import the API instance
 
-const LoginPage = () => {
+const LoginPage = ({setAdmin}) => {
   const navigate = useNavigate();
+  const [username,setUsername]=useState('');
+  const [password,setPassword]=useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-
-    // You can validate login credentials here if needed
-
-    // Navigate to Category page on submit
-    navigate("/category"); // ✅ Changed to Category page
+    
+    try{
+      const res= await API.post('/admin_login.php',{username,password});
+      if (res.data.status === 'success' && res.data.role === 'commission') {
+        setAdmin(true);
+        localStorage.setItem('admin_logged_in', 'true');
+        navigate('/choose'); // Go to main menu after login
+      } else {
+        alert(res.data.message || 'Login failed');
+    }
+    }catch(error){
+      console.error("Login error:", error);
+      alert("An error occurred while logging in. Please try again.");
+      return;
+    }
   };
 
   return (
@@ -28,12 +42,14 @@ const LoginPage = () => {
             name="username"
             placeholder="පරිශීලක නාමය / Username"
             required
+             onChange={e => setUsername(e.target.value)}
           />
           <input
             type="password"
             name="password"
             placeholder="මුර පදය / Password"
             required
+            onChange={e => setPassword(e.target.value)}
           />
 
           <button type="submit" className="lang-btn">
