@@ -11,6 +11,8 @@ import Electionday1 from "./Electionday1";
 import Electionday2 from "./Electionday2";
 import Electionday3 from "./Electionday3";
 import Electionday4 from "./Electionday4";// Fixed: Changed from Choose to Category and lowercase to uppercase
+import Electionday5 from "./Electionday5";
+import Electionday6 from "./Electionday6";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
          <Route path="/electionday2" element={<Electionday2 />} />
           <Route path="/electionday3" element={<Electionday3 />} />
           <Route path="/electionday4" element={<Electionday4 />} />
+          <Route path="/electionday5" element={<Electionday5 />} />
+          <Route path="/electionday6" element={<Electionday6 />} />
 
       </Routes>
     </Router>

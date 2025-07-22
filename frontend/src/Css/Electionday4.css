@@ -6,13 +6,14 @@ body, html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
   /* ✅ Background image */
-  background: url('./image/flag.jpg') no-repeat center center fixed;
+  background: url('../image/Flag3.jpg') no-repeat center center fixed;
   background-size: cover;
 }
 
 /* Center the login card */
 .login-wrapper {
   height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Electionday3.css';
+import './Css/Electionday3.css';
 
 export default function ElectionTimer() {
   const [startTime, setStartTime] = useState('');
@@ -55,6 +55,10 @@ export default function ElectionTimer() {
 
   return (
     <div className="timer-container">
+      {/* Titles added here */}
+      <h1 className="title-sinhala">මැතිවරණ කොමිෂන් සභාව 2025</h1>
+      <h2 className="title-english">Election Commission 2025</h2>
+
       {!timerStarted ? (
         <div className="timer-setup">
           <h2>Set Election Time</h2>

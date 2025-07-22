@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Electionday4.css'; // <-- spelling fixed
+import './Css/Electionday4.css'; // <-- spelling fixed
 
 export default function Test1Login() {
   const [nic, setNic] = useState('');

@@ -20,9 +20,7 @@ const LoginHome = () => {
           පිවිසෙන්න<br />Login
         </button>
 
-        <button className="lang-btn" onClick={() => navigate("/loginHome")}>
-          ප්‍රතිඵල<br />Result
-        </button>
+       
       </div>
 
       <div className="footer">

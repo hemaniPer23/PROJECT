@@ -17,6 +17,7 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <h1 className="title">මැතිවරණ කොමිෂන් සභාව</h1>
+      <br />
       <h2 className="title">Election Commission</h2>
 
       <div className="login-box">

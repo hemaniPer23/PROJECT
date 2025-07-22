@@ -7,20 +7,25 @@ export default function Category() {
 
   return (
     <div className="category-container">
+      <br /> <br /> <br /> <br /> <br />
+
       <h1 className="category-title">Menu</h1>
+
       <div className="button-group">
         <button
           className="menu-button registration-button"
-          onClick={() => navigate('/choose')} // ✅ Updated path
+          onClick={() => navigate('/choose')} // Registration page
         >
           Registration
         </button>
+
         <button
           className="menu-button election-button"
-          onClick={() => navigate('/electionday')}
+          onClick={() => navigate('/electionday1')} // Updated to electionday1 page
         >
           Election Day
         </button>
+
         <button
           className="menu-button result-button"
           onClick={() => navigate('/viewresult')}
@@ -28,6 +33,7 @@ export default function Category() {
           View Result
         </button>
       </div>
+
       <footer className="footer">
         &copy; 2025 Election Commission of Sri Lanka
       </footer>

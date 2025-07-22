@@ -26,7 +26,7 @@ html, body {
   left: 0;
   height: 100%;
   width: 100%;
-  background-image: url('../image/parliment1.png');
+  background-image: url('../image/Flag3.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -38,13 +38,13 @@ html, body {
 .title {
   margin: 10px 0;
   font-size: 1.8em;
-  color: #fff;
+  color: #000; /* Black text color */
 }
 
 /* Button container with gap between buttons */
 .button-box {
   display: flex;
-  gap: 20px; /* Gap between Login and Result buttons */
+  gap: 20px;
   margin: 30px auto;
   flex-wrap: wrap;
   justify-content: center;

@@ -1,23 +1,26 @@
 /* container & background */
 .login-container {
- background-image: url('../image/Flag1.jpg');
- 
+  background-image: url('../image/Flag2.jpg');
   background-size: cover;
   background-position: center;
   height: 100vh;
   margin: 0;
   padding: 0;
-  
   text-align: center;
   color: #4b006e;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* logo */
 .logo {
   width: 80px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 /* titles */
@@ -27,14 +30,22 @@
   font-weight: bold;
 }
 
+/* wrapper for title + login box */
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
 /* login box */
 .login-box {
   background: rgba(255, 255, 255, 0.9);
   padding: 30px;
-  margin: 40px auto;
   border-radius: 16px;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
   max-width: 600px;
+  width: 90%;
 }
 
 /* login title */
@@ -85,8 +96,8 @@
   font-size: 0.9em;
   color: #666;
 }
+
+/* optional background layer */
 .bgImage {
   position: fixed;
-  
-  
 }

@@ -8,6 +8,7 @@ const Choose = () => {
   return (
     <div className="choose-container">
       <h1 className="choose-title">Choose Registration Type</h1>
+
       <div className="button-group">
         <button
           className="reg-button candidate-button"
@@ -15,19 +16,22 @@ const Choose = () => {
         >
           Registration Candidate
         </button>
+
         <button
           className="reg-button form-button"
           onClick={() => navigate('/registration')}
         >
           Registration Voter
         </button>
+
         <button
           className="reg-button back-button"
-          onClick={() => navigate('/category')} // ✅ Go to Category page
+          onClick={() => navigate('/category')}
         >
           Back
         </button>
       </div>
+
       <footer className="footer">
         &copy; 2025 Election Commission of Sri Lanka
       </footer>

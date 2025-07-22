@@ -1,49 +1,60 @@
+/* Container with background image */
 .choose-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-  /* Background image styling */
-  background-image: url('../image/flag.jpg'); /* Replace with your image path or URL */
+  background-image: url('../image/Flag1.jpg'); /* Update path as needed */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: white; /* Ensures text is visible over the image */
+
+  color: white;
+  position: relative;
+  text-align: center;
 }
 
+/* Page title */
 .choose-title {
-  font-size: 40px;
-  margin-bottom: 100px;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 2.5rem;
+  margin-bottom: 60px;
+  font-weight: bold;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }
 
+/* Group of buttons */
 .button-group {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 250px;
-  margin-bottom: 300px;
+  gap: 20px;
+  width: 100%;
+  max-width: 300px;
 }
 
+/* All buttons */
 .reg-button {
-  padding: 14px 20px;
+  padding: 14px 24px;
   border: none;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s;
 }
 
+.reg-button:hover {
+  transform: translateY(-2px);
+}
+
+/* Individual button colors */
 .candidate-button {
   background-color: #007bff;
 }
-
 .candidate-button:hover {
   background-color: #0056b3;
 }
@@ -51,21 +62,22 @@
 .form-button {
   background-color: #28a745;
 }
-
 .form-button:hover {
   background-color: #1e7e34;
 }
 
 .back-button {
-  background-color: #dc3545; /* Red color */
+  background-color: #dc3545;
 }
-
 .back-button:hover {
-  background-color: #c82333; /* Darker red on hover */
+  background-color: #c82333;
 }
 
+/* Footer at bottom */
 .footer {
   position: absolute;
   bottom: 20px;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 1px 1px 3px #000;
 }
