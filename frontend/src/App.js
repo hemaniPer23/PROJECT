@@ -28,6 +28,7 @@ function App() {
         <Route path="/" element={<LoginHome />} />
         <Route path="/loginhome" element={<LoginPage setAdmin={setAdmin}/>} />
         
+        
         <Route path="/registrationvoter" element={
           <ProtectedRoute>
             <RegistrationVoter />
