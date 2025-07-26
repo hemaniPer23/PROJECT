@@ -6,25 +6,58 @@ import API from "./API.js"; // Import the API instance
 
 const LoginPage = ({setAdmin}) => {
   const navigate = useNavigate();
-  const [username,setUsername]=useState('');
-  const [password,setPassword]=useState('');
+  // We use 'adminId' to be more specific, but it will hold the username or ID
+  const [adminId, setAdminId] = useState(''); 
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
+    // Replace your existing handleSubmit function with this one
   const handleSubmit = async(e) => {
     e.preventDefault();
+    setError('');
+
+    const loginData = {
+        Admin_ID: adminId,
+        Admin_Password: password
+    };
     
-    try{
-      const res= await API.post('/admin_login.php',{username,password});
-      if (res.data.status === 'success' && res.data.role === 'commission') {
-        setAdmin(true);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    try {
+      
+      const res = await API.post('/api/admin/login.php', loginData, config);
+
+      if (res.data.status === 'success') {
+        // This is a common action for any successful admin login
+        if(typeof setAdmin === 'function') {
+            setAdmin(true);
+        }
         localStorage.setItem('admin_logged_in', 'true');
-        navigate('/choose'); // Go to main menu after login
+
+        const role = res.data.role;
+
+        // Role-based navigation
+        if (role === 'Presiding Officer') {
+            navigate('/electionday1');
+        } else if (role === 'Officer') {
+            navigate('/officer-dashboard');
+        } else if (role === 'commission') { 
+            navigate('/choose');
+        } else {
+            setError('Logged in, but role is undefined.');
+        }
+
+      }
+    } catch(err) {
+      if (err.response) {
+        setError(err.response.data.message);
       } else {
-        alert(res.data.message || 'Login failed');
-    }
-    }catch(error){
-      console.error("Login error:", error);
-      alert("An error occurred while logging in. Please try again.");
-      return;
+        setError("Cannot connect to the server. Please check your connection.");
+      }
     }
   };
 
@@ -37,18 +70,23 @@ const LoginPage = ({setAdmin}) => {
       <div className="login-box">
         <h3 className="login-title">Login</h3>
         <form onSubmit={handleSubmit}>
+          
+          {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+          
           <input
             type="text"
-            name="username"
-            placeholder="පරිශීලක නාමය / Username"
+            name="adminId"
+            placeholder="පරිශීලක නාමය / Admin ID" // Placeholder is generic now
             required
-             onChange={e => setUsername(e.target.value)}
+            value={adminId}
+            onChange={e => setAdminId(e.target.value)} 
           />
           <input
             type="password"
             name="password"
             placeholder="මුර පදය / Password"
             required
+            value={password}
             onChange={e => setPassword(e.target.value)}
           />
 
