@@ -14,14 +14,14 @@ export default function Category() {
       <div className="button-group">
         <button
           className="menu-button registration-button"
-          onClick={() => navigate('/choose')} // Registration page
+          onClick={() => navigate('/registrationlogin')} // ✅ Updated route
         >
           Registration
         </button>
 
         <button
           className="menu-button election-button"
-          onClick={() => navigate('/electionday1')} // Updated to electionday1 page
+          onClick={() => navigate('/electionday1')}
         >
           Election Day
         </button>

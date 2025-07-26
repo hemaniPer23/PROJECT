@@ -1,3 +1,4 @@
+// src/Choose.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Css/Choose.css';
@@ -7,7 +8,7 @@ const Choose = () => {
 
   return (
     <div className="choose-container">
-      <h1 className="choose-title">Choose Registration Type</h1>
+      <h1 className="choose-title">ලියාපදිංචි වර්ගය තෝරන්න <br />Choose Registration Type</h1>
 
       <div className="button-group">
         <button
@@ -19,7 +20,7 @@ const Choose = () => {
 
         <button
           className="reg-button form-button"
-          onClick={() => navigate('/registration')}
+          onClick={() => navigate('/registrationvoter')} // ✅ This must match the route
         >
           Registration Voter
         </button>
