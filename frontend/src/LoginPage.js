@@ -6,25 +6,25 @@ import API from "./API.js";
 
 const LoginPage = ({ setAdmin }) => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username,setUsername]=useState('');
+  const [password,setPassword]=useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     
-    try {
-      const res = await API.post('/admin_login.php', { username, password });
-
+    try{
+      const res= await API.post('/admin_login.php',{username,password});
       if (res.data.status === 'success' && res.data.role === 'commission') {
         setAdmin(true);
         localStorage.setItem('admin_logged_in', 'true');
-        navigate('/category'); // navigate to Category.js page
+        navigate('/choose'); // Go to main menu after login
       } else {
         alert(res.data.message || 'Login failed');
-      }
-    } catch (error) {
+    }
+    }catch(error){
       console.error("Login error:", error);
       alert("An error occurred while logging in. Please try again.");
+      return;
     }
   };
 
@@ -37,18 +37,22 @@ const LoginPage = ({ setAdmin }) => {
       <div className="login-box">
         <h3 className="login-title">Login</h3>
         <form onSubmit={handleSubmit}>
+          
+          {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+          
           <input
             type="text"
-            name="username"
-            placeholder="පරිශීලක නාමය / Username"
+            name="adminId"
+            placeholder="පරිශීලක නාමය / Admin ID" // Placeholder is generic now
             required
-            onChange={e => setUsername(e.target.value)}
+             onChange={e => setUsername(e.target.value)}
           />
           <input
             type="password"
             name="password"
             placeholder="මුර පදය / Password"
             required
+            value={password}
             onChange={e => setPassword(e.target.value)}
           />
           <button type="submit" className="lang-btn">
