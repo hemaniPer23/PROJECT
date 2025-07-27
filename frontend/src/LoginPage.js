@@ -6,25 +6,26 @@ import API from "./API.js";
 
 const LoginPage = ({ setAdmin }) => {
   const navigate = useNavigate();
-  const [username,setUsername]=useState('');
-  const [password,setPassword]=useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // ✅ Added error state
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    try{
-      const res= await API.post('/admin_login.php',{username,password});
+    setError(''); // Clear previous error
+
+    try {
+      const res = await API.post('/admin_login.php', { username, password });
       if (res.data.status === 'success' && res.data.role === 'commission') {
         setAdmin(true);
         localStorage.setItem('admin_logged_in', 'true');
-        navigate('/choose'); // Go to main menu after login
+        navigate('/choose');
       } else {
-        alert(res.data.message || 'Login failed');
-    }
-    }catch(error){
+        setError(res.data.message || 'Login failed'); // ✅ set error state
+      }
+    } catch (error) {
       console.error("Login error:", error);
-      alert("An error occurred while logging in. Please try again.");
-      return;
+      setError("An error occurred while logging in. Please try again."); // ✅ set error
     }
   };
 
@@ -37,15 +38,16 @@ const LoginPage = ({ setAdmin }) => {
       <div className="login-box">
         <h3 className="login-title">Login</h3>
         <form onSubmit={handleSubmit}>
-          
+
+          {/* ✅ Error message display */}
           {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
-          
+
           <input
             type="text"
             name="adminId"
-            placeholder="පරිශීලක නාමය / Admin ID" // Placeholder is generic now
+            placeholder="පරිශීලක නාමය / Admin ID"
             required
-             onChange={e => setUsername(e.target.value)}
+            onChange={e => setUsername(e.target.value)}
           />
           <input
             type="password"
