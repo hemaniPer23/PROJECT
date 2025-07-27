@@ -1,50 +1,51 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Css/Electionday2.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "./Css/LoginPage.css";
 
-export default function Electionday2() {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`ID: ${id}\nPassword: ${password}`);
-    navigate('/electionday3');
+
+    // You can validate login credentials here if needed
+
+    // Navigate to Category page on submit
+    navigate("/category"); // ✅ Changed to Category page
   };
 
   return (
-    <div className="page-container">
-      <div className="content">
-        <h1 className="title-sinhala">මැතිවරණ කොමිෂන් සභාව 2025</h1>
-        <h2 className="title-english">Election Commission 2025</h2>
+    <div className="login-container">
+      <h1 className="title">මැතිවරණ කොමිෂන් සභාව</h1>
+      <h2 className="title">Election Commission</h2>
 
-        <form className="login-form" onSubmit={handleSubmit}>
-          <h3>Login</h3>
-
-          <label htmlFor="userId">ID</label>
+      <div className="login-box">
+        <h3 className="login-title">Login</h3>
+        <form onSubmit={handleSubmit}>
           <input
-            id="userId"
             type="text"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
-            placeholder="Enter your ID"
+            name="username"
+            placeholder="පරිශීලක නාමය / Username"
             required
           />
-
-          <label htmlFor="password">Password</label>
           <input
-            id="password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
+            name="password"
+            placeholder="මුර පදය / Password"
             required
           />
 
-          <button type="submit">Login</button>
+          <button type="submit" className="lang-btn">
+            Login
+          </button>
         </form>
       </div>
+
+      <footer className="footer">
+        &copy; 2025 Election Commission of Sri Lanka
+      </footer>
     </div>
   );
-}
+};
+
+export default LoginPage;
