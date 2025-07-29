@@ -16,6 +16,8 @@ import Electionday4 from "./Electionday4";
 import Electionday5 from "./Electionday5";
 import Electionday6 from "./Electionday6";
 
+import Viewresults1 from "./Viewresults1";
+
 function App() {
   const [admin, setAdmin] = useState(localStorage.getItem("admin_logged_in"));
 
@@ -118,6 +120,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/viewresults1"
+          element={
+            <ProtectedRoute>
+              <Viewresults1 />
+            </ProtectedRoute>
+          }
+        />
+        
       </Routes>
     </Router>
   );
