@@ -11,7 +11,7 @@ const LoginPage = ({setAdmin}) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-    // Replace your existing handleSubmit function with this one
+  // handleSubmit function with this one
   const handleSubmit = async(e) => {
     e.preventDefault();
     setError('');
@@ -27,12 +27,11 @@ const LoginPage = ({setAdmin}) => {
       }
     };
 
-    try {
-      
-      const res = await API.post('/api/admin/login.php', loginData, config);
+try {
+      const res = await API.post('/api/admin/login.php', loginData);
 
       if (res.data.status === 'success') {
-        // This is a common action for any successful admin login
+        // Common actions for any successful admin login
         if(typeof setAdmin === 'function') {
             setAdmin(true);
         }
@@ -40,11 +39,13 @@ const LoginPage = ({setAdmin}) => {
 
         const role = res.data.role;
 
-        // Role-based navigation
+        //Role-based navigation
         if (role === 'Presiding Officer') {
             navigate('/electionday1');
         } else if (role === 'Officer') {
             navigate('/officer-dashboard');
+        } else if (role === 'Result') {
+            navigate('/electionday5');
         } else if (role === 'commission') { 
             navigate('/choose');
         } else {
@@ -76,7 +77,7 @@ const LoginPage = ({setAdmin}) => {
           <input
             type="text"
             name="adminId"
-            placeholder="පරිශීලක නාමය / Admin ID" // Placeholder is generic now
+            placeholder="පරිශීලක නාමය / Admin ID" 
             required
             value={adminId}
             onChange={e => setAdminId(e.target.value)} 
