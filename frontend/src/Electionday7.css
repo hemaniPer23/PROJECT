@@ -1,0 +1,55 @@
+.election-background {
+  background-image: url('./image/parliment1.png'); /* Make sure path is correct */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.titles {
+  text-align: center;
+  padding-top: 30px;
+  color: black;
+}
+
+.sinhala-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.english-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.message-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 300px;
+  margin: 100px auto;
+  padding: 30px 20px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.message-container h3 {
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.done-button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.done-button:hover {
+  background-color: #0056b3;
+}

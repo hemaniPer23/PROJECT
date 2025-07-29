@@ -13,6 +13,7 @@
     public function connect() {
       $this->conn = null;
 
+      
       try { 
 
         //Create object from PDO(php data object) Class

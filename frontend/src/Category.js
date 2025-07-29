@@ -1,6 +1,7 @@
+// src/Category.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Css/Category.css';
+import './Css/Category.css'; // Make sure this path is correct
 
 export default function Category() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function Category() {
       <div className="button-group">
         <button
           className="menu-button registration-button"
-          onClick={() => navigate('/registrationlogin')} // ✅ Updated route
+          onClick={() => navigate('/registrationlogin')}
         >
           Registration
         </button>
@@ -28,7 +29,7 @@ export default function Category() {
 
         <button
           className="menu-button result-button"
-          onClick={() => navigate('/viewresult')}
+          onClick={() => navigate('/viewresultlogin')} // ✅ Updated route
         >
           View Result
         </button>

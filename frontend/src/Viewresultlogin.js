@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Css/LoginPage.css";
+import "./Css/Registrationlogin.css"; // ✅ Correct path for CSS file
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -8,8 +8,8 @@ const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Navigate to ElectionDay3 page on submit
-    navigate("/electionday3");
+    // Redirect to Choose page
+    navigate("/choose");
   };
 
   return (
@@ -32,7 +32,6 @@ const LoginPage = () => {
             placeholder="මුර පදය / Password"
             required
           />
-
           <button type="submit" className="lang-btn">
             Login
           </button>

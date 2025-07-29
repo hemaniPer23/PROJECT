@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Css/Electionday4.css'; // <-- spelling fixed
+import './Css/Electionday4.css';
 
 export default function Test1Login() {
   const [nic, setNic] = useState('');
@@ -7,7 +7,7 @@ export default function Test1Login() {
   const handleNext = (e) => {
     e.preventDefault();
     console.log('NIC:', nic);
-    // Add navigation or validation here
+    // Add validation or navigation here
   };
 
   return (

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ import navigate
 import './Css/Electionday3.css';
 
 export default function ElectionTimer() {
@@ -9,6 +10,8 @@ export default function ElectionTimer() {
   const [now, setNow] = useState(new Date());
   const [timeLeft, setTimeLeft] = useState('');
   const [timerStarted, setTimerStarted] = useState(false);
+
+  const navigate = useNavigate(); // ✅ initialize navigate
 
   useEffect(() => {
     if (timerStarted) {
@@ -48,6 +51,7 @@ export default function ElectionTimer() {
       setElectionStart(new Date(startTime));
       setElectionEnd(new Date(endTime));
       setTimerStarted(true);
+      navigate("/electionday4"); // ✅ redirect after setting times
     } else {
       alert('Please enter both start and end times.');
     }
@@ -55,7 +59,6 @@ export default function ElectionTimer() {
 
   return (
     <div className="timer-container">
-      {/* Titles added here */}
       <h1 className="title-sinhala">මැතිවරණ කොමිෂන් සභාව 2025</h1>
       <h2 className="title-english">Election Commission 2025</h2>
 
