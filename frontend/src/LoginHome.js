@@ -16,11 +16,9 @@ const LoginHome = () => {
       <br /><br /><br /><br /><br />
 
       <div className="button-box">
-        <button className="lang-btn" onClick={() => navigate("/loginHome")}>
+        <button className="lang-btn" onClick={() => navigate("/category")}>
           පිවිසෙන්න<br />Login
         </button>
-
-       
       </div>
 
       <div className="footer">
