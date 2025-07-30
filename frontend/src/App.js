@@ -122,10 +122,10 @@ function App() {
         />
 
         <Route
-          path="/viewresults1"
+          path="/LoginPage"
           element={
             <ProtectedRoute>
-              <Viewresults1 />
+              <LoginPage/>
             </ProtectedRoute>
           }
         />

@@ -29,7 +29,7 @@ export default function Category() {
 
         <button
           className="menu-button result-button"
-          onClick={() => navigate('/viewresult')}
+          onClick={() => navigate('/LoginPage')}
         >
           View Result
         </button>
