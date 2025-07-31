@@ -1,87 +1,102 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Css/Electionday3.css';
+import API from './API.js'; 
+import { useNavigate } from 'react-router-dom';
 
 export default function ElectionTimer() {
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [electionStart, setElectionStart] = useState(null);
-  const [electionEnd, setElectionEnd] = useState(null);
-  const [now, setNow] = useState(new Date());
-  const [timeLeft, setTimeLeft] = useState('');
-  const [timerStarted, setTimerStarted] = useState(false);
+  
+  
+  const [startTime, setStartTime] = useState('00:00');
+  const [endTime, setEndTime] = useState('00:00');
+  const [message, setMessage] = useState('');  // To show feedback messages
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    if (timerStarted) {
-      const timer = setInterval(() => {
-        setNow(new Date());
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [timerStarted]);
+  // React Router's function to navigate between pages
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (electionStart && electionEnd) {
-      if (now < electionStart) {
-        const diff = electionStart - now;
-        setTimeLeft(formatDuration(diff) + ' until election starts');
-      } else if (now >= electionStart && now <= electionEnd) {
-        const diff = electionEnd - now;
-        setTimeLeft(formatDuration(diff) + ' left to vote');
-      } else {
-        setTimeLeft('The election has ended.');
+  
+  // This function runs when the "START" button is clicked
+  const handleStart = async (e) => {
+   
+    e.preventDefault();  // Prevents the browser from reloading the page
+
+    const isConfirmed = window.confirm(
+      `Are you sure you want to set the election time from ${startTime} to ${endTime}?`
+    );
+
+    //clicked "OK" on the pop-up
+    if (isConfirmed) {
+      setIsSubmitting(true);
+      setMessage('Activating election, please wait...');
+
+      //Prepare the data object to be sent to the backend API
+      const electionData = {
+        Election_ID: 'election1',
+        Start_time: startTime,
+        End_time: endTime
+      };
+
+      
+      try {
+        const res = await API.put('/api/election/set_time.php', electionData);
+        
+        if (res.data.status === 'success') {
+          setMessage('Election has been successfully activated! Redirecting...');
+          setTimeout(() => {
+            navigate('/Electionday4'); // Navigates to the next page in the flow
+          }, 4000); //4 sec
+
+        } else {
+          setMessage(res.data.message || 'Failed to start election.');
+          setIsSubmitting(false); // Re-enable the form so the user can try again
+        }
+      } catch (err) {
+        setMessage(err.response?.data?.message || 'An error occurred while contacting the server.');
+        setIsSubmitting(false);// Re-enable the form so the user can try again
       }
-    }
-  }, [now, electionStart, electionEnd]);
-
-  function formatDuration(ms) {
-    if (ms <= 0) return '0h 0m 0s';
-    let totalSeconds = Math.floor(ms / 1000);
-    let hours = Math.floor(totalSeconds / 3600);
-    let minutes = Math.floor((totalSeconds % 3600) / 60);
-    let seconds = totalSeconds % 60;
-
-    return `${hours}h ${minutes}m ${seconds}s`;
-  }
-
-  function handleStart() {
-    if (startTime && endTime) {
-      setElectionStart(new Date(startTime));
-      setElectionEnd(new Date(endTime));
-      setTimerStarted(true);
     } else {
-      alert('Please enter both start and end times.');
+      //clicks "Cancel" in the confirmation pop-up
+      setMessage('');
     }
-  }
+  };
 
+  
   return (
     <div className="timer-container">
-      {/* Titles added here */}
       <h1 className="title-sinhala">මැතිවරණ කොමිෂන් සභාව 2025</h1>
       <h2 className="title-english">Election Commission 2025</h2>
 
-      {!timerStarted ? (
-        <div className="timer-setup">
-          <h2>Set Election Time</h2>
+      <div className="timer-setup">
+        <h2>Set Election Time</h2>
+        <form onSubmit={handleStart}>
           <div className="time-inputs">
             <input
-              type="datetime-local"
+              type="time"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
+              required
+              disabled={isSubmitting} // Input is disabled while submitting
             />
             <span>TO</span>
             <input
-              type="datetime-local"
+              type="time"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
+              required
+              disabled={isSubmitting} // Input is disabled while submitting
             />
           </div>
-          <button className="start-button" onClick={handleStart}>Start</button>
-        </div>
-      ) : (
-        <div className="timer-display">
-          <p>{timeLeft}</p>
-        </div>
-      )}
+
+          {/* The button's text and disabled state change based on 'isSubmitting' */}
+          <button className="start-button" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Processing...' : 'START'}
+          </button>
+        </form>
+
+      </div>
+
+      {/* This area shows feedback messages to the user */}
+      {message && <p className="message">{message}</p>}
     </div>
   );
 }

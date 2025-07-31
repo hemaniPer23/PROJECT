@@ -29,24 +29,24 @@ class Admin {
         return false;
     }
 
-    // Checks if election is happening right now (Dynamic IsValid)
+    // Checks if election is happening right now
     public function isElectionActive() {
         // Corrected query to combine Date and Time
-        $query = 'SELECT Election_ID FROM ' . $this->election_table . ' WHERE NOW() BETWEEN CONCAT(Date, " ", Start_time) AND CONCAT(Date, " ", End_time) LIMIT 1';
+        $query = 'SELECT Election_ID FROM ' . $this->election_table . ' WHERE IsValid = 1 AND NOW() BETWEEN CONCAT(Date, " ", Start_time) AND CONCAT(Date, " ", End_time) LIMIT 1';
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->rowCount() > 0;
     }
     // Checks Start_Time is null
     public function preElection() {
-        $query = 'SELECT Election_ID FROM ' . $this->election_table . ' WHERE Start_Time = NULL LIMIT 2';
+        $query = 'SELECT Election_ID FROM ' . $this->election_table . ' WHERE IsValid = 0 AND Start_time IS NULL LIMIT 1';
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->rowCount() > 0;
     }
     // Checks if election has finished
     public function hasElectionEnded() {
-        $query = 'SELECT Election_ID FROM ' . $this->election_table . ' WHERE NOW() > CONCAT(Date, " ", End_time) LIMIT 1';
+        $query = 'SELECT Election_ID FROM ' . $this->election_table . ' WHERE IsValid = 1 AND NOW() > CONCAT(Date, " ", End_time) LIMIT 1';
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->rowCount() > 0;
@@ -54,7 +54,7 @@ class Admin {
 
     // Checks if commission login is allowed (more than 30 days before election)
     public function isCommissionLoginAllowed() {
-        $query = 'SELECT Date FROM ' . $this->election_table . ' ORDER BY Date ASC LIMIT 1';
+        $query = 'SELECT Date FROM ' . $this->election_table . ' WHERE IsValid = 0 ORDER BY Date ASC LIMIT 1';
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
