@@ -5,7 +5,6 @@ class Election {
 
     // Properties
     public $Election_ID;
-    public $Date;
     public $Start_time;
     public $End_time;
 
