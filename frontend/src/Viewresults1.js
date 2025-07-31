@@ -4,7 +4,7 @@ import { useState } from "react";
 import "./Css/LoginPage.css";
 import API from "./API.js"; // Import the API instance
 
-const Registrationlogin = ({setAdmin}) => {
+const ViweResultsLogin= ({setAdmin}) => {
   const navigate = useNavigate();
   const [adminId, setAdminId] = useState(''); 
   const [password, setPassword] = useState('');
@@ -30,7 +30,13 @@ const Registrationlogin = ({setAdmin}) => {
 
         const role = res.data.role;
 
-       if (role === 'commission') { 
+        if (role === 'Presiding Officer') {
+            navigate('/electionday1');
+        } else if (role === 'Officer') {
+            navigate('/officer-dashboard');
+        } else if (role === 'Result') {
+            navigate('/results-dashboard');
+        } else if (role === 'commission') { 
             navigate('/choose');
         } else {
             setError('Logged in, but role is undefined.');
@@ -88,4 +94,4 @@ const Registrationlogin = ({setAdmin}) => {
   );
 };
 
-export default Registrationlogin;
+export default ViweResultsLogin;

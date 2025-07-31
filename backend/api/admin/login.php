@@ -1,5 +1,5 @@
 <?php
-
+// CORS and Headers (as before)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
-
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
@@ -29,30 +28,49 @@ if (!isset($data->Admin_ID) || !isset($data->Admin_Password)) {
 $admin->Admin_ID = $data->Admin_ID;
 $admin->Admin_Password = $data->Admin_Password;
 
-// The login() method now returns true on success, false on failure.
 if ($admin->login()) {
-    // Credentials are correct. Now, check the role.
-    
-    if ($admin->Admin_Role === 'Officer') {
-        // If the role is 'Officer', deny access from this login page.
-        http_response_code(403); // Forbidden
-        echo json_encode([
-            'status' => 'fail', 
-            'message' => 'Access Denied.'
-        ]);
-    } else {
-        // For all other roles ('Presiding Officer', 'commission', etc.), allow login.
-        http_response_code(200); // OK
-        echo json_encode([
-            'status' => 'success',
-            'message' => 'Login Successful.',
-            'admin_id' => $admin->Admin_ID,
-            'role' => $admin->Admin_Role
-        ]);
+    $role = $admin->Admin_Role;
+    $isSuccess = false;
+    $message = 'Access Denied for this role.'; // Default error message
+
+    if ($role === 'Officer') {
+        if ($admin->isElectionActive()) {
+            $isSuccess = true;
+        } else {
+            $message = 'Officer login is only available during the election hours.';
+        }
+    } elseif ($role === 'Result') {
+        if ($admin->hasElectionEnded()) {
+            $isSuccess = true;
+        } else {
+            $message = 'Results can be accessed only after the election has ended.';
+        }
+    } elseif ($role === 'Presiding Officer') {
+        if (!$admin->hasElectionEnded() OR $admin->preElection()) {
+            $isSuccess = true;
+        } else {
+            $message = 'The election has ended.';
+        }
+    } elseif ($role === 'commission') {
+        if ($admin->isCommissionLoginAllowed()) {
+            $isSuccess = true;
+        } else {
+            $message = 'Commission login is disabled within 30 days of the election.';
+        }
+    } else { // For 'Presiding Officer' and any other roles without special time rules
+        $isSuccess = true;
     }
+
+    if ($isSuccess) {
+        http_response_code(200);
+        echo json_encode(['status' => 'success', 'message' => 'Login Successful.', 'role' => $role]);
+    } else {
+        http_response_code(403);
+        echo json_encode(['status' => 'fail', 'message' => $message]);
+    }
+    
 } else {
-    // If login() returned false, it means credentials were wrong.
-    http_response_code(401); // Unauthorized
-    echo json_encode(['status' => 'fail', 'message' => 'Login Failed. Invalid UserID or Password.']);
+    http_response_code(401);
+    echo json_encode(['status' => 'fail', 'message' => 'Login Failed. Invalid Credentials.']);
 }
 ?>
