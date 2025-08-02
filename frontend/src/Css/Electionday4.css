@@ -1,82 +1,118 @@
-/* Set up full-page background image and font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-  /* ✅ Background image */
-  background: url('../image/Flag3.jpg') no-repeat center center fixed;
+  font-family: 'Roboto', sans-serif;
+  background: url('../image/Flag3.jpg') no-repeat center center fixed; /* ✅ Use your uploaded image here */
   background-size: cover;
 }
 
-/* Center the login card */
+/* Navbar */
+.navbar {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  display: flex;
+  gap: 20px;
+  font-weight: bold;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: black;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+/* Title section */
+.page-title {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.title-sinhala {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: black;
+  margin: 0;
+}
+
+.title-english {
+  font-size: 1.2rem;
+  color: black;
+  margin-top: 5px;
+}
+
+/* Wrapper */
 .login-wrapper {
   height: 100vh;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   position: relative;
 }
 
-/* Login card style */
+/* Card */
 .login-card {
-  background-color: rgba(203, 216, 196, 0.95); /* light green with transparency */
-  border: 1px solid #000;
+  background-color: rgba(255, 255, 255, 0.85);
   padding: 40px;
-  border-radius: 30px;
+  border-radius: 20px;
   text-align: center;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
   z-index: 1;
+  margin-top: 150px;
 }
 
-/* Title */
+/* Headings */
 .login-card h1 {
   margin-bottom: 30px;
-  font-size: 2.5rem;
-  font-weight: bold;
+  font-size: 2rem;
   color: #000;
 }
 
-/* Form arranged vertically */
+/* Form */
 .login-card form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Label */
 .login-card label {
-  display: block;
-  margin-bottom: 5px;
   font-weight: bold;
+  margin-bottom: 5px;
   color: #000;
 }
 
-/* Input field */
 .login-card input {
   padding: 10px;
   width: 250px;
-  background-color: #000;
+  background-color: #e0f2f1;
   border: none;
-  color: white;
+  color: #000;
   font-size: 16px;
   margin-bottom: 20px;
   border-radius: 5px;
 }
 
-/* Button */
 .login-card button {
-  background-color: #000;
+  background-color: #1976d2;
   color: white;
   padding: 10px 30px;
   border: none;
   border-radius: 30px;
   font-size: 16px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .login-card button:hover {
-  background-color: #333;
+  background-color: #1565c0;
 }

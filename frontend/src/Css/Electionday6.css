@@ -9,74 +9,61 @@ body {
 .container {
   width: 100%;
   height: 100vh;
-  background-image: url('../image/Flag3.jpg'); /* ✅ Update path if needed */
+  background-image: url('../image/Flag3.jpg'); /* Update as needed */
   background-size: cover;
   background-position: center;
   position: relative;
   padding: 0;
-}
-
-/* Navigation Bar */
-.nav {
   display: flex;
-  justify-content: flex-end;
-  padding: 16px 24px;
+  flex-direction: column;
 }
 
-.nav ul {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-  margin: 0;
-  padding: 0;
-}
-
-.nav ul li a {
-  text-decoration: none;
-  color: #000;
-  font-weight: bold;
-}
-
-/* Title Section */
-.content {
+/* Title section always at the top */
+.title-section {
   text-align: center;
-  margin-top: 120px;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 
 .title-sinhala {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: bold;
   color: #000;
-  margin-bottom: 8px;
+  margin: 0;
 }
 
 .title-english {
   font-size: 1.4rem;
   color: #000;
-  margin-bottom: 32px;
+  margin-top: 4px;
+  margin-bottom: 16px;
 }
 
-/* Buttons */
-.button-group {
+/* Loader centered */
+.loader {
+  flex: 1;
   display: flex;
   justify-content: center;
-  gap: 24px;
+  align-items: center;
 }
 
-.btn {
-  background-color: #0055cc;
-  color: white;
-  border: none;
-  padding: 14px 28px;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.2s ease, transform 0.2s ease;
+.loader img {
+  width: 100px;
+  height: 100px;
 }
 
-.btn:hover {
-  background-color: #003f99;
-  transform: translateY(-2px);
+/* Main content box */
+.overlay {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
 }
