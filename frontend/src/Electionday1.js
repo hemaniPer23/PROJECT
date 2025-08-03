@@ -8,9 +8,9 @@ export default function Electionday1() {
   return (
     <div className="full-page">
       <div className="navbar">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a href="/">Home</a>
+        <a href="About">About</a>
+        <a href="Contact">Contact</a>
       </div>
 
       <div className="main-content">
