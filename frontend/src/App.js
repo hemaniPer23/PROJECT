@@ -20,6 +20,14 @@ import Electionday8 from "./Electionday8";
 import Electionday9 from "./Electionday9"; 
 import Electionday10 from "./Electionday10";
 import Electionday11 from "./Electionday11";// Assuming this is a new file
+import Accept from "./Accept";
+import Ballotpaper from "./Ballotpaper";
+import Thankyou from "./Thankyou";
+import Newpage from "./Newpage";
+import Island from "./Island";
+import Election from "./Election";
+import Infopage from "./Infopage";
+import Minuwangoda from "./Minuwangoda";
 
 import Viewresults1 from "./Viewresults1";
 
@@ -166,6 +174,70 @@ function App() {
           element={
             <ProtectedRoute>
               <Electionday11 />
+            </ProtectedRoute>
+          }
+        />
+            <Route
+          path="/accept"
+          element={
+            <ProtectedRoute>
+              <Accept />
+            </ProtectedRoute>
+          }
+        />
+           <Route
+          path="/ballotpaper"
+          element={
+            <ProtectedRoute>
+              <Ballotpaper />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/thankyou"
+          element={
+            <ProtectedRoute>
+              <Thankyou />
+            </ProtectedRoute>
+          }
+        />
+          <Route
+          path="/newpage"
+          element={
+            <ProtectedRoute>
+              <Newpage />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/island"
+          element={
+            <ProtectedRoute>
+              <Island />
+            </ProtectedRoute>
+          }
+        />
+          <Route
+          path="/election"
+          element={
+            <ProtectedRoute>
+              <Election />
+            </ProtectedRoute>
+          }
+        />
+           <Route
+          path="//district/:district/:selection"
+          element={
+            <ProtectedRoute>
+              <Infopage />
+            </ProtectedRoute>
+          }
+        />
+           <Route
+          path="//district/:district/minuwangoda"
+          element={
+            <ProtectedRoute>
+              <Minuwangoda />
             </ProtectedRoute>
           }
         />
