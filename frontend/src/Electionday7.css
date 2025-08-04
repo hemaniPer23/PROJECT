@@ -1,0 +1,79 @@
+/* Css/Electionday1.css */
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.main-container {
+  background-image: url('./image/Flag3.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  position: relative;
+  color: #000;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 30px;
+}
+
+.nav-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+}
+
+.titles {
+  text-align: center;
+  padding-top: 60px;
+}
+
+.title-sinhala {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.title-english {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: -10px;
+}
+
+.popup-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  width: 300px;
+}
+
+.popup-text {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.done-button {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  padding: 8px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.done-button:hover {
+  background-color: #0056b3;
+}
