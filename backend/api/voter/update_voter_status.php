@@ -1,4 +1,5 @@
 <?php
+// Headers and CORS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: PUT, OPTIONS');
@@ -6,36 +7,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
-
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: PUT');
 
 include_once '../../config/Database.php';
-include_once '../../models/Election.php';
+include_once '../../models/Voter.php';
 
 $database = new Database();
 $db = $database->connect();
-$election = new Election($db);
+$voter = new Voter($db);
 
+// Get raw posted data
 $data = json_decode(file_get_contents("php://input"));
 
-if(empty($data->Start_time) || empty($data->End_time)) {
+if(empty($data->nic)) {
     http_response_code(400);
-    echo json_encode(['status' => 'fail', 'message' => 'Incomplete data provided.']);
+    echo json_encode(['status' => 'fail', 'message' => 'NIC not provided.']);
     exit();
 }
-//set time
-$election->Start_time = $data->Start_time;
-$election->End_time = $data->End_time;
 
+$voter->NIC = $data->nic;
+
+// Update the voter status
 try {
-    if($election->setTimeAndActivate()) {
+    if($voter->updateStatusToVoted()) {
         http_response_code(200);
-        echo json_encode(['status' => 'success', 'message' => 'Election time set and activated for today.']);
+        echo json_encode(['status' => 'success', 'message' => 'Voter status updated to Voted.']);
     } else {
-        // This error now means no election was found for today OR the update failed
         http_response_code(500);
-        echo json_encode(['status' => 'fail', 'message' => 'Failed to activate election. Please ensure an election is scheduled for today and has not been activated yet.']);
+        echo json_encode(['status' => 'fail', 'message' => 'Failed to update voter status. NIC might be incorrect.']);
     }
 } catch (PDOException $e) {
     http_response_code(503);
