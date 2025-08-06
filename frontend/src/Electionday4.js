@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import './Css/Electionday4.css';
-import API from './API'; // ✅ Import your API instance
+import API from './API'; // ✅ Import your API instanc
+
 
 // The component name can remain Test1Login if you prefer
 export default function Electionday4() { 
   const [nic, setNic] = useState('');
+
   const navigate = useNavigate();
   
   //Add state for loading and error messages
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
+  
+
 
   //handleNext function now calls the backend
   const handleNext = async (e) => {
     e.preventDefault();
+
     setIsLoading(true);
     setMessage('');
 
@@ -34,6 +40,7 @@ export default function Electionday4() {
       // This will run whether the API call succeeds or fails
       setIsLoading(false);
     }
+
   };
 
   return (
@@ -62,6 +69,7 @@ export default function Electionday4() {
           <button type="submit" disabled={isLoading}>
             {isLoading ? 'Searching...' : 'Next'}
           </button>
+
         </form>
         {/* ✅ Show feedback message to the user */}
         {message && <p style={{ marginTop: '15px', color: 'red' }}>{message}</p>}

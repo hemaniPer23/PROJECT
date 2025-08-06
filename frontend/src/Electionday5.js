@@ -106,6 +106,7 @@ const Electionday5 = () => {
             {message && <p className="feedback-message">{message}</p>}
         </div>
     );
+
 };
 
 export default Electionday5;
