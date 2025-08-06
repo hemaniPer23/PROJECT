@@ -1,0 +1,98 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.confirmation-wrapper {
+  background-image: url('./image/Flag2.jpg'); /* Update path as needed */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  position: relative;
+  color: black;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  padding: 15px 25px;
+  font-weight: bold;
+}
+
+.navbar a {
+  color: black;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  color: #007bff;
+}
+
+/* Title Section */
+.page-title {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.title-sinhala {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.title-english {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: -10px;
+}
+
+/* Confirmation Card */
+.confirmation-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 380px;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+}
+
+.confirmation-card label {
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+.id-display,
+.name-display {
+  background-color: #e6f0ff;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #004080;
+}
+
+/* Confirm Button */
+.btn-confirm {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn-confirm:hover {
+  background-color: #0056b3;
+}

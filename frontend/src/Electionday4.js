@@ -38,6 +38,8 @@ export default function Electionday4() {
 
   return (
     <div className="login-wrapper">
+      
+
       <div className="page-title">
         <h1 className="title-sinhala">මැතිවරණ කොමිෂන් සභාව 2025</h1>
         <h2 className="title-english">Election Commission 2025</h2>
