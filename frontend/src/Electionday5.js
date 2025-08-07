@@ -39,14 +39,12 @@ const Electionday5 = () => {
 
             try {
                 // Call the API endpoint to update the status to 'Voted'
-                const res = await API.put('/api/voter/update_voter_status.php', {
-                    nic: voterData.nic 
-                });
-
-                if (res.data.status === 'success') {
+                const res1 = await API.put('/api/voter/change_voter_status.php', { nic: voterData.nic });
+                const res2 = await API.post('/api/voter/initiate_vote.php', { nic: voterData.nic });
+                if (res1.data.status === 'success' && res2.data.status === 'success') {
                   navigate('/electionday6'); // Navigate to the next page
                 } else {
-                    setMessage(res.data.message || 'Failed to confirm voter.');
+                    setMessage(res1.data.message || res2.data.message || 'Failed to confirm voter.');
                     setIsConfirming(false); // Re-enable button on failure
                 }
             } catch (err) {
