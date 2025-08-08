@@ -7,7 +7,7 @@ function Newpage() {
   const navigate = useNavigate();
      const style = {
               backgroundImage: `url(${backgroundImage})`,
-              backgroundSize: '1250px 650px',
+              backgroundSize: '1370px 650px',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
               minHeight: '100vh',

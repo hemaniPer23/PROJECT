@@ -11,27 +11,27 @@ const Ballotpaper = () => {
   const candidates = [
     {
       id: 1,
-      name: 'මිචෙල් රූලි',
-      icon: '/icon/Ruli.png',
-      photo: '/Photor/Michael Rulli.png'
+      name: 'ශාන්ත හඳපාන',
+      icon: '/icon/Peoples_Love_Party.png',
+      photo: '/Photor/Shantha_Handapana.jpg'
     },
     {
       id: 2,
-      name: 'මිචෙල් එල්. ක්‍රිප්චාක්',
-      icon: '/icon/Kripchark.png',
-      photo: '/Photor/Michael L Kripchak.png'
+      name: 'පරම පිවිතුරු කුසලාරච්චි',
+      icon: '/icon/Home_Leadership_Party.png',
+      photo: '/Photor/Parama_Piwithuru_Kusalarachchi.jpg'
     },
     {
       id: 3,
-      name: 'ඇන්ඩෘ ග්‍රෑන්ට්',
-      icon: '/icon/Andrew.png',
-      photo: '/Photor/Andrew Grant.png'
+      name: 'අරුණාචලම් පෙරේරා',
+      icon: '/icon/Jumping_Sacks_Party.png',
+      photo: '/Photor/Arunachalam_Perera.jpg'
     },
     {
       id: 4,
-      name: 'ජෝන් ඔසොෆ්',
-      icon: '/icon/Jon.png',
-      photo: '/Photor/Jon Ossoff.png'
+      name: 'සුමනා බොරලුගොඩ',
+      icon: '/icon/Independent_Women_Party.png',
+      photo: '/Photor/Sumana_Boralugoda.jpg'
     }
   ];
 
@@ -127,7 +127,7 @@ const Ballotpaper = () => {
 
   const style = {
     backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: '1250px 700px',
+    backgroundSize: '1370px 650px',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     minHeight: '100vh',

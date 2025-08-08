@@ -4,39 +4,39 @@ import backgroundImage from './image/bg4.jpg';
 
 const candidates = [
   {
-    name: "Michael Rulli",
+    name: "ශාන්ත හඳපාන",
     votes: "634,915",
     percentage: "42.31%",
     color: "#b30059",
-    image: '/Photor/Michael Rulli.png',
+    image: '/Photor/Shantha_Handapana.jpg',
   },
   {
-    name: "Michael L Kripchak",
+    name: "පරම පිවිතුරු කුසලාරච්චි",
     votes: "363,035",
     percentage: "32.76%",
     color: "#2ddadaff",
-    image: '/Photor/Michael L Kripchak.png',
+    image: '/Photor/Parama_Piwithuru_Kusalarachchi.jpg',
   },
   {
-    name: "Andrew Grant",
+    name: "අරුණාචලම් පෙරේරා",
     votes: "299,767",
     percentage: "17.26%",
     color: "#009933",
-    image: '/Photor/Andrew Grant.png',
+    image: '/Photor/Arunachalam_Perera.jpg',
   },
   {
-    name: "Jon Ossoff",
+    name: "සුමනා බොරලුගොඩ",
     votes: "42,781",
     percentage: "2.57%",
     color: "#800000",
-    image: '/Photor/Jon Ossoff.png',
+    image: '/Photor/Sumana_Boralugoda.jpg',
   },
 ];
 
 const Minuwangoda = () => {
      const style = {
               backgroundImage: `url(${backgroundImage})`,
-              backgroundSize: '1250px 650px',
+              backgroundSize: '1370px 650px',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
               minHeight: '100vh',
