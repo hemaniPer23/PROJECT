@@ -43,9 +43,9 @@ try {
     }
 
     // Validate status value
-    $valid_statuses = ['Pending', 'Voted'];
+    $valid_statuses = ['Pending', 'Voted', 'Verified'];
     if (!in_array($status, $valid_statuses)) {
-        throw new Exception("Invalid status. Must be 'Pending' or 'Voted'");
+        throw new Exception("Invalid status. Must be 'Pending','Voted'and 'Verified'");
     }
 
     // Check if voter exists
