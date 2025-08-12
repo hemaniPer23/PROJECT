@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 07, 2025 at 02:28 AM
+-- Generation Time: Aug 11, 2025 at 08:04 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -74,10 +74,10 @@ CREATE TABLE IF NOT EXISTS `candidate` (
 --
 
 INSERT INTO `candidate` (`Candidate_ID`, `Candidate_FullName`, `Candidate_UserName_Sinhala`, `Candidate_UserName_English`, `Candidate_NIC`, `Candidate_Gender`, `Candidate_DOB`, `Image`, `Candidate_Number`, `Party_ID`, `Election_ID`) VALUES
-('CANDIDATE1', 'Madirigirige Supun Shantha Handapana', 'ශාන්ත හඳපාන', 'Shantha Handapana', '791028456V', 'Male', '1979-04-12', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Shantha_Handapana.png', NULL, 'PARTY1', 'election1'),
-('CANDIDATE2', 'Suduhewage Parama Piwithuru Kusalarachchi', 'පරම පිවිතුරු කුසලාරච්චි', 'Parama Piwithuru Kusalarachchi', '532709801V', 'Male', '1953-09-27', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Parama_Piwithuru_Kusalarachchi.png', NULL, 'PARTY2', 'election1'),
-('CANDIDATE3', 'Kapuralage Ananda Arunachalam Perera', 'අරුණාචලම් පෙරේරා', 'Arunachalam Perera', '861553214V', 'Male', '1986-06-03', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Arunachalam_Perera.png', NULL, 'PARTY3', 'election1'),
-('CANDIDATE4', 'Rajaguruge Sumana Boralugoda', 'සුමනා බොරලුගොඩ', 'Sumana Boralugoda', '199064502341', 'Female', '1990-03-17', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Sumana_Boralugoda.png', NULL, 'PARTY4', 'election1');
+('CANDIDATE1', 'Madirigirige Supun Shantha Handapana', 'ශාන්ත හඳපාන', 'Shantha Handapana', '791028456V', 'Male', '1979-04-12', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Shantha_Handapana.jpg', NULL, 'PARTY1', 'election1'),
+('CANDIDATE2', 'Suduhewage Parama Piwithuru Kusalarachchi', 'පරම පිවිතුරු කුසලාරච්චි', 'Parama Piwithuru Kusalarachchi', '532709801V', 'Male', '1953-09-27', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Parama_Piwithuru_Kusalarachchi.jpg', NULL, 'PARTY2', 'election1'),
+('CANDIDATE3', 'Kapuralage Ananda Arunachalam Perera', 'අරුණාචලම් පෙරේරා', 'Arunachalam Perera', '861553214V', 'Male', '1986-06-04', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Arunachalam_Perera.jpg', NULL, 'PARTY3', 'election1'),
+('CANDIDATE4', 'Rajaguruge Sumana Boralugoda', 'සුමනා බොරලුගොඩ', 'Sumana Boralugoda', '199064502341', 'Female', '1990-05-25', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Sumana_Boralugoda.jpg', NULL, 'PARTY4', 'election1');
 
 -- --------------------------------------------------------
 
@@ -403,7 +403,7 @@ CREATE TABLE IF NOT EXISTS `party` (
 --
 
 INSERT INTO `party` (`Party_ID`, `PartyName_Sinhala`, `PartyName_English`, `Party_Logo`, `Party_Description`) VALUES
-('PARTY1', 'ජනහිතක ආදරේ පක්ෂය', 'The People\'s Love Party (PLP)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\People\'s_Love_Party.png', '\"ජනහිතක ආදරේ පක්ෂය\" යනු ශ්‍රී ලංකාවේ ජනප්‍රිය දේශපාලන පක්ෂයක් වන \"ජනතා විමුක්ති පෙරමුණ\" (ජවිපෙ) සම්බන්ධයෙන් සාමාන්‍ය වශයෙන් භාවිතා වන වාක්‍යයකි. මෙම පක්ෂය 1965 දී ආරම්භ වූ අතර, එය බහුතරයක් වෘත්තීය සමිති සහ සමාජවාදී ඉලක්කයන් කෙරෙහි මුල්කිරීම් කරයි. ජනහිතය '),
+('PARTY1', 'ජනහිතක ආදරේ පක්ෂය', 'The People\'s Love Party (PLP)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\Peoples_Love_Party.png', '\"ජනහිතක ආදරේ පක්ෂය\" යනු ශ්‍රී ලංකාවේ ජනප්‍රිය දේශපාලන පක්ෂයක් වන \"ජනතා විමුක්ති පෙරමුණ\" (ජවිපෙ) සම්බන්ධයෙන් සාමාන්‍ය වශයෙන් භාවිතා වන වාක්‍යයකි. මෙම පක්ෂය 1965 දී ආරම්භ වූ අතර, එය බහුතරයක් වෘත්තීය සමිති සහ සමාජවාදී ඉලක්කයන් කෙරෙහි මුල්කිරීම් කරයි. ජනහිතය '),
 ('PARTY2', 'ගෙදරින් පාලන පක්ෂය', 'Home Leadership Party (HLP)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\Home_Leadership_Party.png', '\"ගෙදරින් පාලන පක්ෂය\" යනුවෙන් අදහස් කරන්නේ ගෙදර සිට දේශපාලන කටයුතු හෝ පක්ෂ ක්‍රියාවලියන් පවත්වා ගන්නා ඉතාමත් ආකර්ෂණීය සංකල්පයක් වේ. නව තාක්ෂණය හා සමාජ ජාලා මගින්, පක්ෂ සාමාජිකයන්ට සහ මනාපදායකයන්ට ගෙදර සිටම සක්‍රියව දේශපාලන කටයුතු වල නිරත විය හැකිය. විශේෂයෙ'),
 ('PARTY3', 'පනින ගෝනි පක්ෂය', 'Jumping Sacks Party (JSP)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\Jumping_Sacks_Party.png', '\"පනින ගෝනි පක්ෂය\" යනු යම්කිසි ආකාරයකින් පැවසුවහොත්, විවිධ ගැටලු හමුවේ වෙනස්වන හා වෙනස් කාරකයන්ට අනුව හැසිරවෙන පක්ෂයක් ලෙස හදුන්වනවා විය හැක. මෙය විවිධ සමාජ හා දේශපාලන අවස්ථාවලදී පෙනී යන ගැටලූ පිළිබඳව සිතීමට හා ඒ පිළිබඳව සාකච්ඡා කිරීමට යොමු කරන තීරුකාරකයක්'),
 ('PARTY4', 'නිදහස් වනිතා පක්ෂය', 'Independent Women Party (IWP)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\Independent_Women_Party.png', 'නිදහස් වනිතා පක්ෂය යනු ශ්‍රී ලංකාවේ කාන්තා අයිතිවාසිකම් සහ සමාජයීය සාධාරණය සඳහා කටයුතු කරන දේශපාලන සංවිධානයක් වේ. මෙම පක්ෂය කාන්තාවන්ගේ දේශපාලන සහ සමාජීය නියෝජනය, අධ්‍යාපන අවස්ථා විශාල කිරීම, සහ කාන්තා සුරක්ෂිතතාවය සහ සමාජ ආරක්ෂාව වැඩි දියුණු කිරීම සඳහා උ');
@@ -431,6 +431,13 @@ CREATE TABLE IF NOT EXISTS `vote` (
   KEY `idx_vote_timestamp` (`Timestamp`),
   KEY `idx_vote_status` (`STATUS`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `vote`
+--
+
+INSERT INTO `vote` (`Ballot_ID`, `Preference`, `Candidate_ID`, `Election_ID`, `Division_ID`, `Timestamp`, `STATUS`, `IsValid`) VALUES
+('b001', 'First_Vote', 'CANDIDATE3', 'election1', 'DIV053', '2025-08-20 18:02:51', 'Cast', 1);
 
 -- --------------------------------------------------------
 

@@ -1,76 +1,608 @@
-/* Css/RegistrationCandidate.css */
-
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: auto;
-  font-family: sans-serif;
+/* Background Container with Parliament Image */
+.bg-container {
+  min-height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+              url('../image/parliment1.png') no-repeat center center fixed;
+  background-size: cover;
+  padding: 20px;
+  position: relative;
 }
 
-.reg-container {
-  min-height: 100vh;
-  max-height: 100vh;
-  overflow-y: auto; /* ✅ Enable vertical scroll */
-  background: linear-gradient(to right, #f3e5f5, #ede7f6);
+/* Form Container */
+.form-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Header Styling */
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 700;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  line-height: 1.4;
+}
+
+/* Form Table */
+.form-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.form-table td {
+  padding: 15px;
+  vertical-align: top;
+  border-bottom: 1px solid #eee;
+}
+
+.form-table td:first-child {
+  width: 250px;
+  font-weight: 600;
+  color: #34495e;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 8px 0 0 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.form-table td:not(:first-child) {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 0 8px 8px 0;
+}
+
+/* Input Fields */
+.form-table input, 
+.form-table select, 
+.form-table textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e1e5e9;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.form-table input:focus, 
+.form-table select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  background: rgba(255, 255, 255, 1);
+}
+
+/* Error States */
+.error {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2) !important;
+  background: rgba(255, 235, 238, 0.9) !important;
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 12px;
+  display: block;
+  margin-top: 5px;
+  font-weight: 500;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Readonly Fields */
+.readonly-field {
+  background: #f8f9fa !important;
+  color: #6c757d !important;
+  cursor: not-allowed;
+  border-color: #dee2e6 !important;
+}
+
+/* Logo Path Field Special Styling */
+.logo-path-field {
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Party Details Section */
+.party-details {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 10px 0;
+  border: 2px solid #dee2e6;
+}
+
+.party-info {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.party-text-info {
+  flex: 1;
+}
+
+.party-field {
+  margin-bottom: 15px;
+}
+
+.party-field label {
+  display: block;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+.party-field input {
+  margin-top: 0;
+}
+
+.party-logo {
+  flex-shrink: 0;
+  text-align: center;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+}
+
+.party-logo p {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+/* Image Previews */
+.image-preview {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 10px 0;
+  text-align: center;
+  border: 2px solid #dee2e6;
+}
+
+.image-preview p {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.preview-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid #3498db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.preview-image:hover {
+  transform: scale(1.05);
+}
+
+.preview-logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 2px solid #dee2e6;
+  background: white;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.preview-logo:hover {
+  transform: scale(1.1);
+}
+
+.logo-error {
+  color: #6c757d;
+  font-style: italic;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #dee2e6;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Candidate ID Container */
+.candidate-id-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.candidate-id-container input {
+  flex: 1;
+}
+
+.generate-btn {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #5e7276, #0bb5aa);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
+}
+
+.generate-btn:hover {
+  background: linear-gradient(135deg, #227599, #2793ae);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(46, 164, 204, 0.4);
+}
+
+.generate-btn:active {
+  transform: translateY(0);
+}
+
+/* Button Group */
+.button-group {
+  margin-top: 30px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.submit-btn, .clear-btn, .back-btn {
+  padding: 14px 32px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #421799, #0c0412);
+  color: rgb(253, 253, 253);
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #06e815, #051c0a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+}
+
+.submit-btn:disabled {
+  background: linear-gradient(135deg, #292cdd, #34176d);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.clear-btn {
+  background: linear-gradient(135deg, #421799, #0c0412);
+  color: white;
+}
+
+.clear-btn:hover {
+  background: linear-gradient(135deg, #f05602, #1f130d);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(243, 156, 18, 0.4);
+}
+
+.back-btn {
+  background: linear-gradient(135deg, #421799, #0c0412);
+  color: white;
+}
+
+.back-btn:hover {
+  background: linear-gradient(135deg, #0c858e, #6c757d);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(149, 165, 166, 0.4);
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Success Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
 }
 
-.reg-form {
+.success-modal {
   background: white;
-  padding: 30px 40px;
-  border-radius: 16px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  max-width: 550px;
-  width: 100%;
-}
-
-.reg-form h2 {
+  padding: 40px;
+  border-radius: 20px;
   text-align: center;
-  margin-bottom: 25px;
-  color: #4A148C;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.4s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.reg-form label {
-  display: block;
-  margin-top: 12px;
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
   font-weight: bold;
-  color: #333;
+  margin: 0 auto 20px;
+  animation: successPulse 0.6s ease-out;
+  box-shadow: 0 4px 16px rgba(46, 204, 113, 0.4);
 }
 
-.reg-form input,
-.reg-form select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 6px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  transition: 0.3s ease;
+@keyframes successPulse {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
-.reg-form input:focus,
-.reg-form select:focus {
-  border-color: #7B1FA2;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(123, 31, 162, 0.1);
+.success-modal h2 {
+  color: #27ae60;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 700;
 }
 
-.reg-form button {
-  margin-top: 20px;
-  width: 100%;
-  padding: 12px;
-  background-color: #7B1FA2;
+.success-details {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+
+.success-details p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #264768;
+}
+
+.success-details strong {
+  color: #3498db;
+  display: inline-block;
+  width: 130px;
+  font-weight: 600;
+}
+
+.success-message {
+  color: #6c757d;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 20px 0;
+}
+
+.close-modal-btn {
+  background: linear-gradient(135deg, #3498db, #2980b9);
   color: white;
   border: none;
+  padding: 12px 40px;
+  border-radius: 25px;
   font-size: 16px;
-  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
-.reg-form button:hover {
-  background-color: #6A1B9A;
+.close-modal-btn:hover {
+  background: linear-gradient(135deg, #2f76a5, #1c4b6a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+}
+
+/* Small Text */
+small {
+  color: #6c757d;
+  font-size: 12px;
+  display: block;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+/* File Input Styling */
+input[type="file"] {
+  padding: 8px 12px !important;
+  border: 2px dashed #3498db !important;
+  background: rgba(52, 152, 219, 0.05) !important;
+  cursor: pointer;
+}
+
+input[type="file"]:hover {
+  background: rgba(52, 152, 219, 0.1) !important;
+  border-color: #2980b9 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .form-container {
+    max-width: 90%;
+    padding: 25px;
+  }
+  
+  .party-info {
+    flex-direction: column;
+  }
+  
+  .party-logo {
+    align-self: center;
+    margin-top: 15px;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .bg-container {
+    padding: 10px;
+  }
+  
+  .form-container {
+    margin: 10px;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 22px;
+  }
+
+  .form-table td:first-child {
+    width: auto;
+    display: block;
+    border-bottom: none;
+    padding-bottom: 5px;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .form-table td:not(:first-child) {
+    display: block;
+    width: 100%;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .submit-btn, .clear-btn, .back-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .candidate-id-container {
+    flex-direction: column;
+  }
+
+  .candidate-id-container input,
+  .generate-btn {
+    width: 100%;
+  }
+  
+  .party-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .party-text-info {
+    order: 2;
+  }
+  
+  .party-logo {
+    order: 1;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 15px;
+  }
+  
+  h1 {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  
+  .form-table td {
+    padding: 10px;
+  }
+  
+  .success-modal {
+    padding: 30px 20px;
+  }
+  
+  .preview-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .preview-logo {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .party-logo {
+    min-width: 120px;
+  }
 }
