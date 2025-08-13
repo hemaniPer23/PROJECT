@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 13, 2025 at 06:10 AM
+-- Generation Time: Aug 13, 2025 at 06:08 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -29,6 +29,7 @@ USE `electiondb`;
 -- Table structure for table `admin`
 --
 
+DROP TABLE IF EXISTS `admin`;
 CREATE TABLE IF NOT EXISTS `admin` (
   `Admin_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Admin_UserName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -53,6 +54,7 @@ INSERT INTO `admin` (`Admin_ID`, `Admin_UserName`, `Admin_Password`, `Admin_Role
 -- Table structure for table `candidate`
 --
 
+DROP TABLE IF EXISTS `candidate`;
 CREATE TABLE IF NOT EXISTS `candidate` (
   `Candidate_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Candidate_FullName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -86,6 +88,7 @@ INSERT INTO `candidate` (`Candidate_ID`, `Candidate_FullName`, `Candidate_UserNa
 -- Table structure for table `divisions`
 --
 
+DROP TABLE IF EXISTS `divisions`;
 CREATE TABLE IF NOT EXISTS `divisions` (
   `Division_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Division_Code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -364,6 +367,7 @@ INSERT INTO `divisions` (`Division_ID`, `Division_Code`, `Electoral_Division`, `
 -- Table structure for table `election`
 --
 
+DROP TABLE IF EXISTS `election`;
 CREATE TABLE IF NOT EXISTS `election` (
   `Election_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Election_Type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -387,6 +391,7 @@ INSERT INTO `election` (`Election_ID`, `Election_Type`, `Date`, `Start_Time`, `E
 -- Table structure for table `party`
 --
 
+DROP TABLE IF EXISTS `party`;
 CREATE TABLE IF NOT EXISTS `party` (
   `Party_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `PartyName_Sinhala` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -413,6 +418,7 @@ INSERT INTO `party` (`Party_ID`, `PartyName_Sinhala`, `PartyName_English`, `Part
 -- Table structure for table `vote`
 --
 
+DROP TABLE IF EXISTS `vote`;
 CREATE TABLE IF NOT EXISTS `vote` (
   `Ballot_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Preference` int NOT NULL,
@@ -458,6 +464,7 @@ INSERT INTO `vote` (`Ballot_ID`, `Preference`, `Candidate_ID`, `Election_ID`, `D
 -- Table structure for table `voter`
 --
 
+DROP TABLE IF EXISTS `voter`;
 CREATE TABLE IF NOT EXISTS `voter` (
   `NIC` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `FullName_Sinhala` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
