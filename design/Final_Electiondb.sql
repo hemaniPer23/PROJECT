@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 07, 2025 at 02:28 AM
+-- Generation Time: Aug 13, 2025 at 07:48 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 --
 
 INSERT INTO `admin` (`Admin_ID`, `Admin_UserName`, `Admin_Password`, `Admin_Role`) VALUES
+('001', 'admin3', '456#', 'Result'),
 ('12085', 'WMEKTDB WIKKRAMASINGHA', 'abc@123', 'Presiding Officer'),
 ('12086', 'Officer01', 'abc@456', 'Officer'),
 ('admin01', 'admin1', '123', 'commission');
@@ -74,10 +75,10 @@ CREATE TABLE IF NOT EXISTS `candidate` (
 --
 
 INSERT INTO `candidate` (`Candidate_ID`, `Candidate_FullName`, `Candidate_UserName_Sinhala`, `Candidate_UserName_English`, `Candidate_NIC`, `Candidate_Gender`, `Candidate_DOB`, `Image`, `Candidate_Number`, `Party_ID`, `Election_ID`) VALUES
-('CANDIDATE1', 'Madirigirige Supun Shantha Handapana', 'ශාන්ත හඳපාන', 'Shantha Handapana', '791028456V', 'Male', '1979-04-12', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Shantha_Handapana.png', NULL, 'PARTY1', 'election1'),
-('CANDIDATE2', 'Suduhewage Parama Piwithuru Kusalarachchi', 'පරම පිවිතුරු කුසලාරච්චි', 'Parama Piwithuru Kusalarachchi', '532709801V', 'Male', '1953-09-27', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Parama_Piwithuru_Kusalarachchi.png', NULL, 'PARTY2', 'election1'),
-('CANDIDATE3', 'Kapuralage Ananda Arunachalam Perera', 'අරුණාචලම් පෙරේරා', 'Arunachalam Perera', '861553214V', 'Male', '1986-06-03', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Arunachalam_Perera.png', NULL, 'PARTY3', 'election1'),
-('CANDIDATE4', 'Rajaguruge Sumana Boralugoda', 'සුමනා බොරලුගොඩ', 'Sumana Boralugoda', '199064502341', 'Female', '1990-03-17', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Sumana_Boralugoda.png', NULL, 'PARTY4', 'election1');
+('CANDIDATE1', 'Madirigirige Supun Shantha Handapana', 'ශාන්ත හඳපාන', 'Shantha Handapana', '791028456V', 'Male', '1979-04-12', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Shantha_Handapana.jpg', NULL, 'PARTY1', 'election1'),
+('CANDIDATE2', 'Suduhewage Parama Piwithuru Kusalarachchi', 'පරම පිවිතුරු කුසලාරච්චි', 'Parama Piwithuru Kusalarachchi', '532709801V', 'Male', '1953-09-27', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Parama_Piwithuru_Kusalarachchi.jpg', NULL, 'PARTY2', 'election1'),
+('CANDIDATE3', 'Kapuralage Ananda Arunachalam Perera', 'අරුණාචලම් පෙරේරා', 'Arunachalam Perera', '861553214V', 'Male', '1986-06-04', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Arunachalam_Perera.jpg', NULL, 'PARTY3', 'election1'),
+('CANDIDATE4', 'Rajaguruge Sumana Boralugoda', 'සුමනා බොරලුගොඩ', 'Sumana Boralugoda', '199064502341', 'Female', '1990-05-25', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_images\\Sumana_Boralugoda.jpg', NULL, 'PARTY4', 'election1');
 
 -- --------------------------------------------------------
 
@@ -93,11 +94,7 @@ CREATE TABLE IF NOT EXISTS `divisions` (
   `Polling_Division` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Gramaniladhari_Division` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `IsActive` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`Division_ID`),
-  UNIQUE KEY `unique_division_code` (`Division_Code`),
-  KEY `idx_electoral_division` (`Electoral_Division`),
-  KEY `idx_polling_division` (`Polling_Division`),
-  KEY `idx_gn_division` (`Gramaniladhari_Division`)
+  PRIMARY KEY (`Division_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -394,6 +391,7 @@ CREATE TABLE IF NOT EXISTS `party` (
   `PartyName_Sinhala` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `PartyName_English` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Party_Logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Party_Colour` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Party_Description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`Party_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -402,11 +400,11 @@ CREATE TABLE IF NOT EXISTS `party` (
 -- Dumping data for table `party`
 --
 
-INSERT INTO `party` (`Party_ID`, `PartyName_Sinhala`, `PartyName_English`, `Party_Logo`, `Party_Description`) VALUES
-('PARTY1', 'ජනහිතක ආදරේ පක්ෂය', 'The People\'s Love Party (PLP)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\People\'s_Love_Party.png', '\"ජනහිතක ආදරේ පක්ෂය\" යනු ශ්‍රී ලංකාවේ ජනප්‍රිය දේශපාලන පක්ෂයක් වන \"ජනතා විමුක්ති පෙරමුණ\" (ජවිපෙ) සම්බන්ධයෙන් සාමාන්‍ය වශයෙන් භාවිතා වන වාක්‍යයකි. මෙම පක්ෂය 1965 දී ආරම්භ වූ අතර, එය බහුතරයක් වෘත්තීය සමිති සහ සමාජවාදී ඉලක්කයන් කෙරෙහි මුල්කිරීම් කරයි. ජනහිතය '),
-('PARTY2', 'ගෙදරින් පාලන පක්ෂය', 'Home Leadership Party (HLP)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\Home_Leadership_Party.png', '\"ගෙදරින් පාලන පක්ෂය\" යනුවෙන් අදහස් කරන්නේ ගෙදර සිට දේශපාලන කටයුතු හෝ පක්ෂ ක්‍රියාවලියන් පවත්වා ගන්නා ඉතාමත් ආකර්ෂණීය සංකල්පයක් වේ. නව තාක්ෂණය හා සමාජ ජාලා මගින්, පක්ෂ සාමාජිකයන්ට සහ මනාපදායකයන්ට ගෙදර සිටම සක්‍රියව දේශපාලන කටයුතු වල නිරත විය හැකිය. විශේෂයෙ'),
-('PARTY3', 'පනින ගෝනි පක්ෂය', 'Jumping Sacks Party (JSP)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\Jumping_Sacks_Party.png', '\"පනින ගෝනි පක්ෂය\" යනු යම්කිසි ආකාරයකින් පැවසුවහොත්, විවිධ ගැටලු හමුවේ වෙනස්වන හා වෙනස් කාරකයන්ට අනුව හැසිරවෙන පක්ෂයක් ලෙස හදුන්වනවා විය හැක. මෙය විවිධ සමාජ හා දේශපාලන අවස්ථාවලදී පෙනී යන ගැටලූ පිළිබඳව සිතීමට හා ඒ පිළිබඳව සාකච්ඡා කිරීමට යොමු කරන තීරුකාරකයක්'),
-('PARTY4', 'නිදහස් වනිතා පක්ෂය', 'Independent Women Party (IWP)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\Independent_Women_Party.png', 'නිදහස් වනිතා පක්ෂය යනු ශ්‍රී ලංකාවේ කාන්තා අයිතිවාසිකම් සහ සමාජයීය සාධාරණය සඳහා කටයුතු කරන දේශපාලන සංවිධානයක් වේ. මෙම පක්ෂය කාන්තාවන්ගේ දේශපාලන සහ සමාජීය නියෝජනය, අධ්‍යාපන අවස්ථා විශාල කිරීම, සහ කාන්තා සුරක්ෂිතතාවය සහ සමාජ ආරක්ෂාව වැඩි දියුණු කිරීම සඳහා උ');
+INSERT INTO `party` (`Party_ID`, `PartyName_Sinhala`, `PartyName_English`, `Party_Logo`, `Party_Colour`, `Party_Description`) VALUES
+('PARTY1', 'නිදහස් හා බුද්ධි සන්ධානය', 'Freedom And Wisdom Alliance (FWA)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\Freedom_And_Wisdom_Alliance.jpeg', '#ffdc00', '\"නිදහස සහ බුද්ධිය සන්ධානය\" යනු මනුෂ්‍ය නිදහස, සාධාරණය සහ දැනුම මත පදනම් වූ රටක් ගොඩනගන්න කැපවූ ජාතික චලනයකි. අපගේ ලාංඡනය වන පැන්සල යනු දැනුම, නිවැරදි තීරණ සහ ජනතා මතය ලියන බලය නියෝජනය කරයි.'),
+('PARTY2', 'ජාතික සමඟි පෙරමුණ', 'National Unity Front (NUF)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\National_Unity_Front.jpeg', '#221d6f', '\"ජාතික සමඟි පෙරමුණ\" යනු කටයුතු හා පක්ෂ ක්‍රියාවලියන් සමඟිව පවත්වා ගන්නා ඉතාමත් ආකර්ෂණීය සංකල්පයක් වේ. නව තාක්ෂණය හා සමාජ ජාලා මගින්, පක්ෂ සාමාජිකයන්ට සහ මනාපදායකයන්ට ගෙදර සිටම සක්‍රියව දේශපාලන කටයුතු වල නිරත විය හැකි ජාතික පෙරමුණකි.'),
+('PARTY3', 'ජාතික අරුණළු පෙරමුණ', 'National Dawn Front (NDF)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\National_Dawn_Front.jpeg', '#1a9c6c', '\"ජාතික අරුණළු පෙරමුණ\" යනු යම්කිසි ආකාරයකින් පැවසුවහොත්, විවිධ ගැටලු හමුවේ වෙනස්වන හා වෙනස් කාරකයන්ට අනුව හැසිරවෙන පක්ෂයක් ලෙස හදුන්වනවා විය හැක. මෙය විවිධ සමාජ හා දේශපාලන අවස්ථාවලදී පෙනී යන ගැටලූ පිළිබඳව සිතීමට හා ඒ පිළිබඳව සාකච්ඡා කිරීමට යොමු කරයි'),
+('PARTY4', 'නිදහස් වනිතා පක්ෂය', 'Independent Women Party (IWP)', 'C:\\wamp64\\www\\PROJECT\\backend\\uploads\\candidate_symbols\\Independent_Women_Party.jpeg', '#8c1429', '\"නිදහස් වනිතා පක්ෂය\" යනු ශ්‍රී ලංකාවේ කාන්තා අයිතිවාසිකම් සහ සමාජයීය සාධාරණය සඳහා කටයුතු කරන දේශපාලන සංවිධානයක් වේ. මෙම පක්ෂය කාන්තාවන්ගේ දේශපාලන සහ සමාජීය නියෝජනය, අධ්‍යාපන අවස්ථා විශාල කිරීම, සහ කාන්තා සුරක්ෂිතතාවය සහතික කිරීම අරමුණයි');
 
 -- --------------------------------------------------------
 
@@ -416,21 +414,18 @@ INSERT INTO `party` (`Party_ID`, `PartyName_Sinhala`, `PartyName_English`, `Part
 
 DROP TABLE IF EXISTS `vote`;
 CREATE TABLE IF NOT EXISTS `vote` (
-  `Ballot_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Preference` enum('First_Vote','Second_Vote') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Ballot_ID` int NOT NULL AUTO_INCREMENT,
+  `Preference` enum('1','2','3') COLLATE utf8mb4_unicode_ci NOT NULL,
   `Candidate_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Election_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Division_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Timestamp` datetime DEFAULT CURRENT_TIMESTAMP,
-  `STATUS` enum('Cast','Invalid') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Cast',
-  `IsValid` tinyint(1) DEFAULT '1',
+  `STATUS` enum('Pending','Voted') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`Ballot_ID`,`Preference`),
   KEY `fk_vote_candidate` (`Candidate_ID`),
   KEY `fk_vote_election` (`Election_ID`),
-  KEY `fk_vote_division` (`Division_ID`),
-  KEY `idx_vote_timestamp` (`Timestamp`),
-  KEY `idx_vote_status` (`STATUS`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `fk_vote_division` (`Division_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -451,8 +446,7 @@ CREATE TABLE IF NOT EXISTS `voter` (
   `Division_ID` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `STATUS` enum('Verified','Pending','Voted') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Pending',
   PRIMARY KEY (`NIC`),
-  KEY `fk_voter_division` (`Division_ID`),
-  KEY `idx_voter_status` (`STATUS`)
+  KEY `fk_voter_division` (`Division_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -460,13 +454,22 @@ CREATE TABLE IF NOT EXISTS `voter` (
 --
 
 INSERT INTO `voter` (`NIC`, `FullName_Sinhala`, `FullName_English`, `Gender`, `DOB`, `Address`, `Mobile_Number`, `Email`, `Division_ID`, `STATUS`) VALUES
-('200020500221', 'වැලිහිඳ බඩල්ගේ තිසර දේශිත සුමනවීර', 'Welihinda Badalge Thisara Deshitha Sumanaweera', 'Male', '2000-07-23', '314/A, Sudharmarama Road, Bataduwa, Galle', '0716204513', 'thisaradeshitha123@gmail.com', 'DIV058', 'Pending'),
-('200034000056', 'කඩුපිටි සෙනිෂ්ක දිල්ෂාන් මධුරංග', 'Kadupiti Senishka Dilshan Madhuranga', 'Male', '2000-12-05', 'No:17/14, Suduwella Road, Thalgasgoda, Ambalangoda \r\n\r\n\r\n', '077 342172', 'madurangasenishka@gmail.com', 'DIV054', 'Pending'),
-('200059100213', 'ඇල්වල දේවගේ ඉෂිනි විමන්ෂා', 'Elwala dewage ishini wimansha', 'Female', '2000-03-31', '562/W/98, Walawwatta, Malwatta, Nittambuwa', '0753303851', 'Ishiniwimansha31@gmail.com', 'DIV021', 'Pending'),
-('200105400548', 'රමිදු උවන්‍ත රුහුනගේ', 'Ramidu Uwantha Ruhunage', 'Male', '2001-02-23', 'Seenigoda, Balapitiya, Galle.', '076 664470', 'ramindu23@gmil.com', 'DIV053', 'Pending'),
-('200167500137', 'කුරුගලගමගේ හේමානි රුමේෂිකා පෙරේරා', 'Kurugamage Hemani Rumeshika Perera', 'Female', '2001-06-23', 'No: 113/E, Pothukotuwa , Bandigoda ,Ja ela', '0776513391', 'hemaniperera@gmail.com', 'DIV027', 'Pending'),
-('200184303368', 'අකුරන්ගේ ජයනි නවෝද්‍යා දසනායක', 'Akurange Jayani Nawodya dassanayake', 'Female', '2001-12-08', 'Yatiwala, Mudaliwaththa, Mawathagama.', '0768906164', 'jayaninawo2001@gmail.com', 'DIV158', 'Pending'),
-('991491112V', 'වෙත්තසිංහ පේඩිගේ රුචිර හංසන චතුරංග', 'Weththasinghe Pedige Ruchira Hansana Chathuranga ', 'Male', '1999-05-28', 'No:219 , Doranagaoda East, Bemmulla.', '071 069926', 'ruchirahansana12@gmail.com', 'DIV028', 'Pending');
+('200010103861', 'ඩබ්.කේ. කවිදු මදුසංක', 'W.K. Kavindu Madushanka', 'Male', '2000-04-10', 'Rathnan sewana, Nattampitiya, Tawalama', '0711940527', 'kavindumadushanaka527@gmail.com', 'DIV054', ''),
+('200011900097', 'ජයලත්ගේ චමිඳු ගිහන්ත ජයලත්', 'Jayalathge Chamindu Gihantha Jayalath', 'Male', '2028-04-20', '134/A, Miriswatta ,Bentota', '0768377104', 'chamindugihantha@gmail.com', 'DIV055', ''),
+('200020500221', 'වැලිහිඳ බඩල්ගේ තිසර දේශිත සුමනවීර', 'Welihinda Badalge Thisara Deshitha Sumanaweera', 'Male', '2000-07-23', '314/A, Sudharmarama Road, Bataduwa, Galle', '0716204513', 'thisaradeshitha123@gmail.com', 'DIV055', ''),
+('200034000056', 'කඩුපිටි සෙනිෂ්ක දිල්ෂාන් මධුරංග', 'Kadupiti Senishka Dilshan Madhuranga', 'Male', '2000-12-05', 'No:17/14, Suduwella Road, Thalgasgoda, Ambalangoda \r\n\r\n\r\n', '077 342172', 'madurangasenishka@gmail.com', 'DIV054', ''),
+('200034502234', 'හවුපේ මානගේ උදිත මදුශංක', 'Howpe Manage Uditha Madushanka', 'Male', '2000-12-10', '217/2, Godauda, Howpe, Galle', '0762432850', 'madhushankauditha@gmail.com', 'DIV054', ''),
+('200056500882', 'සසිනි අමන්දා නානායක්කාර', 'Sasini Amanda Nanayakkara', 'Female', '2000-03-05', '101, Karapitiya road, Godakanda, Galle', '0707707935', 'sasininanayakkara2000@gmail.com', 'DIV054', ''),
+('200059100213', 'ඇල්වල දේවගේ ඉෂිනි විමන්ෂා', 'Elwala Dewage Ishini Wimansha', 'Female', '2000-03-31', '562/W/98, Walawwatta, Malwatta, Nittambuwa', '0753303851', 'ishiniwimansha31@gmail.com', 'DIV027', ''),
+('200070201580', 'වන්නිආරච්චි කංකානම්ගේ තරුෂි නිමේෂිකා', 'Wanniarachchi kankanamge Tharushi Nimeshika', 'Female', '2000-07-20', '123/2, Unawatuna, Galle', '0766210905', 'tharushinimeshika2020@gmail.com', 'DIV056', ''),
+('200105400548', 'රමිදු උවන්‍ත රුහුනගේ', 'Ramidu Uwantha Ruhunage', 'Male', '2001-02-23', 'Seenigoda, Balapitiya, Galle.', '076 664470', 'ramindu23@gmil.com', 'DIV053', ''),
+('200114102284', 'යුෂාන් ඩිස්මිත හෙට්ටිආරච්චි', 'Yushan Dismitha Hettiarachchi', 'Male', '2001-05-20', '51, Dewala Road, Mahara Nugegoda, Kadawatha', '0767492276', 'YushanHettiarachchi@gmail.com', 'DIV025', ''),
+('200167000130', 'ඩබ්.එම්.එස් භාග්‍යා මදුවන්ති', 'W.M.S.B. Maduwanthi', 'Female', '2001-06-18', '115/A, Ihala Imbulgoda,Imbulgoda', '0766624203', 'sbmwijesinghe@gmail.com', 'DIV025', ''),
+('200167500137', 'කුරුගලගමගේ හේමානි රුමේෂිකා පෙරේරා', 'Kurugamage Hemani Rumeshika Perera', 'Female', '2001-06-23', 'No: 113/E, Pothukotuwa , Bandigoda ,Ja ela', '0776513391', 'hemaniperera@gmail.com', 'DIV027', ''),
+('200170902141', 'මහීපාල මුදලිගේ සිනලි දෙව්නෙත්මි මහීපාල', 'Maheepala Mudalige Sinali Dewnethmi Maheepala', 'Female', '2001-07-27', '58/3, Wathurugama road, Miriswaththa, Mudungoda', '0704311954', 'sinalimaheepala27@gmail.com', 'DIV026', ''),
+('200184303368', 'අකුරන්ගේ ජයනි නවෝද්‍යා දසනායක', 'Akurange Jayani Nawodya Dassanayake', 'Female', '2001-12-08', 'Yatiwala, Mudaliwaththa, Mawathagama.', '0768906164', 'jayaninawo2001@gmail.com', 'DIV056', ''),
+('991491112V', 'වෙත්තසිංහ පේඩිගේ රුචිර හංසන චතුරංග', 'Weththasinghe Pedige Ruchira Hansana Chathuranga ', 'Male', '1999-05-28', 'No:219 , Doranagaoda East, Bemmulla.', '071 069926', 'ruchirahansana12@gmail.com', 'DIV028', ''),
+('997760344V', 'බේරුවලගේ ඉශාරා උදාරි', 'Beruwalage Ishara Udari', 'Female', '1999-10-02', 'Batapola Road, Meetiyagoda', '0767640435', 'udariberuwalage99@gmail.com', 'DIV055', '');
 
 --
 -- Constraints for dumped tables
