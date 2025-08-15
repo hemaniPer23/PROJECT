@@ -21,7 +21,7 @@ export default function Electionday1() {
           <button className="action-button" onClick={() => navigate('/electionday3')}>
             Presiding Officer
           </button>
-          <button className="action-button">
+          <button className="action-button" onClick={() => navigate('/accept')}>
             Ballot Paper
           </button>
         </div>

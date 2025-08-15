@@ -2,43 +2,41 @@
 class Election {
     private $conn;
     private $table = 'election';
-
-    // Properties
-    public $Election_ID;
     public $Start_time;
     public $End_time;
 
-    // Constructor
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    // Set election time and activate it by setting IsValid to 1
+    //finds the correct election automatically
     public function setTimeAndActivate() {
-        $query = 'UPDATE ' . $this->table . '
-                  SET
-                    Start_time = :start_time,
+      $query = 'UPDATE ' . $this->table . ' 
+                  SET 
+                    Start_time = :start_time, 
                     End_time = :end_time,
                     IsValid = 1
-                  WHERE
-                    Election_ID = :election_id';
+                  WHERE 
+                    Date = CURDATE() AND IsValid = 0
+                  LIMIT 1'; 
 
         $stmt = $this->conn->prepare($query);
 
-        // Clean data
-        $this->Election_ID = htmlspecialchars(strip_tags($this->Election_ID));
+        // Sanitize input(removes any HTML or PHP tags from the input)
         $this->Start_time = htmlspecialchars(strip_tags($this->Start_time));
         $this->End_time = htmlspecialchars(strip_tags($this->End_time));
 
-        // Bind data
-        $stmt->bindParam(':election_id', $this->Election_ID);
+        //bind parameters
         $stmt->bindParam(':start_time', $this->Start_time);
         $stmt->bindParam(':end_time', $this->End_time);
 
         if($stmt->execute()) {
-            return true;
+            // Check if any row was actually updated
+            if($stmt->rowCount() > 0) {
+                return true; // Success
+            }
         }
-        return false;
+        return false; // Failure (no rows updated or query failed)
     }
 }
 ?>

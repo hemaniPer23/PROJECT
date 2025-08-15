@@ -1,48 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API from './API'; 
 import backgroundImage from './image/bg3.jpg';
-
+ 
 const Accept = () => {
   const navigate = useNavigate();
+  
+  // State to hold the details of the voter who is ready to vote
+  const [verifiedVoter, setVerifiedVoter] = useState(null);
+  // State to show messages like "Waiting for next voter..."
+  const [message, setMessage] = useState('Waiting for authorization from the main device...');
+  
+  
+  //continuously to check for a verified voter
 
-  const candidates = [
-    {
-      id: 1,
-      name: 'මිචෙල් රූලි',
-      icon: '/icon/Ruli.png',
-      photo: '/Photor/Michael Rulli.png'
-    },
-    {
-      id: 2,
-      name: 'මිචෙල් එල්. ක්‍රිප්චාක්',
-      icon: '/icon/Kripchark.png',
-      photo: '/Photor/Michael L Kripchak.png'
-    },
-    {
-      id: 3,
-      name: 'ඇන්ඩෘ ග්‍රෑන්ට්',
-      icon: '/icon/Andrew.png',
-      photo: '/Photor/Andrew Grant.png'
-    },
-    {
-      id: 4,
-      name: 'ජෝන් ඔසොෆ්',
-      icon: '/icon/Jon.png',
-      photo: '/Photor/Jon Ossoff.png'
-    }
-  ];
+  useEffect(() => {
+    // This interval will call the API every 3 seconds
+    const pollingInterval = setInterval(() => {
 
-  const handleAccess = () => {
-    navigate('/ballotpaper', { state: { candidates } });
+      if (!verifiedVoter) {
+        const checkForVoter = async () => {
+          try {
+            const res = await API.get('/api/voter/get_verified_voter.php');
+            
+            if (res.data.status === 'success') {
+              setVerifiedVoter(res.data.data); //verified voter is found, update the state
+              setMessage('');  // Clear the waiting message
+              clearInterval(pollingInterval); // Stop the interval
+            }
+
+          } catch (err) {
+            // This error is normal when no pending voter is found
+          setMessage('Waiting for authorization from the main device...');
+          }
+        };
+        
+        checkForVoter();
+      }
+    }, 3000); // Polls every 3 seconds
+
+
+    // Cleanup function: This stops the interval 
+    return () => clearInterval(pollingInterval);
+
+  }, [verifiedVoter]);
+
+
+  const handleAccess = async () => {
+
+    // If a verified voter is found, update their status to 'Voted'
+    await API.put('/api/voter/change_voter_status.php', { nic: verifiedVoter.nic });
+
+    // Navigate to the ballot paper
+    navigate('/ballotpaper', { state: { voter: verifiedVoter } });
   };
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-      {/* Background Layer with Blur */}
+      {/* Background Layer */}
       <div style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
         filter: 'blur(6px)',
         height: '100vh',
         width: '100%',
@@ -54,36 +72,37 @@ const Accept = () => {
       <div style={{
         position: 'absolute',
         top: 0, left: 0, right: 0, bottom: 0,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
         zIndex: 2
       }}>
         <div style={{
-          backgroundColor: '#fff',
-          padding: '30px 40px',
-          borderRadius: 12,
-          textAlign: 'center',
-          boxShadow: '0px 8px 20px rgba(0,0,0,0.25)',
-          width: '90%',
-          maxWidth: '450px'
+          backgroundColor: '#fff', padding: '30px 40px', borderRadius: 12,
+          textAlign: 'center', boxShadow: '0px 8px 20px rgba(0,0,0,0.25)',
+          width: '90%', maxWidth: '450px'
         }}>
-          <h2 style={{ fontSize: '24px', marginBottom: 10 }}>ඇතුල්වීම අවශ්‍යයි</h2>
-          <p style={{ fontSize: '16px', color: '#333' }}>
-            ප්‍රධාන යන්ත්‍රය මඟින් ලබාදුන් අවසරය පිළිගන්න.
-          </p>
-          <button onClick={handleAccess} style={{
-            marginTop: '20px',
-            padding: '10px 20px',
-            fontSize: '16px',
-            backgroundColor: '#007bff',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer'
-          }}>
-            Access
-          </button>
+          
+        {/* If a verified voter is found, show their details */}
+          {verifiedVoter ? (
+            <div>
+              <h2 style={{ fontSize: '24px', marginBottom: 10 }}>Voter Details Received</h2>
+              <p><strong>NIC:</strong> {verifiedVoter.nic}</p>
+              <p><strong>Name:</strong> {verifiedVoter.name}</p>
+              <button onClick={handleAccess} style={{
+                marginTop: '20px', padding: '10px 20px', fontSize: '16px',
+                backgroundColor: '#1c3cb0ff', color: '#fff', border: 'none',
+                borderRadius: '6px', cursor: 'pointer'
+              }}>
+                Accept and Proceed to Vote
+              </button>
+            </div>
+          ) : (
+            // If no verified voter, show the waiting message
+            <div>
+              <h2 style={{ fontSize: '24px', marginBottom: 10 }}>Waiting for Voter</h2>
+              <p style={{ fontSize: '16px', color: '#333' }}>{message}</p>
+            </div>
+          )}
+
         </div>
       </div>
     </div>

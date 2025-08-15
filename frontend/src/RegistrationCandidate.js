@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from './API';
+import './Css/RegistrationCandidate.css';
 
 export default function RegistrationCandidate() {
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+  const [selectedParty, setSelectedParty] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [elections, setElections] = useState([]);
   const [parties, setParties] = useState([]);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successData, setSuccessData] = useState(null);
 
   const [formData, setFormData] = useState({
-    sinhalaName: '',
     fullName: '',
-    sinhalaUserName: '',
-    userName: '',
-    id: '',
+    userNameSinhala: '',
+    userNameEnglish: '',
+    nic: '',
     dob: '',
     gender: '',
-    address: '',
     electionId: '',
     partyId: '',
-    candidateId: '',
-    candidateNumber: ''
+    candidateId: ''
   });
 
   // Load elections and parties on component mount
@@ -54,26 +55,148 @@ export default function RegistrationCandidate() {
     }
   };
 
+  // Fixed NIC validation function
+  const validateNIC = (nic) => {
+    const cleanNIC = nic.replace(/\s/g, '').toUpperCase();
+    const oldFormat = /^(\d{9})[VX]$/;
+    const newFormat = /^\d{12}$/;
+    
+    if (oldFormat.test(cleanNIC)) {
+      return { isValid: true, format: 'old', cleanNIC };
+    } else if (newFormat.test(cleanNIC)) {
+      return { isValid: true, format: 'new', cleanNIC };
+    }
+    
+    return { isValid: false, cleanNIC };
+  };
+
+  // Extract gender from NIC - NEW FUNCTION
+  const extractGenderFromNIC = (nic) => {
+    const validation = validateNIC(nic);
+    if (!validation.isValid) return null;
+
+    try {
+      let days;
+      
+      if (validation.format === 'old') {
+        // Old format: YYDDDXXXV
+        days = parseInt(validation.cleanNIC.substring(2, 5));
+      } else {
+        // New format: YYYYDDDXXXXX
+        days = parseInt(validation.cleanNIC.substring(4, 7));
+      }
+      
+      // If days > 500, it's female, otherwise male
+      return days > 500 ? 'Female' : 'Male';
+    } catch (error) {
+      console.error('Error extracting gender from NIC:', error);
+      return null;
+    }
+  };
+
+  // Fixed extract date of birth from NIC - matches PHP logic exactly
+  const extractDOBFromNIC = (nic) => {
+    const validation = validateNIC(nic);
+    if (!validation.isValid) return null;
+
+    try {
+      if (validation.format === 'old') {
+        // Old format: YYDDDXXXV
+        let year = parseInt(validation.cleanNIC.substring(0, 2));
+        let days = parseInt(validation.cleanNIC.substring(2, 5));
+        
+        // Determine full year (assuming birth years 1900-2099)
+        const fullYear = year < 50 ? 2000 + year : 1900 + year;
+        
+        // Calculate actual days (subtract 500 if female - days > 500)
+        const actualDays = days > 500 ? days - 500 : days;
+        
+        // Create date from January 1st + (days - 1) - matches PHP logic
+        const date = new Date(fullYear, 0, 1); // January 1
+        date.setDate(date.getDate() + (actualDays - 1)); // Add (actualDays - 1) days
+        
+        // Format as YYYY-MM-DD using local date to avoid timezone issues
+        const year_str = date.getFullYear();
+        const month_str = String(date.getMonth() + 1).padStart(2, '0');
+        const day_str = String(date.getDate()).padStart(2, '0');
+        return `${year_str}-${month_str}-${day_str}`;
+      } else {
+        // New format: YYYYDDDXXXXX
+        const year = parseInt(validation.cleanNIC.substring(0, 4));
+        let days = parseInt(validation.cleanNIC.substring(4, 7));
+        
+        // Calculate actual days (subtract 500 if female - days > 500)
+        const actualDays = days > 500 ? days - 500 : days;
+        
+        // Validate day range (1-366 for leap years)
+        if (actualDays < 1 || actualDays > 366) {
+          console.error('Invalid day of year in NIC:', actualDays);
+          return null;
+        }
+        
+        // Check if it's a leap year
+        const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+        const maxDays = isLeapYear ? 366 : 365;
+        
+        if (actualDays > maxDays) {
+          console.error('Day of year exceeds maximum for year:', actualDays, '>', maxDays);
+          return null;
+        }
+        
+        // Create date from January 1st + (days - 1) - matches PHP logic exactly
+        const date = new Date(year, 0, 1); // January 1
+        date.setDate(date.getDate() + (actualDays - 1)); // Add (actualDays - 1) days
+        
+        // Format as YYYY-MM-DD using local date to avoid timezone issues
+        const year_str = date.getFullYear();
+        const month_str = String(date.getMonth() + 1).padStart(2, '0');
+        const day_str = String(date.getDate()).padStart(2, '0');
+        return `${year_str}-${month_str}-${day_str}`;
+      }
+    } catch (error) {
+      console.error('Error extracting DOB from NIC:', error);
+      return null;
+    }
+  };
+
+  // Generate next candidate ID
+  const generateCandidateId = () => {
+    const timestamp = Date.now().toString().slice(-6);
+    return `CANDIDATE${timestamp}`;
+  };
+
   const validateForm = () => {
     const newErrors = {};
 
-    // Basic validation
-    if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
-    if (!formData.sinhalaName.trim()) newErrors.sinhalaName = 'Sinhala name is required';
-    if (!formData.userName.trim()) newErrors.userName = 'User name is required';
-    if (!formData.sinhalaUserName.trim()) newErrors.sinhalaUserName = 'Sinhala user name is required';
-    if (!formData.candidateId.trim()) newErrors.candidateId = 'Candidate ID is required';
-    if (!formData.address.trim()) newErrors.address = 'Address is required';
-    if (!formData.gender) newErrors.gender = 'Gender is required';
-    if (!formData.electionId) newErrors.electionId = 'Election ID is required';
-    if (!formData.partyId) newErrors.partyId = 'Party ID is required';
+    // Full Name validation - allow more characters including common punctuation
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full name is required';
+    } else if (!/^[A-Za-z\s.'-]+$/.test(formData.fullName.trim())) {
+      newErrors.fullName = 'Full name should contain only English letters, spaces, periods, hyphens, and apostrophes';
+    }
+
+    // Sinhala User Name validation - improved Unicode range
+    if (!formData.userNameSinhala.trim()) {
+      newErrors.userNameSinhala = 'User name in Sinhala is required';
+    } else if (!/^[\u0D80-\u0DFF\s]+$/.test(formData.userNameSinhala.trim())) {
+      newErrors.userNameSinhala = 'User name should contain only Sinhala characters and spaces';
+    }
+
+    // English User Name validation
+    if (!formData.userNameEnglish.trim()) {
+      newErrors.userNameEnglish = 'User name in English is required';
+    } else if (!/^[A-Za-z\s.'-]+$/.test(formData.userNameEnglish.trim())) {
+      newErrors.userNameEnglish = 'User name should contain only English letters, spaces, periods, hyphens, and apostrophes';
+    }
 
     // NIC validation
-    const nicPattern = /^(\d{9}[vVxX]|\d{12})$/;
-    if (!formData.id.trim()) {
-      newErrors.id = 'NIC is required';
-    } else if (!nicPattern.test(formData.id)) {
-      newErrors.id = 'Invalid NIC format';
+    if (!formData.nic.trim()) {
+      newErrors.nic = 'National Identity Card (NIC) is required';
+    } else {
+      const nicValidation = validateNIC(formData.nic);
+      if (!nicValidation.isValid) {
+        newErrors.nic = 'Please enter a valid Sri Lankan NIC (e.g., 123456789V or 200012345678)';
+      }
     }
 
     // Date of birth validation
@@ -82,22 +205,64 @@ export default function RegistrationCandidate() {
     } else {
       const birthDate = new Date(formData.dob);
       const today = new Date();
-      const age = today.getFullYear() - birthDate.getFullYear();
+      const age = today.getFullYear() - birthDate.getFullYear() - 
+        (today.getMonth() < birthDate.getMonth() || 
+         (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate()) ? 1 : 0);
+      
       if (age < 35) {
-        newErrors.dob = 'Candidate must be at least 35 years old';
+        newErrors.dob = 'Candidate must be at least 35 years old for presidential election';
+      }
+
+      // Check if birthDate is in the future
+      if (birthDate > today) {
+        newErrors.dob = 'Date of birth cannot be in the future';
+      }
+
+      // Validate DOB matches NIC exactly - strict validation
+      if (formData.nic.trim()) {
+        const nicDOB = extractDOBFromNIC(formData.nic);
+        if (nicDOB && nicDOB !== formData.dob) {
+          newErrors.dob = `Date of birth must exactly match with NIC. NIC indicates: ${nicDOB}`;
+        } else if (!nicDOB) {
+          newErrors.dob = 'Unable to extract valid date from NIC. Please check your NIC number.';
+        }
       }
     }
 
-    // Candidate number validation
-    if (!formData.candidateNumber) {
-      newErrors.candidateNumber = 'Candidate number is required';
-    } else if (isNaN(formData.candidateNumber) || formData.candidateNumber < 1) {
-      newErrors.candidateNumber = 'Candidate number must be a positive number';
+    // Gender validation
+    if (!formData.gender) {
+      newErrors.gender = 'Gender is required';
+    }
+
+    // Election and Party validation
+    if (!formData.electionId) {
+      newErrors.electionId = 'Election selection is required';
+    }
+
+    if (!formData.partyId) {
+      newErrors.partyId = 'Party selection is required';
+    }
+
+    // Candidate ID validation - improved pattern
+    if (!formData.candidateId.trim()) {
+      newErrors.candidateId = 'Candidate ID is required';
+    } else if (!/^CANDIDATE\d{1,10}$/.test(formData.candidateId.trim())) {
+      newErrors.candidateId = 'Candidate ID must be in format CANDIDATE followed by numbers (e.g., CANDIDATE1, CANDIDATE123456)';
     }
 
     // Image validation
     if (!imageFile) {
       newErrors.image = 'Candidate image is required';
+    } else {
+      // Additional file validation
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+      
+      if (imageFile.size > maxSize) {
+        newErrors.image = 'Image file size must be less than 5MB';
+      } else if (!allowedTypes.includes(imageFile.type)) {
+        newErrors.image = 'Please select a valid image file (JPEG, PNG, or GIF)';
+      }
     }
 
     setErrors(newErrors);
@@ -111,6 +276,38 @@ export default function RegistrationCandidate() {
       [name]: value
     }));
 
+    // Auto-extract DOB and Gender from NIC - UPDATED
+    if (name === 'nic' && value.trim()) {
+      try {
+        // Extract DOB
+        const extractedDOB = extractDOBFromNIC(value);
+        if (extractedDOB) {
+          setFormData(prev => ({
+            ...prev,
+            dob: extractedDOB
+          }));
+          console.log('Auto-extracted DOB from NIC:', value, '->', extractedDOB);
+        } else {
+          console.log('Could not extract DOB from NIC:', value);
+        }
+
+        // Extract Gender - NEW FEATURE
+        const extractedGender = extractGenderFromNIC(value);
+        if (extractedGender) {
+          setFormData(prev => ({
+            ...prev,
+            gender: extractedGender
+          }));
+          console.log('Auto-extracted Gender from NIC:', value, '->', extractedGender);
+        } else {
+          console.log('Could not extract gender from NIC:', value);
+        }
+      } catch (error) {
+        console.error('Error auto-extracting from NIC:', error);
+        // Don't update DOB or Gender if extraction fails
+      }
+    }
+
     // Clear specific error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
@@ -120,11 +317,39 @@ export default function RegistrationCandidate() {
     }
   };
 
+  const handlePartyChange = (e) => {
+    const selectedPartyId = e.target.value;
+    setFormData(prev => ({
+      ...prev,
+      partyId: selectedPartyId
+    }));
+
+    // Find and set party details
+    const party = parties.find(party => party.Party_ID === selectedPartyId);
+    if (party) {
+      setSelectedParty(party);
+    } else {
+      setSelectedParty(null);
+    }
+
+    // Clear error
+    if (errors.partyId) {
+      setErrors(prev => ({
+        ...prev,
+        partyId: ''
+      }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    console.log('Form submission started');
+    console.log('Form data:', formData);
+    console.log('Image file:', imageFile);
+    
     if (!validateForm()) {
-      alert('Please fix the validation errors before submitting.');
+      console.log('Validation failed:', errors);
       return;
     }
 
@@ -134,35 +359,62 @@ export default function RegistrationCandidate() {
       // Create FormData object for file upload
       const submitData = new FormData();
       
-      // Append all form fields
-      Object.keys(formData).forEach(key => {
-        submitData.append(key, formData[key]);
-      });
+      // Append all form data
+      submitData.append('fullName', formData.fullName.trim());
+      submitData.append('userNameSinhala', formData.userNameSinhala.trim());
+      submitData.append('userNameEnglish', formData.userNameEnglish.trim());
+      submitData.append('nic', formData.nic.trim());
+      submitData.append('dob', formData.dob);
+      submitData.append('gender', formData.gender);
+      submitData.append('electionId', formData.electionId);
+      submitData.append('partyId', formData.partyId);
+      submitData.append('candidateId', formData.candidateId.trim());
 
       // Append image file if selected
       if (imageFile) {
         submitData.append('candidateImage', imageFile);
       }
 
+      console.log('Submitting data...');
+      
       const response = await API.post('/api/admin/register_candidate.php', submitData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 30000, // 30 second timeout
       });
 
+      console.log('Response received:', response.data);
+
       if (response.data.status === 'success') {
-        alert('Candidate Registration Successful!');
+        const selectedPartyData = parties.find(p => p.Party_ID === formData.partyId);
+        const selectedElection = elections.find(e => e.Election_ID === formData.electionId);
+        
+        setSuccessData({
+          candidateId: formData.candidateId,
+          fullName: formData.fullName,
+          partyName: selectedPartyData ? selectedPartyData.PartyName_English : 'Unknown',
+          electionType: selectedElection ? selectedElection.Election_Type : 'Unknown',
+          extractedDOB: response.data.data.extracted_dob,
+          submittedDOB: response.data.data.submitted_dob
+        });
+        setShowSuccessModal(true);
         handleClear();
       } else {
-        alert(response.data.message || 'Registration failed');
+        throw new Error(response.data.message || 'Registration failed');
       }
     } catch (error) {
       console.error('Registration error:', error);
+      
+      let errorMessage = 'Registration failed. Please try again.';
+      
       if (error.response && error.response.data && error.response.data.message) {
-        alert('Registration failed: ' + error.response.data.message);
-      } else {
-        alert('Registration failed. Please try again.');
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
       }
+      
+      alert('Registration failed: ' + errorMessage);
     } finally {
       setLoading(false);
     }
@@ -206,25 +458,55 @@ export default function RegistrationCandidate() {
   const handleClear = () => {
     setSelectedImage(null);
     setImageFile(null);
+    setSelectedParty(null);
     setErrors({});
     setFormData({
-      sinhalaName: '',
       fullName: '',
-      sinhalaUserName: '',
-      userName: '',
-      id: '',
+      userNameSinhala: '',
+      userNameEnglish: '',
+      nic: '',
       dob: '',
       gender: '',
-      address: '',
       electionId: '',
       partyId: '',
-      candidateId: '',
-      candidateNumber: ''
+      candidateId: ''
     });
     
     // Reset file inputs
     const fileInputs = document.querySelectorAll('input[type="file"]');
     fileInputs.forEach(input => input.value = '');
+  };
+
+  const generateNewCandidateId = () => {
+    const newId = generateCandidateId();
+    setFormData(prev => ({
+      ...prev,
+      candidateId: newId
+    }));
+    
+    // Clear candidate ID error if exists
+    if (errors.candidateId) {
+      setErrors(prev => ({
+        ...prev,
+        candidateId: ''
+      }));
+    }
+  };
+
+  const closeSuccessModal = () => {
+    setShowSuccessModal(false);
+    setSuccessData(null);
+  };
+
+  // Function to get party logo URL with proper path handling
+  const getPartyLogoUrl = (logoPath) => {
+    if (!logoPath) return null;
+    
+    // Extract filename from the full path
+    const filename = logoPath.split('\\').pop().split('/').pop();
+    
+    // Return the web-accessible URL
+    return `http://localhost/PROJECT/backend/uploads/candidate_symbols/${filename}`;
   };
 
   return (
@@ -233,39 +515,22 @@ export default function RegistrationCandidate() {
         <div className="form-container">
           <h1>
             අපේක්ෂකයා ලියාපදිංචි කිරීමේ පෝරමය<br />
-            REGISTRATION FORM CANDIDATE
+            CANDIDATE REGISTRATION FORM
           </h1>
 
           <form onSubmit={handleSubmit}>
             <table className="form-table">
               <tbody>
-                {/* Sinhala Name */}
-                <tr>
-                  <td>සම්පූර්ණ නම</td>
-                  <td>
-                    <input 
-                      type="text" 
-                      name="sinhalaName" 
-                      value={formData.sinhalaName}
-                      onChange={handleInputChange}
-                      placeholder="සම්පූර්ණ නම" 
-                      required 
-                      className={errors.sinhalaName ? 'error' : ''}
-                    />
-                    {errors.sinhalaName && <span className="error-text">{errors.sinhalaName}</span>}
-                  </td>
-                </tr>
-
                 {/* Full Name */}
                 <tr>
-                  <td>Full Name</td>
+                  <td>Full Name<br />වාසගම සහිත නම</td>
                   <td>
                     <input 
                       type="text" 
                       name="fullName" 
                       value={formData.fullName}
                       onChange={handleInputChange}
-                      placeholder="Full Name" 
+                      placeholder="Enter full name in English" 
                       required 
                       className={errors.fullName ? 'error' : ''}
                     />
@@ -273,58 +538,61 @@ export default function RegistrationCandidate() {
                   </td>
                 </tr>
 
-                {/* Sinhala User Name */}
+                {/* User Name in Sinhala */}
                 <tr>
-                  <td>නාම ලේකනයේ නම</td>
+                  <td>User Name in Sinhala<br />පරිශීලක නාමය (සිංහල)</td>
                   <td>
                     <input 
                       type="text" 
-                      name="sinhalaUserName" 
-                      value={formData.sinhalaUserName}
+                      name="userNameSinhala" 
+                      value={formData.userNameSinhala}
                       onChange={handleInputChange}
+                      placeholder="සිංහල අකුරින් නම ඇතුළත් කරන්න"
                       required 
-                      className={errors.sinhalaUserName ? 'error' : ''}
+                      className={errors.userNameSinhala ? 'error' : ''}
                     />
-                    {errors.sinhalaUserName && <span className="error-text">{errors.sinhalaUserName}</span>}
+                    {errors.userNameSinhala && <span className="error-text">{errors.userNameSinhala}</span>}
                   </td>
                 </tr>
 
-                {/* User Name */}
+                {/* User Name in English */}
                 <tr>
-                  <td>User Name</td>
+                  <td>User Name in English<br />පරිශීලක නාමය (ඉංග්‍රීසි)</td>
                   <td>
                     <input 
                       type="text" 
-                      name="userName" 
-                      value={formData.userName}
+                      name="userNameEnglish" 
+                      value={formData.userNameEnglish}
                       onChange={handleInputChange}
+                      placeholder="Enter name in English"
                       required 
-                      className={errors.userName ? 'error' : ''}
+                      className={errors.userNameEnglish ? 'error' : ''}
                     />
-                    {errors.userName && <span className="error-text">{errors.userName}</span>}
+                    {errors.userNameEnglish && <span className="error-text">{errors.userNameEnglish}</span>}
                   </td>
                 </tr>
 
                 {/* NIC */}
                 <tr>
-                  <td>ජා.හැ.අන්කය<br />ID</td>
+                  <td>National Identity Card (NIC)<br />ජාතික හැඳුනුම්පත් අංකය</td>
                   <td colSpan="3">
                     <input 
                       type="text" 
-                      name="id" 
-                      value={formData.id}
+                      name="nic" 
+                      value={formData.nic}
                       onChange={handleInputChange}
-                      placeholder="NIC Number (e.g., 123456789V or 123456789012)"
+                      placeholder="Enter valid Sri Lankan NIC (e.g., 123456789V or 200012345678)"
                       required
-                      className={errors.id ? 'error' : ''}
+                      className={errors.nic ? 'error' : ''}
                     />
-                    {errors.id && <span className="error-text">{errors.id}</span>}
+                    {errors.nic && <span className="error-text">{errors.nic}</span>}
+                    <small>Date of birth and gender will be automatically filled from NIC</small>
                   </td>
                 </tr>
 
                 {/* Date of Birth */}
                 <tr>
-                  <td>උපන් දිනය<br />Date of Birth</td>
+                  <td>Date of Birth<br />උපන්දිනය</td>
                   <td>
                     <input 
                       type="date" 
@@ -335,12 +603,13 @@ export default function RegistrationCandidate() {
                       className={errors.dob ? 'error' : ''}
                     />
                     {errors.dob && <span className="error-text">{errors.dob}</span>}
+                    <small>Auto-filled from NIC - Must be at least 35 years old</small>
                   </td>
                 </tr>
 
                 {/* Gender */}
                 <tr>
-                  <td>ස්ත්‍රී/පුරුෂ<br />Gender</td>
+                  <td>Gender<br />ස්ත්‍රී/පුරුෂභාවය</td>
                   <td>
                     <select 
                       name="gender" 
@@ -350,34 +619,18 @@ export default function RegistrationCandidate() {
                       className={errors.gender ? 'error' : ''}
                     >
                       <option value="">Select Gender</option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other">Other</option>
+                      <option value="Male">Male / පුරුෂ</option>
+                      <option value="Female">Female / ස්ත්‍රී</option>
+                      <option value="Other">Other / වෙනත්</option>
                     </select>
                     {errors.gender && <span className="error-text">{errors.gender}</span>}
-                  </td>
-                </tr>
-
-                {/* Address */}
-                <tr>
-                  <td>ලිපිනය<br />Address</td>
-                  <td colSpan="3">
-                    <textarea 
-                      name="address" 
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      placeholder="Complete Address"
-                      required 
-                      rows="3"
-                      className={errors.address ? 'error' : ''}
-                    />
-                    {errors.address && <span className="error-text">{errors.address}</span>}
+                    <small>Auto-filled from NIC (Male if day ≤ 500, Female if day > 500)</small>
                   </td>
                 </tr>
 
                 {/* Candidate Image */}
                 <tr>
-                  <td>ඡායාරූපය<br />Candidate Image</td>
+                  <td>Candidate Image<br />අපේක්ෂකගේ ඡායාරූපය</td>
                   <td colSpan="3">
                     <input 
                       type="file" 
@@ -393,26 +646,23 @@ export default function RegistrationCandidate() {
 
                 {selectedImage && (
                   <tr>
-                    <td colSpan="4" style={{ textAlign: 'center' }}>
-                      <img
-                        src={selectedImage}
-                        alt="Candidate Preview"
-                        style={{ 
-                          width: '150px', 
-                          height: '150px', 
-                          objectFit: 'cover', 
-                          marginTop: '10px', 
-                          borderRadius: '10px',
-                          border: '2px solid #ddd'
-                        }}
-                      />
+                    <td></td>
+                    <td colSpan="3" style={{ textAlign: 'center' }}>
+                      <div className="image-preview">
+                        <p>Candidate Image Preview:</p>
+                        <img
+                          src={selectedImage}
+                          alt="Candidate Preview"
+                          className="preview-image"
+                        />
+                      </div>
                     </td>
                   </tr>
                 )}
 
-                {/* Election ID */}
+                {/* Election Selection */}
                 <tr>
-                  <td>Election ID</td>
+                  <td>Election<br />මැතිවරණය</td>
                   <td>
                     <select 
                       name="electionId" 
@@ -424,7 +674,7 @@ export default function RegistrationCandidate() {
                       <option value="">Select Election</option>
                       {elections.map(election => (
                         <option key={election.Election_ID} value={election.Election_ID}>
-                          {election.Election_ID} - {election.Election_Type}
+                          {election.Election_ID} - {election.Election_Type} ({election.Date})
                         </option>
                       ))}
                     </select>
@@ -432,18 +682,18 @@ export default function RegistrationCandidate() {
                   </td>
                 </tr>
 
-                {/* Party ID */}
+                {/* Party Selection */}
                 <tr>
-                  <td>Party ID</td>
+                  <td>Political Party<br />දේශපාලන පක්ෂය</td>
                   <td>
                     <select 
                       name="partyId" 
                       value={formData.partyId}
-                      onChange={handleInputChange}
+                      onChange={handlePartyChange}
                       required
                       className={errors.partyId ? 'error' : ''}
                     >
-                      <option value="">Select Party</option>
+                      <option value="">Select Political Party</option>
                       {parties.map(party => (
                         <option key={party.Party_ID} value={party.Party_ID}>
                           {party.Party_ID} - {party.PartyName_English}
@@ -454,38 +704,88 @@ export default function RegistrationCandidate() {
                   </td>
                 </tr>
 
+                {/* Party Information Display */}
+                {selectedParty && (
+                  <tr>
+                    <td>Selected Party Details<br />තෝරාගත් පක්ෂයේ විස්තර</td>
+                    <td colSpan="3">
+                      <div className="party-details">
+                        <div className="party-info">
+                          <div className="party-text-info">
+                            <div className="party-field">
+                              <label>Party ID / පක්ෂ අංකය:</label>
+                              <input 
+                                type="text" 
+                                value={selectedParty.Party_ID} 
+                                readOnly 
+                                className="readonly-field"
+                              />
+                            </div>
+                            <div className="party-field">
+                              <label>Party Name (English) / පක්ෂ නාමය (ඉංග්‍රීසි):</label>
+                              <input 
+                                type="text" 
+                                value={selectedParty.PartyName_English} 
+                                readOnly 
+                                className="readonly-field"
+                              />
+                            </div>
+                            <div className="party-field">
+                              <label>Party Name (Sinhala) / පක්ෂ නාමය (සිංහල):</label>
+                              <input 
+                                type="text" 
+                                value={selectedParty.PartyName_Sinhala} 
+                                readOnly 
+                                className="readonly-field"
+                              />
+                            </div>
+                          </div>
+                          {selectedParty.Party_Logo && (
+                            <div className="party-logo">
+                              <p>Party Logo / පක්ෂ ලාංඡනය:</p>
+                              <img
+                                src={getPartyLogoUrl(selectedParty.Party_Logo)}
+                                alt={`${selectedParty.PartyName_English} Logo`}
+                                className="preview-logo"
+                                onError={(e) => {
+                                  e.target.style.display = 'none';
+                                  e.target.nextSibling.style.display = 'block';
+                                }}
+                              />
+                              <div style={{ display: 'none' }} className="logo-error">
+                                Logo not available or failed to load
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+
                 {/* Candidate ID */}
                 <tr>
-                  <td>Candidate ID</td>
+                  <td>Candidate ID<br />අපේක්ෂක හැඳුනුම්පත් අංකය</td>
                   <td>
-                    <input 
-                      type="text" 
-                      name="candidateId" 
-                      value={formData.candidateId}
-                      onChange={handleInputChange}
-                      placeholder="Unique Candidate ID" 
-                      required 
-                      className={errors.candidateId ? 'error' : ''}
-                    />
+                    <div className="candidate-id-container">
+                      <input 
+                        type="text" 
+                        name="candidateId" 
+                        value={formData.candidateId}
+                        onChange={handleInputChange}
+                        placeholder="Format: CANDIDATE1, CANDIDATE2, etc." 
+                        required 
+                        className={errors.candidateId ? 'error' : ''}
+                      />
+                      <button 
+                        type="button" 
+                        className="generate-btn"
+                        onClick={generateNewCandidateId}
+                      >
+                        Generate
+                      </button>
+                    </div>
                     {errors.candidateId && <span className="error-text">{errors.candidateId}</span>}
-                  </td>
-                </tr>
-
-                {/* Candidate Number */}
-                <tr>
-                  <td>Candidate Number</td>
-                  <td>
-                    <input 
-                      type="number" 
-                      name="candidateNumber" 
-                      value={formData.candidateNumber}
-                      onChange={handleInputChange}
-                      placeholder="Ballot Number" 
-                      required 
-                      min="1"
-                      className={errors.candidateNumber ? 'error' : ''}
-                    />
-                    {errors.candidateNumber && <span className="error-text">{errors.candidateNumber}</span>}
                   </td>
                 </tr>
               </tbody>
@@ -493,12 +793,19 @@ export default function RegistrationCandidate() {
 
             <div className="button-group">
               <button type="submit" className="submit-btn" disabled={loading}>
-                {loading ? 'Submitting...' : 'Submit'}
+                {loading ? (
+                  <>
+                    <span className="spinner"></span>
+                    Submitting...
+                  </>
+                ) : (
+                  'Register Candidate'
+                )}
               </button>
-              <button type="button" className="submit-btn" onClick={handleClear}>
-                Clear
+              <button type="button" className="clear-btn" onClick={handleClear}>
+                Clear Form
               </button>
-              <button type="button" className="submit-btn" onClick={handleBack}>
+              <button type="button" className="back-btn" onClick={handleBack}>
                 Back
               </button>
             </div>
@@ -506,45 +813,30 @@ export default function RegistrationCandidate() {
         </div>
       </div>
 
-      <style jsx>{`
-        .error {
-          border: 2px solid #ff4444 !important;
-        }
-        .error-text {
-          color: #ff4444;
-          font-size: 12px;
-          display: block;
-          margin-top: 5px;
-        }
-        .form-table input, .form-table select, .form-table textarea {
-          width: 100%;
-          padding: 8px;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          font-size: 14px;
-        }
-        .button-group {
-          margin-top: 20px;
-          text-align: center;
-        }
-        .submit-btn {
-          margin: 0 10px;
-          padding: 10px 20px;
-          background-color: #007bff;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 16px;
-        }
-        .submit-btn:hover {
-          background-color: #0056b3;
-        }
-        .submit-btn:disabled {
-          background-color: #ccc;
-          cursor: not-allowed;
-        }
-      `}</style>
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="modal-overlay">
+          <div className="success-modal">
+            <div className="success-icon">✓</div>
+            <h2>Registration Successful!</h2>
+            <div className="success-details">
+              <p><strong>Candidate ID:</strong> {successData?.candidateId}</p>
+              <p><strong>Full Name:</strong> {successData?.fullName}</p>
+              <p><strong>Political Party:</strong> {successData?.partyName}</p>
+              <p><strong>Election:</strong> {successData?.electionType}</p>
+              {successData?.extractedDOB && (
+                <p><strong>Verified DOB:</strong> {successData.extractedDOB}</p>
+              )}
+            </div>
+            <p className="success-message">
+              The candidate has been successfully registered for the presidential election with verified NIC information.
+            </p>
+            <button className="close-modal-btn" onClick={closeSuccessModal}>
+              Continue
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

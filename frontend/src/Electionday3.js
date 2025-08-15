@@ -30,11 +30,10 @@ export default function ElectionTimer() {
       setMessage('Activating election, please wait...');
 
       //Prepare the data object to be sent to the backend API
-      const electionData = {
-        Election_ID: 'election1',
-        Start_time: startTime,
-        End_time: endTime
-      };
+     const electionData = {
+      Start_time: startTime,
+      End_time: endTime
+    };
 
       
       try {
@@ -44,7 +43,7 @@ export default function ElectionTimer() {
           setMessage('Election has been successfully activated! Redirecting...');
           setTimeout(() => {
             navigate('/Electionday4'); // Navigates to the next page in the flow
-          }, 4000); //4 sec
+          }, 3000); //3 sec
 
         } else {
           setMessage(res.data.message || 'Failed to start election.');
