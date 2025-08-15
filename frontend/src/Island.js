@@ -1,6 +1,6 @@
 import React from "react";
 import "./island.css";
-import backgroundImage from './image/bg4.jpg';
+import backgroundImage from './image/Flag3.jpg';
 
 const candidates = [
   {
