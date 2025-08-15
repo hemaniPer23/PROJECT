@@ -12,25 +12,25 @@ const Ballotpaper = () => {
     {
       id: 1,
       name: 'ශාන්ත හඳපාන',
-      icon: '/icon/Peoples_Love_Party.png',
+      icon: '/icon/Freedom_And_Wisdom_Alliance.jpeg',
       photo: '/Photor/Shantha_Handapana.jpg'
     },
     {
       id: 2,
       name: 'පරම පිවිතුරු කුසලාරච්චි',
-      icon: '/icon/Home_Leadership_Party.png',
+      icon: '/icon/National_Unity_Front.jpeg',
       photo: '/Photor/Parama_Piwithuru_Kusalarachchi.jpg'
     },
     {
       id: 3,
       name: 'අරුණාචලම් පෙරේරා',
-      icon: '/icon/Jumping_Sacks_Party.png',
+      icon: '/icon/National_Dawn_Front.jpeg',
       photo: '/Photor/Arunachalam_Perera.jpg'
     },
     {
       id: 4,
       name: 'සුමනා බොරලුගොඩ',
-      icon: '/icon/Independent_Women_Party.png',
+      icon: '/icon/Independent_Women_Party.jpeg',
       photo: '/Photor/Sumana_Boralugoda.jpg'
     }
   ];
@@ -174,35 +174,58 @@ const Ballotpaper = () => {
             </div>
           </>
         ) : (
-          <div style={styles.result}>
-            {selectedCandidate ? (
-              <>
-                <h2>ඔබ තෝරාගත් අපේක්ෂකයා</h2>
-                <img
-                  src={candidates.find(c => c.id === selectedCandidate)?.photo}
-                  alt="selected"
-                  style={styles.profileImage}
-                />
-                <p style={{ fontSize: 22 }}>{candidates.find(c => c.id === selectedCandidate)?.name}</p>
-                <button style={styles.button} onClick={() => navigate('/thankyou')}>නිවැරදි</button>
-              </>
-            ) : (
-              <>
-                <h2>ඔබගේ මනාප අනුපිළිවෙල</h2>
-                {Object.entries(selectedRanks)
-                  .sort(([, a], [, b]) => a - b)
-                  .map(([id, rank]) => {
-                    const c = candidates.find((cand) => cand.id.toString() === id);
-                    return (
-                      <div key={id} style={{ marginBottom: 20 }}>
-                        <img src={c.photo} alt="selected" style={styles.profileImage} />
-                        <p style={{ fontSize: 22 }}>{rank} - {c.name}</p>
-                      </div>
-                    );
-                  })}
-                <button style={styles.button} onClick={() => navigate('/thankyou')}>නිවැරදි</button>
-              </>
-            )}
+      <div style={styles.result}>
+  {selectedCandidate ? (
+    <>
+      <h2>ඔබ තෝරාගත් අපේක්ෂකයා</h2>
+      <div style={{ display: 'flex',flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+        <img 
+          src={candidates.find(c => c.id === selectedCandidate)?.photo} 
+          alt="selected" 
+          style={styles.profileImage} 
+        />
+       
+        <img 
+          src={candidates.find(c => c.id === selectedCandidate)?.icon} 
+          alt="icon"
+          style={{ width: 60, height: 60 }}
+        />
+      </div>
+      <p style={{ fontSize: 26 }}>
+        {candidates.find(c => c.id === selectedCandidate)?.name}
+      </p>
+      <button style={styles.button} onClick={() => navigate('/thankyou')}>
+        නිවැරදි
+      </button>
+    </>
+  ) : (
+    <>
+      <h2>ඔබගේ මනාප අනුපිළිවෙල</h2>
+      {Object.entries(selectedRanks)
+        .sort(([, a], [, b]) => a - b)
+        .map(([id, rank]) => {
+          const c = candidates.find((cand) => cand.id.toString() === id);
+          return (
+            <div key={id} style={{ marginBottom: 20, display: 'flex',flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+              
+              <img src={c.photo} alt="selected" style={styles.profileImage} />
+              
+              <img 
+                src={c.icon} 
+                alt="icon" 
+                style={{ width: 60, height: 60 }}
+              />
+              <p style={{ fontSize: 26 }}>
+                {rank} - {c.name}
+              </p>
+            </div>
+          );
+        })}
+      <button style={styles.button} onClick={() => navigate('/thankyou')}>
+        නිවැරදි
+         </button>
+         </>
+          )}
           </div>
         )}
       </div>
