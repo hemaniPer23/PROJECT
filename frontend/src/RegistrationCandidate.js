@@ -514,7 +514,7 @@ export default function RegistrationCandidate() {
       <div className="bg-container">
         <div className="form-container">
           <h1>
-            අපේක්ෂකයා ලියාපදිංචි කිරීමේ පෝරමය<br />
+            අපේක්ෂකයින් ලියාපදිංචි කිරීමේ පත්‍රය<br />
             CANDIDATE REGISTRATION FORM
           </h1>
 
@@ -564,7 +564,7 @@ export default function RegistrationCandidate() {
                       name="userNameEnglish" 
                       value={formData.userNameEnglish}
                       onChange={handleInputChange}
-                      placeholder="Enter name in English"
+                      placeholder="Enter user name in English"
                       required 
                       className={errors.userNameEnglish ? 'error' : ''}
                     />
@@ -586,7 +586,6 @@ export default function RegistrationCandidate() {
                       className={errors.nic ? 'error' : ''}
                     />
                     {errors.nic && <span className="error-text">{errors.nic}</span>}
-                    <small>Date of birth and gender will be automatically filled from NIC</small>
                   </td>
                 </tr>
 
@@ -603,7 +602,7 @@ export default function RegistrationCandidate() {
                       className={errors.dob ? 'error' : ''}
                     />
                     {errors.dob && <span className="error-text">{errors.dob}</span>}
-                    <small>Auto-filled from NIC - Must be at least 35 years old</small>
+                    <small>Must be at least 35 years old</small>
                   </td>
                 </tr>
 
@@ -624,7 +623,6 @@ export default function RegistrationCandidate() {
                       <option value="Other">Other / වෙනත්</option>
                     </select>
                     {errors.gender && <span className="error-text">{errors.gender}</span>}
-                    <small>Auto-filled from NIC (Male if day ≤ 500, Female if day > 500)</small>
                   </td>
                 </tr>
 
