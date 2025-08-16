@@ -18,167 +18,161 @@ $database = new Database();
 $db = $database->connect();
 
 try {
-    // Get query parameters
-    $electoral_division = isset($_GET['electoral_division']) ? $_GET['electoral_division'] : null;
-    $polling_division = isset($_GET['polling_division']) ? $_GET['polling_division'] : null;
-    $hierarchy = isset($_GET['hierarchy']) ? $_GET['hierarchy'] : null; // 'electoral', 'polling', 'gn'
-    $active_only = isset($_GET['active_only']) ? filter_var($_GET['active_only'], FILTER_VALIDATE_BOOLEAN) : true;
-
-    if ($hierarchy === 'electoral') {
-        // Get all electoral divisions
-        $query = "SELECT DISTINCT Electoral_Division FROM divisions";
-        if ($active_only) {
-            $query .= " WHERE IsActive = 1";
-        }
-        $query .= " ORDER BY Electoral_Division";
-        
-        $stmt = $db->prepare($query);
-        $stmt->execute();
-        
-        $divisions = array();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $divisions[] = $row['Electoral_Division'];
-        }
-        
-        http_response_code(200);
-        echo json_encode([
-            'status' => 'success',
-            'message' => 'Electoral divisions retrieved successfully',
-            'data' => $divisions,
-            'type' => 'electoral_divisions'
-        ]);
-        
-    } elseif ($hierarchy === 'polling') {
-        // Get polling divisions for specific electoral division
-        if (!$electoral_division) {
-            throw new Exception("Electoral division parameter is required for polling divisions");
-        }
-        
-        $query = "SELECT DISTINCT Polling_Division FROM divisions WHERE Electoral_Division = :electoral_division";
-        if ($active_only) {
-            $query .= " AND IsActive = 1";
-        }
-        $query .= " ORDER BY Polling_Division";
-        
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(':electoral_division', $electoral_division);
-        $stmt->execute();
-        
-        $divisions = array();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $divisions[] = $row['Polling_Division'];
-        }
-        
-        http_response_code(200);
-        echo json_encode([
-            'status' => 'success',
-            'message' => 'Polling divisions retrieved successfully',
-            'data' => $divisions,
-            'type' => 'polling_divisions',
-            'electoral_division' => $electoral_division
-        ]);
-        
-    } elseif ($hierarchy === 'gn') {
-        // Get GN divisions for specific electoral and polling division
-        if (!$electoral_division || !$polling_division) {
-            throw new Exception("Electoral division and polling division parameters are required for GN divisions");
-        }
-        
-        $query = "SELECT DISTINCT Gramaniladhari_Division FROM divisions 
-                  WHERE Electoral_Division = :electoral_division 
-                  AND Polling_Division = :polling_division";
-        if ($active_only) {
-            $query .= " AND IsActive = 1";
-        }
-        $query .= " ORDER BY Gramaniladhari_Division";
-        
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(':electoral_division', $electoral_division);
-        $stmt->bindParam(':polling_division', $polling_division);
-        $stmt->execute();
-        
-        $divisions = array();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $divisions[] = $row['Gramaniladhari_Division'];
-        }
-        
-        http_response_code(200);
-        echo json_encode([
-            'status' => 'success',
-            'message' => 'GN divisions retrieved successfully',
-            'data' => $divisions,
-            'type' => 'gn_divisions',
-            'electoral_division' => $electoral_division,
-            'polling_division' => $polling_division
-        ]);
-        
-    } else {
-        // Get all divisions with complete information
-        $query = "SELECT 
-            Division_ID,
-            Division_Code,
-            Electoral_Division,
-            Polling_Division,
-            Gramaniladhari_Division,
-            IsActive
-        FROM divisions";
-        
-        $params = array();
-        $conditions = array();
-        
-        if ($electoral_division) {
-            $conditions[] = "Electoral_Division = :electoral_division";
-            $params[':electoral_division'] = $electoral_division;
-        }
-        
-        if ($polling_division) {
-            $conditions[] = "Polling_Division = :polling_division";
-            $params[':polling_division'] = $polling_division;
-        }
-        
-        if ($active_only) {
-            $conditions[] = "IsActive = 1";
-        }
-        
-        if (!empty($conditions)) {
-            $query .= " WHERE " . implode(" AND ", $conditions);
-        }
-        
-        $query .= " ORDER BY Electoral_Division, Polling_Division, Gramaniladhari_Division";
-        
-        $stmt = $db->prepare($query);
-        foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
-        }
-        $stmt->execute();
-        
-        $divisions = array();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $divisions[] = array(
-                'division_id' => $row['Division_ID'],
-                'division_code' => $row['Division_Code'],
-                'electoral_division' => $row['Electoral_Division'],
-                'polling_division' => $row['Polling_Division'],
-                'gramaniladhari_division' => $row['Gramaniladhari_Division'],
-                'is_active' => $row['IsActive']
-            );
-        }
-        
-        http_response_code(200);
-        echo json_encode([
-            'status' => 'success',
-            'message' => 'Divisions retrieved successfully',
-            'data' => $divisions,
-            'count' => count($divisions),
-            'type' => 'all_divisions'
-        ]);
+    // Validate HTTP method
+    if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+        throw new Exception("Only GET method is allowed");
     }
 
+    // Get query parameters
+    $hierarchy = isset($_GET['hierarchy']) ? trim($_GET['hierarchy']) : '';
+    $electoral_division = isset($_GET['electoral_division']) ? trim($_GET['electoral_division']) : '';
+    $polling_division = isset($_GET['polling_division']) ? trim($_GET['polling_division']) : '';
+    $active_only = isset($_GET['active_only']) ? filter_var($_GET['active_only'], FILTER_VALIDATE_BOOLEAN) : true;
+
+    // Validate hierarchy parameter
+    $allowed_hierarchies = ['electoral', 'polling', 'gn', 'all'];
+    if (!in_array($hierarchy, $allowed_hierarchies)) {
+        throw new Exception("Invalid hierarchy parameter. Allowed values: " . implode(', ', $allowed_hierarchies));
+    }
+
+    $data = [];
+    $query = "";
+    $params = [];
+
+    switch ($hierarchy) {
+        case 'electoral':
+            // Get unique electoral divisions
+            $query = "SELECT DISTINCT Electoral_Division FROM divisions";
+            if ($active_only) {
+                $query .= " WHERE IsActive = 1";
+            }
+            $query .= " ORDER BY Electoral_Division";
+            break;
+
+        case 'polling':
+            // Get polling divisions for a specific electoral division
+            if (empty($electoral_division)) {
+                throw new Exception("electoral_division parameter is required for polling hierarchy");
+            }
+            
+            $query = "SELECT DISTINCT Polling_Division FROM divisions WHERE Electoral_Division = :electoral";
+            $params[':electoral'] = $electoral_division;
+            
+            if ($active_only) {
+                $query .= " AND IsActive = 1";
+            }
+            $query .= " ORDER BY Polling_Division";
+            break;
+
+        case 'gn':
+            // Get GN divisions for specific electoral and polling divisions
+            if (empty($electoral_division) || empty($polling_division)) {
+                throw new Exception("Both electoral_division and polling_division parameters are required for gn hierarchy");
+            }
+            
+            $query = "SELECT DISTINCT Gramaniladhari_Division FROM divisions 
+                      WHERE Electoral_Division = :electoral AND Polling_Division = :polling";
+            $params[':electoral'] = $electoral_division;
+            $params[':polling'] = $polling_division;
+            
+            if ($active_only) {
+                $query .= " AND IsActive = 1";
+            }
+            $query .= " ORDER BY Gramaniladhari_Division";
+            break;
+
+        case 'all':
+            // Get all division details with optional filtering
+            $query = "SELECT Division_ID, Division_Code, Electoral_Division, Polling_Division, 
+                             Gramaniladhari_Division, IsActive FROM divisions";
+            $conditions = [];
+            
+            if (!empty($electoral_division)) {
+                $conditions[] = "Electoral_Division = :electoral";
+                $params[':electoral'] = $electoral_division;
+            }
+            
+            if (!empty($polling_division)) {
+                $conditions[] = "Polling_Division = :polling";
+                $params[':polling'] = $polling_division;
+            }
+            
+            if ($active_only) {
+                $conditions[] = "IsActive = 1";
+            }
+            
+            if (!empty($conditions)) {
+                $query .= " WHERE " . implode(" AND ", $conditions);
+            }
+            
+            $query .= " ORDER BY Electoral_Division, Polling_Division, Gramaniladhari_Division";
+            break;
+    }
+
+    // Prepare and execute the query
+    $stmt = $db->prepare($query);
+    
+    // Bind parameters if any
+    foreach ($params as $param => $value) {
+        $stmt->bindParam($param, $value);
+    }
+    
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Process results based on hierarchy
+    if ($hierarchy === 'all') {
+        $data = $results;
+    } else {
+        // Extract the specific column values
+        $columnMap = [
+            'electoral' => 'Electoral_Division',
+            'polling' => 'Polling_Division',
+            'gn' => 'Gramaniladhari_Division'
+        ];
+        
+        $columnName = $columnMap[$hierarchy];
+        $data = array_column($results, $columnName);
+        
+        // Remove any empty or null values and ensure uniqueness
+        $data = array_values(array_unique(array_filter($data, function($value) {
+            return !empty(trim($value));
+        })));
+    }
+
+    // Return successful response
+    http_response_code(200);
+    echo json_encode([
+        'status' => 'success',
+        'message' => 'Divisions retrieved successfully',
+        'data' => $data,
+        'count' => count($data),
+        'filters' => [
+            'hierarchy' => $hierarchy,
+            'electoral_division' => $electoral_division ?: null,
+            'polling_division' => $polling_division ?: null,
+            'active_only' => $active_only
+        ]
+    ]);
+
 } catch (Exception $e) {
+    error_log('Divisions API error: ' . $e->getMessage());
+    
     http_response_code(400);
     echo json_encode([
         'status' => 'error',
-        'message' => $e->getMessage()
+        'message' => $e->getMessage(),
+        'error_code' => 'DIVISIONS_FETCH_FAILED'
+    ]);
+
+} catch (PDOException $e) {
+    error_log('Database error in divisions API: ' . $e->getMessage());
+    
+    http_response_code(500);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Database connection failed. Please try again later.',
+        'error_code' => 'DATABASE_ERROR'
     ]);
 }
 ?>
