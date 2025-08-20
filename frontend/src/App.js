@@ -27,7 +27,7 @@ import Newpage from "./Newpage";
 import Island from "./Island";
 import Election from "./Election";
 import Infopage from "./Infopage";
-import Minuwangoda from "./Minuwangoda";
+
 
 import Viewresults1 from "./Viewresults1";
 
@@ -233,14 +233,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-           <Route
-          path="//district/:district/minuwangoda"
-          element={
-            <ProtectedRoute>
-              <Minuwangoda />
-            </ProtectedRoute>
-          }
-        />
+        
 
         <Route
           path="/viewresults1"
