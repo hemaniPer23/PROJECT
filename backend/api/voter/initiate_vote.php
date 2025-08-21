@@ -27,17 +27,29 @@ if(empty($data->nic)) {
 }
 
 $voter->NIC = $data->nic;
+$result = $voter->initiateVote();
 
-try {
-    if($voter->initiateVote()) {
+switch ($result) {
+    case 'SUCCESS':
         http_response_code(200);
-        echo json_encode(['status' => 'success', 'message' => 'Vote initiated successfully. Status is Pending.']);
-    } else {
+        echo json_encode(['status' => 'success', 'message' => 'Vote initiated successfully.']);
+        break;
+    case 'NO_ACTIVE_ELECTION':
+        http_response_code(404);
+        echo json_encode(['status' => 'fail', 'message' => 'Could not find an active election to assign this vote to.']);
+        break;
+    case 'VOTE_ALREADY_PENDING':
+        http_response_code(409);
+        echo json_encode(['status' => 'fail', 'message' => 'Another voter is currently voting. Please wait.']);
+        break;
+    case 'NO_DIVISION':
+        http_response_code(404);
+        echo json_encode(['status' => 'fail', 'message' => 'Division for provided NIC not found.']);
+        break;
+    case 'DB_ERROR':
+    default:
         http_response_code(500);
-        echo json_encode(['status' => 'fail', 'message' => 'Failed to initiate vote. There might be another vote pending.']);
-    }
-} catch (PDOException $e) {
-    http_response_code(503);
-    echo json_encode(['status' => 'fail', 'message' => 'Database Error: ' . $e->getMessage()]);
+        echo json_encode(['status' => 'fail', 'message' => 'Failed to initiate vote due to a server/database error.']);
+        break;
 }
 ?>
