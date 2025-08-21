@@ -2,6 +2,9 @@
 class Voter {
     private $conn;
     private $table = 'voter';
+    private $vote_table = 'vote';
+    private $election_table = 'election';
+
 
     // Voter Properties
     public $NIC;
@@ -134,19 +137,73 @@ class Voter {
 //creates a new record in the 'vote' table with 'Pending' status.
 public function initiateVote() {
 
-  // If no pending vote, proceed to insert a new one.
-    $query = 'INSERT INTO vote (STATUS) VALUES (:status)';
-    $stmt = $this->conn->prepare($query);
-    $status = 'Pending';
+//Get active election
+$electionQuery = 'SELECT Election_ID FROM ' . $this->election_table . ' WHERE IsValid = 1 LIMIT 1';
+$electionStmt = $this->conn->prepare($electionQuery);
+$electionStmt->execute();
 
-    // Bind data
-  $stmt->bindParam(':status', $status);
-
-    // Execute query
-    if($stmt->execute()) {
-        return true;
-    }
+$activeElectionID = null;
+if ($electionStmt->rowCount() > 0) {
+    $row = $electionStmt->fetch(PDO::FETCH_ASSOC);
+    $activeElectionID = $row['Election_ID'];
+} else {
     return false;
+}
+
+//Get division for NIC
+ $divisionQuery = 'SELECT Division_ID FROM ' . $this->table . ' WHERE NIC = :nic LIMIT 1';
+ $divisionStmt = $this->conn->prepare($divisionQuery);
+ $cleanNIC = htmlspecialchars(strip_tags($this->NIC));
+ $divisionStmt->bindParam(':nic', $cleanNIC);
+ $divisionStmt->execute();
+
+ if ($divisionStmt->rowCount() === 0) {
+        return 'NO_DIVISION';
+            }else {
+ $row = $divisionStmt->fetch(PDO::FETCH_ASSOC);
+ $divisionID = $row['Division_ID'];
+            }
+
+//Insert new pending 3vote 
+$insertQuery1 = 'INSERT INTO ' . $this->vote_table . ' (Preference, STATUS, Election_ID, Division_ID, Timestamp) VALUES (:preference, :status, :election_id, :division_id, NOW())';
+$insertStmt1 = $this->conn->prepare($insertQuery1);
+$status = 'Pending';
+$Preference = '1'; 
+$insertStmt1->bindParam(':preference', $Preference);
+$insertStmt1->bindParam(':status', $status);
+$insertStmt1->bindParam(':election_id', $activeElectionID);
+$insertStmt1->bindParam(':division_id', $divisionID);
+$insertStmt1->execute();
+
+
+$insertQuery2 = 'INSERT INTO ' . $this->vote_table . ' (Preference, STATUS, Election_ID, Division_ID, Timestamp) VALUES (:preference, :status, :election_id, :division_id, NOW())';
+$insertStmt2 = $this->conn->prepare($insertQuery2);
+$status = 'Pending';
+$Preference = '2'; 
+$insertStmt2->bindParam(':preference', $Preference);
+$insertStmt2->bindParam(':status', $status);
+$insertStmt2->bindParam(':election_id', $activeElectionID);
+$insertStmt2->bindParam(':division_id', $divisionID);
+$insertStmt2->execute();
+
+
+$insertQuery3 = 'INSERT INTO ' . $this->vote_table . ' (Preference, STATUS, Election_ID, Division_ID, Timestamp) VALUES (:preference, :status, :election_id, :division_id, NOW())';
+$insertStmt3 = $this->conn->prepare($insertQuery3);
+$status = 'Pending';
+$Preference = '3'; 
+$insertStmt3->bindParam(':preference', $Preference);
+$insertStmt3->bindParam(':status', $status);
+$insertStmt3->bindParam(':election_id', $activeElectionID);
+$insertStmt3->bindParam(':division_id', $divisionID);
+$insertStmt3->execute();
+
+if ($insertStmt1->rowCount() > 0 && $insertStmt2->rowCount() > 0 && $insertStmt3->rowCount() > 0) {
+      return 'SUCCESS';
+      } else {
+  return 'DB_ERROR';
+  }
+ 
+    
 }
 
 
