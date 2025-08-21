@@ -1,39 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from './image/bg3.jpg';
+import API from './API.js'; 
 
 const Ballotpaper = () => {
   const navigate = useNavigate();
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [selectedRanks, setSelectedRanks] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [candidates, setCandidates] = useState([]);
 
-  const candidates = [
-    {
-      id: 1,
-      name: 'ශාන්ත හඳපාන',
-      icon: '/icon/Freedom_And_Wisdom_Alliance.jpeg',
-      photo: '/Photor/Shantha_Handapana.jpg'
-    },
-    {
-      id: 2,
-      name: 'පරම පිවිතුරු කුසලාරච්චි',
-      icon: '/icon/National_Unity_Front.jpeg',
-      photo: '/Photor/Parama_Piwithuru_Kusalarachchi.jpg'
-    },
-    {
-      id: 3,
-      name: 'අරුණාචලම් පෙරේරා',
-      icon: '/icon/National_Dawn_Front.jpeg',
-      photo: '/Photor/Arunachalam_Perera.jpg'
-    },
-    {
-      id: 4,
-      name: 'සුමනා බොරලුගොඩ',
-      icon: '/icon/Independent_Women_Party.jpeg',
-      photo: '/Photor/Sumana_Boralugoda.jpg'
-    }
-  ];
+  useEffect(() => {
+    API.get('/api/candidate/get_candidates.php')
+      .then(response => {
+        if (response.data.data) {
+          setCandidates(response.data.data);
+        }
+      })
+      .catch(error => console.error('Error fetching candidates:', error));
+  }, []);
 
   const handleSingleSelect = (id) => {
     setSelectedCandidate(id);
