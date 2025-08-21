@@ -123,7 +123,7 @@ const Ballotpaper = () => {
     <div style={style}>
       <nav class="nav"> 
             <a href="/">Home</a>
-            <a href="About">About</a>
+            <a href="ballotpaper">Previas</a>
             <a href="Contact">Contact</a>
            </nav>
 
