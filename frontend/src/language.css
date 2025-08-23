@@ -1,0 +1,72 @@
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px 20px;
+  position: relative;
+}
+
+.nav a {
+  color: rgb(7, 7, 7);
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 3px;
+  background-color: transparent;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.nav a:hover::after {
+  width: 100%;
+  background-color: #080808; 
+}
+
+
+.language-buttons {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+
+
+button {
+  background-color: #2f1fe0;         
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 2px solid white;        
+  border-radius: 12px;
+  box-shadow: 0 0 5px white;       
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #1e3a8a;
+  box-shadow: 0 0 15px 5px white;
+  transform: scale(1.05);
+}
+
+.language-main-button {
+  font-size: 20px;
+  padding: 10px 20px;
+  text-align: center;
+}
+.language1-main-button {
+  font-size: 25px;
+  padding: 6px 24px;
+  text-align: center;
+}
