@@ -27,6 +27,8 @@ import Newpage from "./Newpage";
 import Island from "./Island";
 import Election from "./Election";
 import Infopage from "./Infopage";
+import Language from "./Language";
+import Enballotpaper from "./Enballotpaper";
 
 
 import Viewresults1 from "./Viewresults1";
@@ -230,6 +232,22 @@ function App() {
           element={
             <ProtectedRoute>
               <Infopage />
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/language"
+          element={
+            <ProtectedRoute>
+              <Language />
+            </ProtectedRoute>
+          }
+        />
+                  <Route
+          path="/enballotpaper"
+          element={
+            <ProtectedRoute>
+              <Enballotpaper />
             </ProtectedRoute>
           }
         />
