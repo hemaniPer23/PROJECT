@@ -162,8 +162,12 @@ import backgroundImage from './image/Flag3.jpg';
 const Island = () => {
   const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [needSecondVote, setNeedSecondVote] = useState(false);
+  const [secondVoteResult, setSecondVoteResult] = useState(null);
+  const [showSecondVote, setShowSecondVote] = useState(false);
 
   useEffect(() => {
+    // 1️⃣ Load overall results
     API.get("/api/admin/overallResults.php")
       .then((res) => {
         if (res.data.status === "success") {
@@ -177,7 +181,33 @@ const Island = () => {
         console.error("API error:", err);
         setLoading(false);
       });
+
+    // 2️⃣ Check second vote requirement (only flag here, no details yet)
+    API.get("/api/admin/secondVoteResult.php")
+      .then((res) => {
+        if (res.data.status === "success") {
+          setNeedSecondVote(res.data.need_second_vote);
+        } else {
+          console.error("Second vote backend error:", res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.error("Second vote API error:", err);
+      });
   }, []);
+
+  const handleShowSecondVote = () => {
+    API.get("/api/admin/secondVoteResult.php")
+      .then((res) => {
+        if (res.data.status === "success" && res.data.need_second_vote) {
+          setSecondVoteResult(res.data.second_vote_result);
+          setShowSecondVote(true);
+        }
+      })
+      .catch((err) => {
+        console.error("Second vote API error:", err);
+      });
+  };
 
   const style = {
     backgroundImage: `url(${backgroundImage})`,
@@ -192,8 +222,34 @@ const Island = () => {
     return <div style={style}><h2 style={{ color: "white" }}>Loading results...</h2></div>;
   }
 
+  // 🔹 Prepare top-two results if second vote is shown
+  let topTwoDisplay = [];
+  if (showSecondVote && secondVoteResult) {
+  const enriched = secondVoteResult.top_two.map((cand) => {
+    // ✅ Use the correct keys from your overallResults.php
+    const firstVoteCand = candidates.find(c => c.Candidate_Id === cand.candidate_id);
+    const firstVotes = firstVoteCand ? firstVoteCand.Vote_count : 0;
+    const totalVotes = firstVotes + cand.second_vote_count;
+    return {
+      candidate_id: cand.candidate_id,
+      candidate_name: cand.candidate_name,
+      first_votes: firstVotes,
+      second_votes: cand.second_vote_count,
+      total_votes: totalVotes,
+    };
+  });
+
+  const sumTopTwo = enriched.reduce((acc, c) => acc + c.total_votes, 0);
+
+  topTwoDisplay = enriched.map(c => ({
+    ...c,
+    percentage: ((c.total_votes / sumTopTwo) * 100).toFixed(2)
+  }));
+
+  }
+
   return (
-    <div style={style}>
+    <div >
       <nav className="nav"> 
         <a href="/">Home</a>
         <a href="About">About</a>
@@ -231,6 +287,36 @@ const Island = () => {
           </div>
         ))}
       </div>
+
+      {/* 🔹 Show button if backend says second vote is needed */}
+      {needSecondVote && !showSecondVote && (
+        <div className="secondVote">
+          <button 
+            onClick={handleShowSecondVote} 
+            className="second-vote-btn"
+          >
+            Show Second Vote Results
+          </button>
+        </div>
+      )}
+
+      {/* 🔹 Show results after clicking */}
+      {showSecondVote && secondVoteResult && (
+        <div className="second-vote-results">
+          <h2 className="secVotRes">Second Vote Results (Top Two)</h2>
+          <div className="card-container">
+            {topTwoDisplay.map((cand) => (
+              <div key={cand.candidate_id} className="candidate-card">
+                <h4>{cand.candidate_name}</h4>
+                <p>First Votes: {cand.first_votes}</p>
+                <p>Second Votes: {cand.second_votes}</p>
+                <p>Total: {cand.total_votes}</p>
+                <p className="percentage">{cand.percentage}%</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

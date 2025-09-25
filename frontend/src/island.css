@@ -1,3 +1,10 @@
+.secVotRes{
+  padding: 50px 20px 30px 40px;
+  text-align: center;
+  justify-content: center;
+
+}
+
 .nav {
   display: flex;
   justify-content: flex-end;
@@ -100,5 +107,29 @@ body {
 
 .percentage {
   font-size: 18px;
-  color: #050505;
+  color: #ffffff;
+}
+
+.secondVote {
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+
+.second-vote-btn {
+  background-color: #2d2a1e;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 25px ;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.second-vote-btn:hover {
+  background-color: #756629;
+  transform: scale(1.05);
 }
