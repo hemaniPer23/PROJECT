@@ -13,6 +13,14 @@ header('Content-Type: application/json');
 
 include_once '../../config/Database.php';
 
+// Import PHPMailer classes
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once __DIR__ . '/../../../vendor/phpmailer/phpmailer/src/Exception.php';
+require_once __DIR__ . '/../../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require_once __DIR__ . '/../../../vendor/phpmailer/phpmailer/src/SMTP.php';
+
 // Create database connection
 $database = new Database();
 $db = $database->connect();
@@ -242,6 +250,102 @@ function checkDuplicates($db, $nic, $mobile, $email) {
     }
 }
 
+// Send voter registration confirmation email
+function sendRegistrationEmail($voterData) {
+    $mail = new PHPMailer(true);
+    
+    try {
+        // Server settings - using the same configuration as TestMail.php
+        $mail->isSMTP();
+        $mail->Host = "smtp.gmail.com";
+        $mail->SMTPAuth = true;
+        $mail->Username = "thisaradeshitha123@gmail.com"; // Replace with your Gmail
+        $mail->Password = "ehsr njjh avdc jmsa"; // Replace with your app password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // Recipients
+        $mail->setFrom("thisaradeshitha123@gmail.com", "Election Commission Sri Lanka");
+        $mail->addAddress($voterData['email'], $voterData['fullname_english']);
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = "Voter Registration Successful - Election Commission Sri Lanka";
+        
+        $mail->Body = '
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .header { background-color: #1a472a; color: white; padding: 20px; text-align: center; }
+                .content { background-color: #f9f9f9; padding: 30px; border: 1px solid #ddd; }
+                .footer { background-color: #e9e9e9; padding: 15px; text-align: center; font-size: 12px; }
+                .details { background-color: white; padding: 15px; margin: 15px 0; border-left: 4px solid #1a472a; }
+                .label { font-weight: bold; color: #1a472a; }
+                .status { color: #ff8c00; font-weight: bold; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h2>Voter Registration Confirmation</h2>
+                    <p>Election Commission of Sri Lanka</p>
+                </div>
+                
+                <div class="content">
+                    <h3>Dear ' . htmlspecialchars($voterData['fullname_english']) . ',</h3>
+                    
+                    <p><strong>You are registered as a voter.</strong></p>
+                    
+                    <p>Your voter registration has been successfully submitted and is currently under review.</p>
+                    
+                    <div class="details">
+                        <h4>Registration Details:</h4>
+                        <p><span class="label">NIC:</span> ' . htmlspecialchars($voterData['nic']) . '</p>
+                        <p><span class="label">Full Name (English):</span> ' . htmlspecialchars($voterData['fullname_english']) . '</p>
+                        <p><span class="label">Full Name (Sinhala):</span> ' . htmlspecialchars($voterData['fullname_sinhala']) . '</p>
+                        <p><span class="label">Electoral Division:</span> ' . htmlspecialchars($voterData['electoral_division']) . '</p>
+                        <p><span class="label">Polling Division:</span> ' . htmlspecialchars($voterData['polling_division']) . '</p>
+                        <p><span class="label">GN Division:</span> ' . htmlspecialchars($voterData['gramaniladhari_division']) . '</p>
+                        <p><span class="label">Status:</span> <span class="status">' . htmlspecialchars($voterData['status']) . '</span></p>
+                        <p><span class="label">Registration Time:</span> ' . htmlspecialchars($voterData['registration_time']) . '</p>
+                    </div>
+                    
+                    <div style="background-color: #fff3cd; padding: 15px; margin: 15px 0; border-radius: 5px;">
+                        <h4>Important Notes:</h4>
+                        <ul>
+                            <li>Your registration status is currently <strong>Pending</strong> and under review.</li>
+                            <li>You will be notified once your registration is verified.</li>
+                            <li>Please keep this email for your records.</li>
+                            <li>Bring your NIC when voting.</li>
+                        </ul>
+                    </div>
+                    
+                    <p>Thank you for registering. Your participation in the democratic process is important.</p>
+                    
+                    <p>Best regards,<br><strong>Election Commission of Sri Lanka</strong></p>
+                </div>
+                
+                <div class="footer">
+                    <p>This is an automated message. Please do not reply to this email.</p>
+                    <p>&copy; ' . date('Y') . ' Election Commission of Sri Lanka</p>
+                </div>
+            </div>
+        </body>
+        </html>';
+
+        $mail->send();
+        error_log('Registration email sent successfully to: ' . $voterData['email']);
+        return true;
+        
+    } catch (Exception $e) {
+        error_log('Failed to send registration email: ' . $e->getMessage());
+        return false;
+    }
+}
+
 try {
     // Add error logging
     error_log('Voter registration request received: ' . print_r($_POST, true));
@@ -415,28 +519,38 @@ try {
         
         error_log('Voter registered successfully: ' . $cleanNIC);
         
+        // Prepare response data
+        $responseData = [
+            'nic' => $cleanNIC,
+            'fullname_sinhala' => $sinhalaFullName,
+            'fullname_english' => $englishFullName,
+            'gender' => $data['gender'],
+            'dob' => $dob,
+            'address' => $address,
+            'mobile_number' => $mobileParam,
+            'email' => $emailParam,
+            'electoral_division' => $data['electoralDivision'],
+            'polling_division' => $data['pollingDivision'],
+            'gramaniladhari_division' => $data['gramaniladhariDivision'],
+            'division_id' => $divisionID,
+            'extracted_dob' => extractDOBFromNIC($cleanNIC),
+            'extracted_gender' => extractGenderFromNIC($cleanNIC),
+            'status' => 'Pending',
+            'registration_time' => date('Y-m-d H:i:s')
+        ];
+        
+        // Send email if email address is provided
+        $emailSent = false;
+        if (!empty($emailParam)) {
+            $emailSent = sendRegistrationEmail($responseData);
+        }
+        
         http_response_code(201);
         echo json_encode([
             'status' => 'success',
             'message' => 'Voter registered successfully',
-            'data' => [
-                'nic' => $cleanNIC,
-                'fullname_sinhala' => $sinhalaFullName,
-                'fullname_english' => $englishFullName,
-                'gender' => $data['gender'],
-                'dob' => $dob,
-                'address' => $address,
-                'mobile_number' => $mobileParam,
-                'email' => $emailParam,
-                'electoral_division' => $data['electoralDivision'],
-                'polling_division' => $data['pollingDivision'],
-                'gramaniladhari_division' => $data['gramaniladhariDivision'],
-                'division_id' => $divisionID,
-                'extracted_dob' => extractDOBFromNIC($cleanNIC),
-                'extracted_gender' => extractGenderFromNIC($cleanNIC),
-                'status' => 'Pending',
-                'registration_time' => date('Y-m-d H:i:s')
-            ]
+            'data' => $responseData,
+            'email_sent' => $emailSent
         ]);
 
     } catch (Exception $e) {

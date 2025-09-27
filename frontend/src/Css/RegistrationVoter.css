@@ -8,7 +8,8 @@
 }
 
 .form-container {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1000px;
   margin: 0 auto;
   background: #ffffff;
   border-radius: 15px;

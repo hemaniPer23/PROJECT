@@ -9,7 +9,8 @@
 }
 
 /* Form Container */
-.form-container {
+.form5-container {
+  width: 100%;
   max-width: 1000px;
   margin: 0 auto;
   background: rgba(255, 255, 255, 0.95);
@@ -282,6 +283,7 @@ h1 {
 
 .submit-btn, .clear-btn, .back-btn {
   padding: 14px 32px;
+  width: 300px;
   border: none;
   border-radius: 12px;
   cursor: pointer;
