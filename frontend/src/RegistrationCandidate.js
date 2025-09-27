@@ -512,7 +512,7 @@ export default function RegistrationCandidate() {
   return (
     <>
       <div className="bg-container">
-        <div className="form-container">
+        <div className="form5-container">
           <h1>
             අපේක්ෂකයින් ලියාපදිංචි කිරීමේ පත්‍රය<br />
             CANDIDATE REGISTRATION FORM
