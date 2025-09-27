@@ -1,58 +1,78 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Electionday8.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Css/Electionday8.css";
+import API from "./API"; // Import your API instance
 
-const Electionday8 = () => {
-  const [nic, setNic] = useState('');
+export default function Electionday8() {
+  const [nic, setNic] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleAttendance = () => {
-    console.log('Attendance clicked. NIC:', nic);
-    // Redirect to electionday10 page, passing NIC if needed
-    navigate('/electionday10', { state: { nic } });
-  };
-
-  const handleNext = (e) => {
+  // Handle Next Button
+  const handleNext = async (e) => {
     e.preventDefault();
-    console.log('Next clicked. NIC:', nic);
-    navigate('/electionday5', { state: { nic } });
+    setIsLoading(true);
+    setMessage("");
+
+    try {
+      const res = await API.get(`/api/voter/verify_voter.php?nic=${nic}`);
+      if (res.data.status === "success") {
+        navigate("/electionday5", { state: { voter: res.data.data } });
+      }
+    } catch (err) {
+      setMessage(err.response?.data?.message || "An error occurred.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="login-wrapper">
-      <div className="page-title">
-        <h1 className="title-sinhala">මැතිවරණ කොමිෂන් සභාව 2025</h1>
-        <h2 className="title-english">Election Commission 2025</h2>
+    <div className="login-wrapper-e8">
+      {/* Titles */}
+      <div className="page-title-e8">
+        <h1 className="title-sinhala-e8">මැතිවරණ කොමිෂන් සභාව 2025</h1>
+        <h2 className="title-english-e8">Election Commission 2025</h2>
       </div>
 
-      <div className="login-card">
-        <h1>Voter's</h1>
-        <form onSubmit={handleNext}>
-          <label htmlFor="nic">NIC :</label>
+      {/* Login Card */}
+      <div className="login-card-e8">
+        <h1 className="card-title-e8">Voter</h1>
+        <h1 className="card-title-e8">NIC Login</h1>
+
+        <form onSubmit={handleNext} className="form-e8">
+          <label htmlFor="nic" className="label-e8">NIC :</label>
           <input
             id="nic"
             type="text"
-            placeholder="Enter your NIC"
             value={nic}
             onChange={(e) => setNic(e.target.value)}
             required
+            disabled={isLoading}
+            className="input-e8"
           />
-          <div className="button-group">
+
+          {/* Buttons Row */}
+          <div className="button-row-e8">
+            <button type="submit" disabled={isLoading} className="next-btn-e8">
+              {isLoading ? "Searching..." : "Next"}
+            </button>
+          </div>
+
+          {/* Attendance Button Below */}
+          <div className="attendance-row-e8">
             <button
               type="button"
-              className="btn-attendance"
-              onClick={handleAttendance}
+              className="attendance-btn-e8"
+              onClick={() => navigate("/attendance")}
             >
               Attendance
             </button>
-            <button type="submit" className="btn-next">
-              Next
-            </button>
           </div>
         </form>
+
+        {message && <p className="error-message-e8">{message}</p>}
       </div>
     </div>
   );
-};
-
-export default Electionday8;
+}

@@ -5,7 +5,7 @@ html, body {
 }
 
 /* Container with a full-screen background image */
-.container {
+.container-loginhome {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@ html, body {
 }
 
 /* Full-screen background image behind content */
-.container::before {
+.container-loginhome::before {
   content: "";
   position: absolute;
   top: 0;
@@ -35,14 +35,14 @@ html, body {
 }
 
 /* Title styling */
-.title {
+.title-loginhome {
   margin: 10px 0;
   font-size: 1.8em;
-  color: #000; /* Black text color */
+  color:  #000 /* Black text color */
 }
 
 /* Button container with gap between buttons */
-.button-box {
+.button-box-loginhome {
   display: flex;
   gap: 20px;
   margin: 30px auto;
@@ -51,7 +51,7 @@ html, body {
 }
 
 /* Individual buttons */
-.lang-btn {
+.lang-btn-loginhome {
   background-color: #b800b8;
   color: white;
   border: none;
@@ -63,12 +63,12 @@ html, body {
 }
 
 /* Hover effect */
-.lang-btn:hover {
+.lang-btn-loginhome:hover {
   background-color: #990099;
 }
 
 /* Footer styling */
-.footer {
+.footer-loginhome {
   margin-top: auto;
   padding: 20px;
   font-size: 0.9em;

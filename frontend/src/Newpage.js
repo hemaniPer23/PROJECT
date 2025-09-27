@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import "./newpage.css";
+import "./Css/newpage.css";
 import backgroundImage from './image/bg4.jpg';
 
 function Newpage() {

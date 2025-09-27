@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from './image/bg4.jpg';
-import './election.css'; // CSS එක import කරන්න අමතක කරන්න එපා
+import './Css/election.css'; // CSS එක import කරන්න අමතක කරන්න එපා
 
 
 const districtOptions = {

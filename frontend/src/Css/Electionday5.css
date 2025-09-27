@@ -1,20 +1,13 @@
 body, html {
   margin: 0;
   padding: 0;
+  height: 100%;
   font-family: 'Segoe UI', sans-serif;
 }
 
-.confirmation-wrapper {
-  background-image: url('../image/Flag2.jpg'); /* Update path as needed */
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-  position: relative;
-  color: black;
-}
 
 /* Navbar */
-.navbar {
+.navbar-e5 {
   display: flex;
   justify-content: flex-end;
   gap: 20px;
@@ -22,56 +15,58 @@ body, html {
   font-weight: bold;
 }
 
-.navbar a {
+.navbar-e5 a {
   color: black;
   text-decoration: none;
 }
 
-.navbar a:hover {
+.navbar-e5 a:hover {
   color: #007bff;
 }
 
 /* Title Section */
-.page-title {
+.page-title-e5 {
   text-align: center;
   margin-top: 30px;
 }
 
-.title-sinhala {
+.title-sinhala-e5 {
   font-size: 28px;
   font-weight: bold;
 }
 
-.title-english {
+.title-english-e5 {
   font-size: 20px;
   font-weight: 600;
   margin-top: -10px;
 }
 
 /* Confirmation Card */
-.confirmation-card {
+.confirmation-card-e5 {
   background-color: rgba(255, 255, 255, 0.9);
-  width: 500px;
-  height: 450px;
+  width: 380px;
   padding: 30px;
   border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   position: absolute;
-  top: 60%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   box-sizing: border-box;
 }
 
-.confirmation-card label {
+.confirmation-card-e5 label {
   font-weight: bold;
   display: block;
   margin-top: 10px;
   margin-bottom: 4px;
+  width: 250px;   /* 🔹 Set your desired width */
+  height: 30px;   /* 🔹 Set your desired height */
+  line-height: 40px; /* 🔹 Vertically center text inside the height */
 }
 
-.id-display,
-.name-display {
+.id-display-e5,
+.name-display-e5,
+.address-display-e5 {
   background-color: #e6f0ff;
   padding: 8px 10px;
   border-radius: 6px;
@@ -80,13 +75,20 @@ body, html {
   color: #004080;
 }
 
-/* Confirm Button */
-.btn-confirm {
-  background-color: #007bff;
+/* Buttons Group */
+.button-group-e5 {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Cancel Button */
+.btn-cancel-e5 {
+  background-color: #dc3545;
   color: white;
   font-size: 16px;
   padding: 12px;
-  width: 100%;
+  flex: 1;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -94,6 +96,33 @@ body, html {
   transition: background 0.3s ease;
 }
 
-.btn-confirm:hover {
-  background-color: #0056b3;
+.btn-cancel-e5:hover {
+  background-color: #a71d2a;
+}
+
+/* Confirm Button */
+.btn-confirm-e5 {
+  background-color: #990099;
+  color: white;
+  font-size: 16px;
+  padding: 12px;
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  
+}
+
+.btn-confirm-e5:hover {
+  background-color: #990099;
+}
+
+/* Feedback message */
+.feedback-message-e5 {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #333;
 }

@@ -156,7 +156,7 @@
 // export default Island;
 import React, { useEffect, useState } from "react";
 import API from "./API";
-import "./island.css";
+import "./Css/island.css";
 import backgroundImage from './image/Flag3.jpg';
 
 const Island = () => {

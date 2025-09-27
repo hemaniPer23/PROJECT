@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Electionday9.css"; // Make sure this file exists and the path is correct
+import "./Css/Electionday9.css"; // Make sure this file exists and the path is correct
 
 export default function Electionday9() {
   const navigate = useNavigate();
@@ -13,32 +13,34 @@ export default function Electionday9() {
   };
 
   return (
-    <div className="login-container">
-      <h1 className="title">මැතිවරණ කොමිෂන් සභාව</h1>
-      <h2 className="title">Election Commission</h2>
+    <div className="login-container-e9">
+      <h1 className="title-e9">මැතිවරණ කොමිෂන් සභාව</h1>
+      <h2 className="title-e9">Election Commission</h2>
 
-      <div className="login-box">
-        <h3 className="login-title">Login</h3>
+      <div className="login-box-e9">
+        <h3 className="login-title-e9">Login</h3>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             name="username"
             placeholder="පරිශීලක නාමය / Username"
             required
+            className="input-e9"
           />
           <input
             type="password"
             name="password"
             placeholder="මුර පදය / Password"
             required
+            className="input-e9"
           />
-          <button type="submit" className="lang-btn">
+          <button type="submit" className="lang-btn-e9">
             Login
           </button>
         </form>
       </div>
 
-      <footer className="footer">
+      <footer className="footer-e9">
         &copy; 2025 Election Commission of Sri Lanka
       </footer>
     </div>
