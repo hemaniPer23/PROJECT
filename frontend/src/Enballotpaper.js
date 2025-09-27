@@ -1,24 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from './image/bg3.jpg';
-import API from './API.js'; 
 
-const Ballotpaper = () => {
+const Enballotpaper = () => {
   const navigate = useNavigate();
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [selectedRanks, setSelectedRanks] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [candidates, setCandidates] = useState([]);
 
-  useEffect(() => {
-    API.get('/api/candidate/get_candidates.php')
-      .then(response => {
-        if (response.data.data) {
-          setCandidates(response.data.data);
-        }
-      })
-      .catch(error => console.error('Error fetching candidates:', error));
-  }, []);
+  const candidates = [
+    {
+      id: 1,
+      name: 'Shantha Handapana',
+      icon: '/icon/Freedom_And_Wisdom_Alliance.jpeg',
+      photo: '/Photor/Shantha_Handapana.jpg'
+    },
+    {
+      id: 2,
+      name: 'Parama Piwithuru Kusalarachchi',
+      icon: '/icon/National_Unity_Front.jpeg',
+      photo: '/Photor/Parama_Piwithuru_Kusalarachchi.jpg'
+    },
+    {
+      id: 3,
+      name: 'Arunachalam Perera',
+      icon: '/icon/National_Dawn_Front.jpeg',
+      photo: '/Photor/Arunachalam_Perera.jpg'
+    },
+    {
+      id: 4,
+      name: 'Sumana Boralugoda',
+      icon: '/icon/Independent_Women_Party.jpeg',
+      photo: '/Photor/Sumana_Boralugoda.jpg'
+    }
+  ];
 
   const handleSingleSelect = (id) => {
     setSelectedCandidate(id);
@@ -37,7 +52,7 @@ const Ballotpaper = () => {
   const handleSubmit = () => {
     const selectedCount = Object.keys(selectedRanks).length;
     if (selectedCount < 3) {
-      alert("කරුණාකර අපේක්ෂකයෙකු හෝ කැමැත්ත මත අනුපිලිවෙලින් මනාප ලබා දෙන්න.");
+      alert("Please give your preference in order of preference for a candidate or Candidates.");
       return;
     }
     setSubmitted(true);
@@ -66,9 +81,7 @@ const Ballotpaper = () => {
       padding: "10px 20px",
       borderRadius: 6,
       border: "1px solid #ccc",
-      cursor: "pointer",
-      fontSize: 24,
-      
+      cursor: "pointer"
     },
     iconImage: {
       width: 60,
@@ -112,7 +125,7 @@ const Ballotpaper = () => {
 
   const style = {
     backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: '1370px 650px',
+    backgroundSize: '1250px 700px',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     minHeight: '100vh',
@@ -121,16 +134,16 @@ const Ballotpaper = () => {
 
   return (
     <div style={style}>
-      <nav class="nav"> 
-            <a href="/">Home</a>
-            <a href="ballotpaper">Previas</a>
-            <a href="Contact">Contact</a>
-           </nav>
+      <nav className="nav">
+        <a href="/">Home</a>
+        <a href="enballotpaper">Previas</a>
+        <a href="Contact">Contact</a>
+      </nav>
 
       <div style={styles.container}>
         {!submitted ? (
           <>
-            <h2 style={{ textAlign: 'center' }}>අපේක්ෂකයෙකු තෝරන්න හෝ මනාප සපයන්න</h2>
+            <h2 style={{ textAlign: 'center' }}>Choose A Candidate Or Cast Your Vote</h2>
             <div style={styles.ballot}>
               {candidates.map((candidate) => (
                 <div
@@ -155,15 +168,15 @@ const Ballotpaper = () => {
                   </div>
                 </div>
               ))}
-              <button style={styles.button} onClick={handleSubmit}>ඉදිරියට යන්න</button>
+              <button style={styles.button} onClick={handleSubmit}> Next</button>
             </div>
           </>
         ) : (
-      <div style={styles.result}>
-  {selectedCandidate ? (
-    <>
-      <h2>ඔබ තෝරාගත් අපේක්ෂකයා</h2>
-      <div style={{ display: 'flex',flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+          <div style={styles.result}>
+            {selectedCandidate ? (
+              <>
+                <h2>Your Choosen Candidate</h2>
+                <div style={{ display: 'flex',flexDirection: 'column', alignItems: 'center', gap: 8 }}>
         <img 
           src={candidates.find(c => c.id === selectedCandidate)?.photo} 
           alt="selected" 
@@ -180,18 +193,18 @@ const Ballotpaper = () => {
         {candidates.find(c => c.id === selectedCandidate)?.name}
       </p>
       <button style={styles.button} onClick={() => navigate('/thankyou')}>
-        නිවැරදි
+        Confirm
       </button>
     </>
-  ) : (
-    <>
-      <h2>ඔබගේ මනාප අනුපිළිවෙල</h2>
-      {Object.entries(selectedRanks)
-        .sort(([, a], [, b]) => a - b)
-        .map(([id, rank]) => {
-          const c = candidates.find((cand) => cand.id.toString() === id);
-          return (
-            <div key={id} style={{ marginBottom: 20, display: 'flex',flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+            ) : (
+              <>
+                <h2>Your Order Of Preference</h2>
+                {Object.entries(selectedRanks)
+                  .sort(([, a], [, b]) => a - b)
+                  .map(([id, rank]) => {
+                    const c = candidates.find((cand) => cand.id.toString() === id);
+                    return (
+                       <div key={id} style={{ marginBottom: 20, display: 'flex',flexDirection: 'column', alignItems: 'center', gap: 8 }}>
               
               <img src={c.photo} alt="selected" style={styles.profileImage} />
               
@@ -207,7 +220,7 @@ const Ballotpaper = () => {
           );
         })}
       <button style={styles.button} onClick={() => navigate('/thankyou')}>
-        නිවැරදි
+        Confirm
          </button>
          </>
           )}
@@ -218,4 +231,4 @@ const Ballotpaper = () => {
   );
 };
 
-export default Ballotpaper;
+export default Enballotpaper;
