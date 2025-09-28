@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import backgroundImage from './image/bg3.jpg';
 
 const Thankyou = () => {
- 
+  const navigate = useNavigate(); // Initialize the navigate function
 
+  // useEffect hook to handle the timed navigation
+  useEffect(() => {
+    // Set a timer for 3000 milliseconds (3 seconds)
+    const timer = setTimeout(() => {
+      // Navigate to the '/acceptence' route after the timer ends
+      // Make sure you have a route set up for '/acceptence' in your router configuration
+      navigate('/accept'); 
+    }, 3000);
+
+    // Cleanup function: This will clear the timer if the component
+    // unmounts before the 3 seconds are up. This is a best practice
+    // to prevent memory leaks.
+    return () => clearTimeout(timer);
+  }, [navigate]); // The effect depends on the navigate function
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>

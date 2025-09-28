@@ -107,7 +107,8 @@ const Enballotpaper = () => {
       border: "none",
       borderRadius: 8,
       cursor: "pointer",
-      fontSize: 18
+      fontSize: 18,
+      width:400
     },
     result: {
       textAlign: "center",
@@ -125,19 +126,20 @@ const Enballotpaper = () => {
 
   const style = {
     backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: '1250px 700px',
+    backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     minHeight: '100vh',
-    width: '100%'
+    width: '100%',
+    position: 'relative'
   };
 
   return (
     <div style={style}>
       <nav className="nav">
-        <a href="/">Home</a>
-        <a href="enballotpaper">Previas</a>
-        <a href="Contact">Contact</a>
+        
+        <a href="enballotpaper">Back</a>
+        
       </nav>
 
       <div style={styles.container}>
@@ -168,8 +170,11 @@ const Enballotpaper = () => {
                   </div>
                 </div>
               ))}
+              <div style={{display: "flex", justifyContent: "center"}}>
               <button style={styles.button} onClick={handleSubmit}> Next</button>
+              </div>
             </div>
+              
           </>
         ) : (
           <div style={styles.result}>

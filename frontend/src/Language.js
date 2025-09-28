@@ -7,20 +7,21 @@ function Language() {
   const navigate = useNavigate();
      const style = {
               backgroundImage: `url(${backgroundImage})`,
-              backgroundSize: '1370px 650px',
+              backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
               minHeight: '100vh',
               width: '100%',
+              position: 'relative'
             } 
   return (
    
     <div>
        <div style={style}>
          <nav class="nav"> 
-            <a href="/">Home</a>
-            <a href="About">About</a>
-            <a href="Contact">Contact</a>
+            
+            <a href="accept">Back</a>
+            
            </nav>
 
    

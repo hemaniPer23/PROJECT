@@ -7,24 +7,19 @@ function Newpage() {
   const navigate = useNavigate();
      const style = {
               backgroundImage: `url(${backgroundImage})`,
-              backgroundSize: '1370px 650px',
+              backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
               minHeight: '100vh',
               width: '100%',
+              position: 'relative'
             } 
   return (
    
     <div>
        <div style={style}>
-         <nav class="nav"> 
-            <a href="/">Home</a>
-            <a href="About">About</a>
-            <a href="Contact">Contact</a>
-           </nav>
-
-   
-           <h1 style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center' }}>
+         
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center' }}>
         මැතිවරණ කොමිෂන් සභාව <strong>2025</strong>
       </h1>
       <h2 style={{ textAlign: 'center', marginTop: '1rem' }}>
