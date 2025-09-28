@@ -50,23 +50,24 @@ export default function Election() {
 
   const style = {
     backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: '1370px 650px',
+    backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     minHeight: '100vh',
     width: '100%',
-    padding: '2rem'
+    padding: '2rem',
+    position: 'relative'
   };
 
   return (
     <div style={style}>
         <nav class="nav"> 
-            <a href="/">Home</a>
-            <a href="newpage">Previas</a>
-            <a href="Contact">Contact</a>
+            
+            <a href="newpage">Back</a>
+            
            </nav>
       <h1 className="title">දිස්ත්‍රික් සහ ආසන මට්ටමේ ප්‍රතිඵල</h1>
-
+      <br></br><br></br><br></br>
       <div className="district-grid">
         {Object.keys(districtOptions).map((district) => (
           <button

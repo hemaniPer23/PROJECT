@@ -211,11 +211,12 @@ const Island = () => {
 
   const style = {
     backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: '1370px 650px',
+    backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     minHeight: '100vh',
     width: '100%',
+    position: 'relative'
   };
 
   if (loading) {
@@ -251,9 +252,9 @@ const Island = () => {
   return (
     <div >
       <nav className="nav"> 
-        <a href="/">Home</a>
-        <a href="About">About</a>
-        <a href="Contact">Contact</a>
+        
+        <a href="newpage">Back</a>
+        
       </nav>
 
       <div className="title">

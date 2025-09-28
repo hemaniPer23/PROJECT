@@ -46,14 +46,22 @@ const Accept = () => {
   }, [verifiedVoter]);
 
 
-  const handleAccess = async () => {
+  /*const handleAccess = async () => {
 
     // If a verified voter is found, update their status to 'Voted'
-    await API.put('/api/voter/change_voter_status.php', { nic: verifiedVoter.nic });
+   // await API.put('/api/voter/change_voter_status.php', { nic: verifiedVoter.nic });
+
 
     // Navigate to the ballot paper
     navigate('/ballotpaper', { state: { voter: verifiedVoter } });
-  };
+  }; */
+
+  const handleAccess = async () => {
+  if (verifiedVoter && verifiedVoter.nic) {
+    localStorage.setItem('nic', verifiedVoter.nic);
+  }
+  navigate('/ballotpaper', { state: { voter: verifiedVoter } });
+};
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
