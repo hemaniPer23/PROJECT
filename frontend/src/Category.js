@@ -7,9 +7,10 @@ export default function Category() {
 
   return (
     <div className="category-container">
-      <br /> <br /> <br /> <br /> <br />
-
-      <h1 className="category-title">Menu</h1>
+      <h1 className="category-title">
+        මැතිවරණ කොමිෂන් සභාව <br />
+        Election Commission
+      </h1>
 
       <div className="category-button-group">
         <button
@@ -19,7 +20,6 @@ export default function Category() {
           Registration
         </button>
 
-        {/* ✅ Updated route to electionday2 */}
         <button
           className="category-election-button"
           onClick={() => navigate('/electionday2')}

@@ -7,18 +7,21 @@
   padding: 20px;
   font-family: Arial, sans-serif;
 
-  /* Background image styling */
+  /* Background image */
   background-image: url('../image/Flag2.jpg'); /* Replace with your image path */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: white; /* Ensures text is visible over the image */
+  background-size: cover;       /* Cover entire container */
+  background-position: center;  /* Center the image */
+  background-repeat: no-repeat; /* Prevent tiling */
+  
+  color: #000; /* Dark text for visibility */
 }
 
 .category-title {
-  font-size: 40px;
-  margin-bottom: 100px;
-  color: rgba(175, 91, 91, 0.9);
+  font-size: 36px;
+  margin-bottom: 80px;
+  color: black; /* Dark purple text */
+  text-align: center;
+  font-weight: bold;
 }
 
 .category-button-group {
@@ -26,7 +29,7 @@
   flex-direction: column;
   gap: 15px;
   width: 250px;
-  margin-bottom: 300px;
+  margin-bottom: 50px;
 }
 
 .category-menu-button {
@@ -40,14 +43,16 @@
   transition: background-color 0.3s ease;
 }
 
+/* Registration button: purple */
 .category-registration-button {
-  background-color: #1edd4e;
+  background-color: #6f42c1; /* Purple */
 }
 
 .category-registration-button:hover {
-  background-color: #0056b3;
+  background-color: #563d7c; /* Darker purple on hover */
 }
 
+/* Election button: yellow/orange */
 .category-election-button {
   background-color: #ffc107;
 }
@@ -56,6 +61,7 @@
   background-color: #e0a800;
 }
 
+/* Result button: green */
 .category-result-button {
   background-color: #28a745;
 }
@@ -64,8 +70,8 @@
   background-color: #1e7e34;
 }
 
-.category-category-footer {
+.category-footer {
   position: absolute;
   bottom: 20px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.7);
 }
