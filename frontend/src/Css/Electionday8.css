@@ -1,0 +1,121 @@
+/* Wrapper */
+.login-wrapper-e8 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: url("../image/Flag2.jpg") no-repeat center center/cover;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Title */
+.page-title-e8 {
+  
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title-sinhala-e8 {
+  
+  font-size: 22px;
+  font-weight: bold;
+  color: black;
+}
+
+.title-english-e8 {
+  font-size: 18px;
+  margin-top: 5px;
+}
+
+/* Login Card */
+.login-card-e8 {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+  width: 540px;
+}
+
+/* Card Titles */
+.card-title-e8 {
+  margin: 5px 0;
+}
+
+/* Input */
+.input-e8 {
+  width: 100%;
+  padding: 10px;
+  margin: 15px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+/* Form */
+.form-e8 {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.label-e8 {
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Buttons Row */
+.button-row-e8 {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+/* Common Button Style */
+.btn-e8 {
+  width: 150px; /* Equal width for all buttons */
+  padding: 10px 0; /* Vertical padding */
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  color: white;
+}
+
+/* Next Button Color */
+.next-btn-e8 {
+  background-color: #990099;
+  width: 28%;
+}
+
+.next-btn-e8:hover {
+  background-color: #990099;
+}
+
+/* Attendance Button Color */
+.attendance-btn-e8 {
+  background-color: #990099;
+}
+
+.attendance-btn-e8:hover {
+  background-color: #990099;
+}
+
+/* Attendance Row */
+.attendance-row-e8 {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Error Message */
+.error-message-e8 {
+  color: red;
+  margin-top: 10px;
+}

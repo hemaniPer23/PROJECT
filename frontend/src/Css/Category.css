@@ -18,10 +18,10 @@
 .category-title {
   font-size: 40px;
   margin-bottom: 100px;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(175, 91, 91, 0.9);
 }
 
-.button-group {
+.category-button-group {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -29,7 +29,7 @@
   margin-bottom: 300px;
 }
 
-.menu-button {
+.category-menu-button {
   padding: 14px 20px;
   border: none;
   border-radius: 12px;
@@ -40,31 +40,31 @@
   transition: background-color 0.3s ease;
 }
 
-.registration-button {
-  background-color: #007bff;
+.category-registration-button {
+  background-color: #1edd4e;
 }
 
-.registration-button:hover {
+.category-registration-button:hover {
   background-color: #0056b3;
 }
 
-.election-button {
+.category-election-button {
   background-color: #ffc107;
 }
 
-.election-button:hover {
+.category-election-button:hover {
   background-color: #e0a800;
 }
 
-.result-button {
+.category-result-button {
   background-color: #28a745;
 }
 
-.result-button:hover {
+.category-result-button:hover {
   background-color: #1e7e34;
 }
 
-.footer {
+.category-category-footer {
   position: absolute;
   bottom: 20px;
   color: rgba(255, 255, 255, 0.7);

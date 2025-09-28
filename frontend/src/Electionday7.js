@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Import navigation hook
-import './Electionday7.css'; // Ensure this path is correct
+import './Css/Electionday7.css'; // Ensure this path is correct
 
 export default function Electionday1() {
   const navigate = useNavigate(); // Initialize navigation

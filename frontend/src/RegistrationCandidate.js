@@ -789,7 +789,7 @@ export default function RegistrationCandidate() {
               </tbody>
             </table>
 
-            <div className="button-group">
+            <div className="button-group-c">
               <button type="submit" className="submit-btn" disabled={loading}>
                 {loading ? (
                   <>
@@ -800,10 +800,10 @@ export default function RegistrationCandidate() {
                   'Register Candidate'
                 )}
               </button>
-              <button type="button" className="clear-btn" onClick={handleClear}>
+              <button type="button" className="clear-btn-c" onClick={handleClear}>
                 Clear Form
               </button>
-              <button type="button" className="back-btn" onClick={handleBack}>
+              <button type="button" className="back-btn-c" onClick={handleBack}>
                 Back
               </button>
             </div>

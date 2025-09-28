@@ -1,5 +1,5 @@
 import React from 'react';
-import './Electionday10.css';
+import './Css/Electionday10.css';
 
 export default function Electionday10({ voted = 300, nonVoted = 700 }) {
   const total = voted + nonVoted;

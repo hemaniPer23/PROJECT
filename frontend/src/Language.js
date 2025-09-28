@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import "./language.css";
+import "./Css/language.css";
 import backgroundImage from './image/bg4.jpg';
 
 function Language() {
