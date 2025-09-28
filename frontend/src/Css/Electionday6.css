@@ -1,24 +1,27 @@
 /* Base Styles */
-body {
+body, html {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #d6e5d8;
 }
 
-/* Container with background image */
+/* Container with plain background image */
 .container {
   width: 100%;
   height: 100vh;
-  background-image: url('../image/Flag3.jpg'); /* Update as needed */
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  padding: 0;
+   /* Replace with your image path */
+  background-size: cover;       /* Cover entire container */
+  background-position: center;  /* Center the image */
+  background-repeat: no-repeat; /* Prevent tiling */
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align content from top */
 }
 
-/* Title section always at the top */
+/* Title section at the top */
 .title-section {
   text-align: center;
   padding-top: 20px;
@@ -28,7 +31,7 @@ body {
 .title-sinhala {
   font-size: 2rem;
   font-weight: bold;
-  color: #000;
+  color: #000; /* Change if text not visible */
   margin: 0;
 }
 
@@ -39,7 +42,7 @@ body {
   margin-bottom: 16px;
 }
 
-/* Loader centered */
+/* Loader (optional) */
 .loader {
   flex: 1;
   display: flex;
@@ -52,18 +55,11 @@ body {
   height: 100px;
 }
 
-/* Main content box */
-.overlay {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
+/* Main content box without overlay or transparency */
 .content {
-  background-color: rgba(255, 255, 255, 0.85);
-  padding: 40px;
-  border-radius: 12px;
   text-align: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  padding: 20px;
+  border-radius: 0; /* No rounded corners */
+  background: none; /* Remove overlay background */
+  box-shadow: none; /* Remove shadow */
 }

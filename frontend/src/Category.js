@@ -7,35 +7,35 @@ export default function Category() {
 
   return (
     <div className="category-container">
-      <br /> <br /> <br /> <br /> <br />
+      <h1 className="category-title">
+        මැතිවරණ කොමිෂන් සභාව <br />
+        Election Commission
+      </h1>
 
-      <h1 className="category-title">Menu</h1>
-
-      <div className="button-group">
+      <div className="category-button-group">
         <button
-          className="menu-button registration-button"
+          className="category-registration-button"
           onClick={() => navigate('/registrationlogin')}
         >
           Registration
         </button>
 
-        {/* ✅ Updated route to electionday2 */}
         <button
-          className="menu-button election-button"
+          className="category-election-button"
           onClick={() => navigate('/electionday2')}
         >
           Election Day
         </button>
 
         <button
-          className="menu-button result-button"
+          className="category-result-button"
           onClick={() => navigate('/LoginPage')}
         >
           View Result
         </button>
       </div>
 
-      <footer className="footer">
+      <footer className="category-footer">
         &copy; 2025 Election Commission of Sri Lanka
       </footer>
     </div>

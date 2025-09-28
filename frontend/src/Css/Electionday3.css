@@ -1,129 +1,90 @@
+/* Full page centered layout */
 .timer-container {
-  max-width: 480px;
-  margin: 50px auto;
-  padding: 32px 28px;
-  background: linear-gradient(135deg, rgba(224, 242, 241, 0.8), rgba(165, 214, 167, 0.8)),
-              url('../image/Flag3.jpg'); /* Replace with your actual image path */
+  display: flex;
+  justify-content: center;   /* horizontally */
+  align-items: center;       /* vertically */
+  height: 100vh;
+  background: url("../image/Flag2.jpg") no-repeat center center;
   background-size: cover;
-  background-position: center;
-  border-radius: 16px;
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.12),
-    inset 0 0 50px #81c784aa;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  color: #1b3a2d;
-  user-select: none;
-  transition: transform 0.3s ease;
+  padding: 20px;
 }
 
-.timer-container:hover {
-  transform: translateY(-6px);
+/* Centered content box */
+.timer-box {
+  background: rgba(255, 255, 255, 0.92);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  max-width: 600px;
+  width: 90%;
 }
 
+/* Titles */
 .title-sinhala {
-  font-size: 2.6rem;
-  font-weight: 900;
-  color: #2e7d32;
-  margin-bottom: 4px;
-  font-family: 'Noto Serif Sinhala', serif;
-  text-shadow: 1px 1px 3px #a5d6a7cc;
-  letter-spacing: 0.05em;
+  font-size: 1.8em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #4b006e;
 }
 
 .title-english {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #388e3c;
-  margin-bottom: 36px;
-  letter-spacing: 0.03em;
+  font-size: 1.4em;
+  margin-bottom: 20px;
+  color: #333;
 }
 
+/* Timer setup */
 .timer-setup h2 {
-  font-weight: 700;
-  color: #1b5e20;
-  margin-bottom: 28px;
-  font-size: 1.6rem;
-  letter-spacing: 0.02em;
+  margin-bottom: 15px;
+  color: #b800b8;
 }
 
 .time-inputs {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 18px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
-.time-inputs input[type="datetime-local"] {
-  padding: 12px 18px;
-  font-size: 1.1rem;
-  border: 2.5px solid #66bb6a;
-  border-radius: 10px;
-  box-shadow: inset 0 2px 5px #b2dfdbaa;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  min-width: 180px;
+.time-inputs input {
+  padding: 10px;
+  font-size: 1em;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
-.time-inputs input[type="datetime-local"]:focus {
-  border-color: #2e7d32;
-  box-shadow: 0 0 8px #388e3caa;
-  outline: none;
+.time-inputs input:disabled {
+  background: #f0f0f0;
+  color: #666;
 }
 
-.time-inputs span {
-  font-weight: 700;
-  color: #2e7d32;
-  font-size: 1.3rem;
-  user-select: none;
-}
-
+/* Start button */
 .start-button {
-  background-color: #2e7d32;
+  background-color: #b800b8;
   color: white;
-  padding: 14px 38px;
-  font-size: 1.25rem;
   border: none;
-  border-radius: 12px;
+  padding: 12px 30px;
+  font-size: 1em;
+  border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 6px 12px #1b5e2077;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  transition: background-color 0.3s;
 }
 
-.start-button:hover {
-  background-color: #1b5e20;
-  box-shadow: 0 10px 18px #0d3d0caa;
+.start-button:hover:not(:disabled) {
+  background-color: #990099;
 }
 
-.timer-display p {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #1b5e20;
-  margin-top: 40px;
-  letter-spacing: 0.05em;
-  text-shadow: 1px 1px 2px #a5d6a7cc;
+.start-button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
 }
 
-@media (max-width: 520px) {
-  .timer-container {
-    margin: 30px 16px;
-    padding: 28px 20px;
-  }
-
-  .time-inputs {
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .time-inputs input[type="datetime-local"] {
-    min-width: 100%;
-  }
-
-  .start-button {
-    width: 100%;
-  }
+/* Messages */
+.message {
+  margin-top: 20px;
+  font-size: 1.1em;
+  color: #333;
 }
