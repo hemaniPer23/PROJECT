@@ -128,31 +128,65 @@ if (!$electoralDivision || !$pollingDivision) {
     exit();
 }
 
-$sql = "
-     SELECT c.Candidate_UserName_Sinhala, 
-           c.Party_Id, 
-           c.Image,
-           COUNT(v.Candidate_ID) AS total_votes
-    FROM candidate c
-    JOIN vote v ON c.Candidate_Id = v.Candidate_ID
-    JOIN divisions d ON v.Division_ID = d.Division_ID
-    WHERE d.Electoral_Division = :electoralDivision
-      AND d.Polling_Division = :pollingDivision
-      AND d.IsActive = 1
-      AND v.Preference = 1
-    GROUP BY c.Candidate_UserName_Sinhala, c.Party_Id, c.Image
-    ORDER BY total_votes DESC
-";
+// If PollingDivision == "District" → aggregate all polling divisions in that electoral division
+if (strtolower($pollingDivision) === 'district') {
+    $sql = "
+        SELECT 
+            c.Candidate_UserName_Sinhala, 
+            c.Image,
+            p.PartyName_Sinhala,
+            p.Party_Colour,
+            COUNT(v.Candidate_ID) AS total_votes,
+            ROUND(
+                (COUNT(v.Candidate_ID) * 100.0 / SUM(COUNT(v.Candidate_ID)) OVER ()), 
+                2
+            ) AS percentage_votes
+        FROM candidate c
+        JOIN vote v ON c.Candidate_Id = v.Candidate_ID
+        JOIN divisions d ON v.Division_ID = d.Division_ID
+        LEFT JOIN party p ON c.Party_ID = p.Party_ID
+        WHERE d.Electoral_Division = :electoralDivision
+          AND d.IsActive = 1
+          AND v.Preference = 1
+        GROUP BY c.Candidate_UserName_Sinhala, c.Party_Id, c.Image, p.PartyName_Sinhala, p.Party_Colour
+        ORDER BY total_votes DESC
+    ";
+    
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':electoralDivision', $electoralDivision);
+} else {
+    // Normal polling division results
+    $sql = "
+        SELECT 
+            c.Candidate_UserName_Sinhala, 
+            c.Image,
+            p.PartyName_Sinhala,
+            p.Party_Colour,
+            COUNT(v.Candidate_ID) AS total_votes,
+            ROUND(
+                (COUNT(v.Candidate_ID) * 100.0 / SUM(COUNT(v.Candidate_ID)) OVER ()), 
+                2
+            ) AS percentage_votes
+        FROM candidate c
+        JOIN vote v ON c.Candidate_Id = v.Candidate_ID
+        JOIN divisions d ON v.Division_ID = d.Division_ID
+        LEFT JOIN party p ON c.Party_ID = p.Party_ID
+        WHERE d.Electoral_Division = :electoralDivision
+          AND d.Polling_Division = :pollingDivision
+          AND d.IsActive = 1
+          AND v.Preference = 1
+        GROUP BY c.Candidate_UserName_Sinhala, c.Party_Id, c.Image, p.PartyName_Sinhala, p.Party_Colour
+        ORDER BY total_votes DESC
+    ";
 
-$stmt = $db->prepare($sql);
-
-// Bind parameters (PDO syntax)
-$stmt->bindValue(':electoralDivision', $electoralDivision);
-$stmt->bindValue(':pollingDivision', $pollingDivision);
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':electoralDivision', $electoralDivision);
+    $stmt->bindValue(':pollingDivision', $pollingDivision);
+}
 
 $stmt->execute();
-
 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 echo json_encode($data);
+
 ?>

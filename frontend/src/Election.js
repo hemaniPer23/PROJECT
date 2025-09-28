@@ -5,31 +5,31 @@ import './election.css'; // CSS එක import කරන්න අමතක ක�
 
 
 const districtOptions = {
-  "Vavnia": [" District"," Vavuniya","Vavuniya North","Vavuniya South","Nedunkeni"],
-  "Mannar": [" District","Mannar","Madhu","Musali"],
-  "Nuwara Eliya": [" District","Kotmale","Hanguranketha","Walapane","Hatton","Talawakele"],
-  "Kaluthara": [" District","Beruwala","Kalutara","Panadura","Bandaragama","Matugama"],
-  "Colombo": [" District","Borella","Kaduwela","Dehiwala","Ratmalana","Moratuwa","Homagama"],
-  "Trincomalee": [" District","Trincomalee Town","Kantalai","Kinniya","Muttur"],
-  "Mulativu": [" District","Puthukkudiyiruppu","Oddusuddanය"],
-  "Kurunegala": [" District","Panduwasnuwara","Nikaweratiya","Pannala","Kuliyapitiya","Hettipola"],
-  "Jaffna": [" District","Point Pedro","Chavakachcheri","Nallur","Jaffna","Kilinochchi"],
-   "Batticoloa": [" District","Batticaloa","Kattankudy","Eravur","Valachchenai","Valaichenai"],
-  "Rathnapura": [" District","Ratnapura","Kuruwita","Balangoda","Embilipitiya","Kolonna","Pelmadulla"],
-  "Monaragala": [" District","Wellawaya","Bibile","Madulla","Siyambalanduwa","Badalkumbura"],
-  "Kilinochchi": [" District","Kandavalai","Karachchi"],
-  "Hambantota": [" District","Tangalle","Beliatta","Walasmulla","Weeraketiya","Ambalantota"],
-  "Badulla": [" District","Badulla","Bandarawela","Welimada","Hali Ela","Passara"],
-  "Puttalam": [" District","Chilaw","Puttalam","Wennappuwa","Nattandiya","Anamaduwa"],
-  "Matara": [" District","Kamburupitiya","Hakmana","Weligama","Akuressa","Dikwella"],
-   "Kegalle":  [" District","Ruwanwella","Dehiowita","Yatiyantota","Aranayaka","Mawanella"],
-  "Gampaha": [" District","Minuwangoda","Gampaha","Dompe","Attanagalla","Ja-Ela"],
-  "Anuradhapura": [" District","Kekirawa","Mihintale","Medawachchiya","Thambuttegama","Horowpothana"],
-  "Polonnaruwa": [" District","Medirigiriya","Lankapura","Dimbulagala","Hingurakgoda","Polonnaruwa"],
-  "Matale": [" District","Rattota","Ukuwela","Yatawatta","Ambanganga Korale","Laggala-Pallegama"],
-  "Kandy": [" District","Gampola","Nawalapitiya","Udunuwara","Yatinuwara","Senkadagala"],
-  "Galle": [" District","Ambalangoda","Karandeniya","Bentara-Elpitiya","Hiniduma","Ratgama"],
-  "Ampara": [" District","Ampara","Kalmunai","Samanthurai","Akkaraipattu","Pottuvil"]
+  "Vavnia": ["District"," Vavuniya","Vavuniya North","Vavuniya South","Nedunkeni"],
+  "Mannar": ["District","Mannar","Madhu","Musali"],
+  "Nuwara Eliya": ["District","Kotmale","Hanguranketha","Walapane","Hatton","Talawakele"],
+  "Kaluthara": ["District","Beruwala","Kalutara","Panadura","Bandaragama","Matugama"],
+  "Colombo": ["District","Borella","Kaduwela","Dehiwala","Ratmalana","Moratuwa","Homagama"],
+  "Trincomalee": ["District","Trincomalee Town","Kantalai","Kinniya","Muttur"],
+  "Mulativu": ["District","Puthukkudiyiruppu","Oddusuddanය"],
+  "Kurunegala": ["District","Panduwasnuwara","Nikaweratiya","Pannala","Kuliyapitiya","Hettipola"],
+  "Jaffna": ["District","Point Pedro","Chavakachcheri","Nallur","Jaffna","Kilinochchi"],
+   "Batticoloa": ["District","Batticaloa","Kattankudy","Eravur","Valachchenai","Valaichenai"],
+  "Rathnapura": ["District","Ratnapura","Kuruwita","Balangoda","Embilipitiya","Kolonna","Pelmadulla"],
+  "Monaragala": ["District","Wellawaya","Bibile","Madulla","Siyambalanduwa","Badalkumbura"],
+  "Kilinochchi": ["District","Kandavalai","Karachchi"],
+  "Hambantota": ["District","Tangalle","Beliatta","Walasmulla","Weeraketiya","Ambalantota"],
+  "Badulla": ["District","Badulla","Bandarawela","Welimada","Hali Ela","Passara"],
+  "Puttalam": ["District","Chilaw","Puttalam","Wennappuwa","Nattandiya","Anamaduwa"],
+  "Matara": ["District","Kamburupitiya","Hakmana","Weligama","Akuressa","Dikwella"],
+   "Kegalle":  ["District","Ruwanwella","Dehiowita","Yatiyantota","Aranayaka","Mawanella"],
+  "Gampaha": ["District","Minuwangoda","Gampaha","Dompe","Attanagalla","Ja-Ela"],
+  "Anuradhapura": ["District","Kekirawa","Mihintale","Medawachchiya","Thambuttegama","Horowpothana"],
+  "Polonnaruwa": ["District","Medirigiriya","Lankapura","Dimbulagala","Hingurakgoda","Polonnaruwa"],
+  "Matale": ["District","Rattota","Ukuwela","Yatawatta","Ambanganga Korale","Laggala-Pallegama"],
+  "Kandy": ["District","Gampola","Nawalapitiya","Udunuwara","Yatinuwara","Senkadagala"],
+  "Galle": ["District","Ambalangoda","Balapitiya","Karandeniya","Bentara-Elpitiya","Hiniduma","Ratgama"],
+  "Ampara": ["District","Ampara","Kalmunai","Samanthurai","Akkaraipattu","Pottuvil"]
 };
 
 export default function Election() {
@@ -59,7 +59,7 @@ export default function Election() {
   };
 
   return (
-    <div style={style}>
+    <div >
         <nav class="nav"> 
             <a href="/">Home</a>
             <a href="newpage">Previas</a>
@@ -81,7 +81,7 @@ export default function Election() {
                 "Northern": "උතුරු පළාත",
                 "Vavnia": "වවුනියාව",
                 "Mannar": "මන්නාරම",
-                "Nuwara Eliya": "නුවර එළිය",
+                "Nuwara Eliya": "නුවරඑළිය",
                 "Kaluthara": "කළුතර",
                 "Colombo": "කොළඹ",
                 "Trincomalee":"ත්‍රිකුණාමලය",
