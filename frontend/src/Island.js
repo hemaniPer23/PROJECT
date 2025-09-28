@@ -232,6 +232,7 @@ const Island = () => {
     const totalVotes = firstVotes + cand.second_vote_count;
     return {
       candidate_id: cand.candidate_id,
+     
       candidate_name: cand.candidate_name,
       first_votes: firstVotes,
       second_votes: cand.second_vote_count,
@@ -301,22 +302,43 @@ const Island = () => {
       )}
 
       {/* 🔹 Show results after clicking */}
-      {showSecondVote && secondVoteResult && (
-        <div className="second-vote-results">
-          <h2 className="secVotRes">Second Vote Results (Top Two)</h2>
-          <div className="card-container">
-            {topTwoDisplay.map((cand) => (
-              <div key={cand.candidate_id} className="candidate-card">
-                <h4>{cand.candidate_name}</h4>
-                <p>First Votes: {cand.first_votes}</p>
-                <p>Second Votes: {cand.second_votes}</p>
-                <p>Total: {cand.total_votes}</p>
-                <p className="percentage">{cand.percentage}%</p>
+          {showSecondVote && secondVoteResult && (
+            <div className="second-vote-results">
+              <h2 className="secVotRes">Second Vote Results (Top Two)</h2>
+              <div className="card-container">
+                {topTwoDisplay.map((cand) => {
+                  const firstVoteCand = candidates.find(c => c.Candidate_Id === cand.candidate_id);
+
+                  return (
+                    <div
+                      key={cand.candidate_id}
+                      className="candidate-card"
+                      style={{ backgroundColor: firstVoteCand?.Party_Colour }}
+                    >
+                      {/* Candidate Image */}
+                      <img
+                        src={`http://localhost/PROJECT/backend/uploads/candidate_images/${firstVoteCand?.Candidate_image.split('\\').pop()}`}
+                        alt={cand.candidate_name}
+                      />
+
+                      {/* Party Logo (Symbol) */}
+                      <img
+                        src={`http://localhost/PROJECT/backend/uploads/candidate_symbols/${firstVoteCand?.Party_logo.split('\\').pop()}`}
+                        alt={firstVoteCand?.Party_name}
+                        style={{ width: 50, height: 50, marginTop: "5px" }}
+                      />
+
+                      <h4>{cand.candidate_name}</h4>
+                      <p className="votes">First Votes: {cand.first_votes.toLocaleString()}</p>
+                      <p className="votes">Second Votes: {cand.second_votes.toLocaleString()}</p>
+                      <p className="votes">Total: {cand.total_votes.toLocaleString()}</p>
+                      <p className="percentage">{cand.percentage}%</p>
+                    </div>
+                  );
+                })}
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            </div>
+          )}
     </div>
   );
 };
