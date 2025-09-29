@@ -169,6 +169,8 @@ const Ballotpaper = () => {
       border: "1px solid #ccc",
       cursor: "pointer",
       fontSize: 24,
+      color: "#000"
+      
     },
     iconImage: {
       width: 60,
@@ -200,7 +202,8 @@ const Ballotpaper = () => {
     },
     result: {
       textAlign: "center",
-      padding: 10
+      padding: 10,
+      color:'black'
     },
     profileImage: {
       width: 160,
@@ -233,7 +236,7 @@ const Ballotpaper = () => {
       <div style={styles.container}>
         {!showConfirmation && !submitted ? (
           <>
-            <h2 style={{ textAlign: 'center' }}>අපේක්ෂකයෙකු තෝරන්න හෝ මනාප සපයන්න</h2>
+            <h2 style={{ textAlign: 'center', color:'black' }}>අපේක්ෂකයෙකු තෝරන්න හෝ මනාප සපයන්න</h2>
             <div style={styles.ballot}>
               {candidates.map((candidate) => (
                 <div

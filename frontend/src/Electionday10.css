@@ -1,6 +1,6 @@
 /* General body styling for the dashboard page */
 body {
- color: #000;
+  color: rgb(255, 255, 255);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   margin: 0;
   padding: 20px;
@@ -66,7 +66,7 @@ body {
 /* Title styling within stat boxes */
 .stat-box-large h3, .stat-box-small h3 {
   margin-top: 0;
-  border-bottom: 2px solid #00e676;
+  border-bottom: 2px solid #f515d0;
   padding-bottom: 10px;
   text-align: center;
   font-size: 1.6rem;
@@ -99,7 +99,7 @@ body {
 
 /* The progress bar itself */
 .progress-bar {
-  background-color: #00e676;
+  background-color: #ff3edf;
   height: 100%;
   line-height: 28px;
   text-align: center;
@@ -151,7 +151,7 @@ body {
   left: 0; 
   
   
-  background-color: #00e676;
+  background-color: #f515d0;
   color: #0f2027;
   border: none;
   padding: 10px 25px;

@@ -32,14 +32,8 @@ const LoginPage = ({ setAdmin }) => {
 
         if (role === "Presiding Officer") {
           navigate("/electionday1");
-        } else if (role === "Officer") {
-          navigate("/officer-dashboard");
-        } else if (role === "Result") {
-          navigate("/results-dashboard");
-        } else if (role === "commission") {
-          navigate("/choose");
         } else {
-          setError("Logged in, but role is undefined.");
+          setError("Unauthorized or login failed.");
         }
       }
     } catch (err) {

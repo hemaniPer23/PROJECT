@@ -157,3 +157,10 @@ body, html {
 .attendance-btn:hover {
   background-color: #ef6c00;
 }
+
+.button-group-8 {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
