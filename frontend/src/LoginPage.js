@@ -86,7 +86,7 @@ const LoginPage = ({ setAdmin }) => {
               className="registration-back-btn"
               onClick={() => navigate(-1)}
             >
-              Cansel
+              Cancel
             </button>
           </div>
         </form>

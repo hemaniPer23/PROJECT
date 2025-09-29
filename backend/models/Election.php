@@ -38,5 +38,29 @@ class Election {
         }
         return false; // Failure (no rows updated or query failed)
     }
+
+
+        // Get election end time
+    public function getElectionEndTime() {
+        // Create query
+        $query = 'SELECT End_Time FROM ' . $this->table . ' WHERE IsValid = 1 LIMIT 1';
+
+        // Prepare statement
+        $stmt = $this->conn->prepare($query);
+
+        // Execute query
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($row) {
+            // Set properties
+            $this->End_time = $row['End_Time'];
+            return true;
+        }
+
+        return false;
+    }
+
 }
 ?>

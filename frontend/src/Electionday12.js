@@ -25,7 +25,7 @@ const pollingInterval = setInterval(() => {
         clearInterval(pollingInterval);
         setTimeout(() => {
           navigate('/electionday8');
-        }, 2000);
+        }, 3000);
       }
     } catch (err) {
       console.error("Polling for vote status failed:", err);
