@@ -241,5 +241,28 @@ class Voter {
         }
         return false;
     }
+// Get Voter Stats by Electoral Division
+    public function getVoterStatsByElectoralDivision() {
+        // Create query
+        $query = 'SELECT
+            d.Electoral_Division,
+            COUNT(CASE WHEN v.STATUS = "Voted" THEN 1 END) as voted,
+            COUNT(CASE WHEN v.STATUS = "Pending" THEN 1 END) as non_voted
+          FROM
+            divisions d
+          LEFT JOIN
+            ' . $this->table . ' v ON d.Division_ID = v.Division_ID
+          GROUP BY
+            d.Electoral_Division';
+
+      // Prepare statement
+      $stmt = $this->conn->prepare($query);
+
+      // Execute query
+      $stmt->execute();
+
+      return $stmt;
+    }
+  
 }
 ?>

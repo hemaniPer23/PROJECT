@@ -52,7 +52,7 @@ const Thankyou = () => {
           width: '90%',
           maxWidth: '450px'
         }}>
-          <h2 style={{ fontSize: '24px', marginBottom: 10 }}>Thank you</h2>
+          <h2 style={{ fontSize: '24px', marginBottom: 10,color:'black' }}>Thank you</h2>
           <p style={{ fontSize: '16px', color: '#333' }}>
             Voting Successful <br></br>✅
           </p>

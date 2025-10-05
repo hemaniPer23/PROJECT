@@ -92,9 +92,11 @@ const Accept = () => {
         {/* If a verified voter is found, show their details */}
           {verifiedVoter ? (
             <div>
-              <h2 style={{ fontSize: '24px', marginBottom: 10 }}>Voter Details Received</h2>
-              <p><strong>NIC:</strong> {verifiedVoter.nic}</p>
-              <p><strong>Name:</strong> {verifiedVoter.name}</p>
+              <h2 style={{ fontSize: '24px', marginBottom: 10, color:'black' }}>Voter Details Received</h2>
+              <p style={{ fontSize: '16px', color: '#000000ff' }}
+              ><strong>NIC:</strong> {verifiedVoter.nic}</p>
+              <p style={{ fontSize: '16px', color: '#000000ff' }} 
+              ><strong>Name:</strong> {verifiedVoter.name}</p>
               <button onClick={handleAccess} style={{
                 marginTop: '20px', padding: '10px 20px', fontSize: '16px',
                 backgroundColor: '#1c3cb0ff', color: '#fff', border: 'none',
@@ -106,8 +108,8 @@ const Accept = () => {
           ) : (
             // If no verified voter, show the waiting message
             <div>
-              <h2 style={{ fontSize: '24px', marginBottom: 10 }}>Waiting for Voter</h2>
-              <p style={{ fontSize: '16px', color: '#333' }}>{message}</p>
+              <h2 style={{ fontSize: '24px', marginBottom: 10,color: '#000000ff' }}>Waiting for Voter</h2>
+              <p style={{ fontSize: '16px', color: '#000000ff' }}>{message}</p>
             </div>
           )}
 

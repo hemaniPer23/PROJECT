@@ -790,8 +790,8 @@ export default function RegistrationVoter() {
               </tbody>
             </table>
 
-            <div className="button-group-v">
-              <button type="submit" className="submit-btn-v" disabled={loading}>
+            <div className="button-group">
+              <button type="submit" className="submit-btn" disabled={loading}>
                 {loading ? (
                   <>
                     <span className="spinner"></span>
@@ -801,10 +801,10 @@ export default function RegistrationVoter() {
                   'Register Voter'
                 )}
               </button>
-              <button type="button" className="clear-btn-v" onClick={handleClear} disabled={loading}>
+              <button type="button" className="clear-btn" onClick={handleClear} disabled={loading}>
                 Clear Form
               </button>
-              <button type="button" className="back-btn-v" onClick={handleBack} disabled={loading}>
+              <button type="button" className="back-btn" onClick={handleBack} disabled={loading}>
                 Back
               </button>
             </div>

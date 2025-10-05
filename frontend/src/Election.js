@@ -60,7 +60,7 @@ export default function Election() {
   };
 
   return (
-    <div >
+    <div style={style}>
         <nav class="nav"> 
             
             <a href="newpage">Back</a>

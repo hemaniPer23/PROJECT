@@ -33,7 +33,7 @@ const Registrationlogin = ({ setAdmin }) => {
         if (role === "commission") {
           navigate("/choose");
         } else {
-          setError("Logged in, but role is undefined.");
+          setError("Unauthorized or login failed.");
         }
       }
     } catch (err) {
@@ -84,7 +84,7 @@ const Registrationlogin = ({ setAdmin }) => {
               className="registration-back-btn"
               onClick={() => navigate(-1)}
             >
-              Cansel
+              Cancel
             </button>
           </div>
         </form>

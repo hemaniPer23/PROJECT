@@ -29,6 +29,7 @@ import Election from "./Election";
 import Infopage from "./Infopage";
 import Language from "./Language";
 import Enballotpaper from "./Enballotpaper";
+import Electionday12 from "./Electionday12";
 
 
 import Viewresults1 from "./Viewresults1";
@@ -176,6 +177,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Electionday11 />
+            </ProtectedRoute>
+          }
+        />
+          <Route
+          path="/electionday12"
+          element={
+            <ProtectedRoute>
+              <Electionday12 />
             </ProtectedRoute>
           }
         />

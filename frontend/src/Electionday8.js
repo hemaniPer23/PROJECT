@@ -1,77 +1,111 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Css/Electionday8.css";
+import "./Css/Electionday4.css";
 import API from "./API"; // Import your API instance
 
-export default function Electionday8() {
+export default function Electionday4() {
   const [nic, setNic] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [isElectionOver, setIsElectionOver] = useState(false);
   const navigate = useNavigate();
 
-  // Handle Next Button
+  useEffect(() => {
+    const checkElectionStatus = async () => {
+      try {
+        const res = await API.get("/api/election/get_election_end_time.php");
+        if (res.data.End_Time) {
+          const electionEndTime = new Date(res.data.End_Time);
+          const currentTime = new Date();
+
+          if (currentTime > electionEndTime) {
+            setIsElectionOver(true);
+            setMessage("Election has ended.");
+            // Navigate to homepage after a short delay
+            setTimeout(() => {
+              navigate('/');
+            }, 3000); // 3-second delay before redirecting
+          }
+        } 
+      } catch (err) {
+        console.error("Error fetching election end time:", err);
+        setMessage("Could not verify election time.");
+        setIsElectionOver(true); // Disable form if backend fails
+      }
+    };
+
+    checkElectionStatus();
+
+    // Set up an interval to re-check every 30 seconds
+    const interval = setInterval(checkElectionStatus, 30000);
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, [navigate]);
+
   const handleNext = async (e) => {
     e.preventDefault();
+
+    if (isElectionOver) {
+      return; // Do nothing if the election is over
+    }
+
     setIsLoading(true);
     setMessage("");
 
     try {
       const res = await API.get(`/api/voter/verify_voter.php?nic=${nic}`);
-      if (res.data.status === "success") {
-        navigate("/electionday5", { state: { voter: res.data.data } });
+      if (res.data.status === 'success') {
+        navigate('/electionday11', { state: { voter: res.data.data } });
       }
     } catch (err) {
-      setMessage(err.response?.data?.message || "An error occurred.");
+      setMessage(err.response?.data?.message || 'An error occurred.');
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleView = () => {
+    navigate('/electionday10');
+  };
+
   return (
-    <div className="login-wrapper-e8">
-      {/* Titles */}
-      <div className="page-title-e8">
-        <h1 className="title-sinhala-e8">මැතිවරණ කොමිෂන් සභාව 2025</h1>
-        <h2 className="title-english-e8">Election Commission 2025</h2>
+    <div className="login-wrapper-e4">
+      <div className="page-title-e4">
+        <h1 className="title-sinhala">මැතිවරණ කොමිෂන් සභාව 2025</h1>
+        <br />
+        <h2 className="title-english">Election Commission 2025</h2>
       </div>
+      <div className="login-card-e4">
+        <h1>Voter</h1>
+        <h1>NIC Verification</h1>
 
-      {/* Login Card */}
-      <div className="login-card-e8">
-        <h1 className="card-title-e8">Voter</h1>
-        <h1 className="card-title-e8">NIC Login</h1>
-
-        <form onSubmit={handleNext} className="form-e8">
-          <label htmlFor="nic" className="label-e8">NIC :</label>
+        <form onSubmit={handleNext}>
+          <label htmlFor="nic">Enter NIC :</label>
           <input
             id="nic"
             type="text"
             value={nic}
             onChange={(e) => setNic(e.target.value)}
             required
-            disabled={isLoading}
-            className="input-e8"
+            disabled={isLoading || isElectionOver}
           />
-
-          {/* Buttons Row */}
-          <div className="button-row-e8">
-            <button type="submit" disabled={isLoading} className="next-btn-e8">
-              {isLoading ? "Searching..." : "Next"}
-            </button>
-          </div>
-
-          {/* Attendance Button Below */}
-          <div className="attendance-row-e8">
+          <div className="button-row-e4"></div>
+          <div className="button-group-8">
             <button
-              type="button"
-              className="attendance-btn-e8"
-              onClick={() => navigate("/attendance")}
+              type="submit"
+              className="btn-next"
+              disabled={isLoading || isElectionOver}
             >
-              Attendance
+              {isLoading ? 'Searching...' : 'Next'}
+            </button>
+            <button type="button" className="btn-view" onClick={handleView}>
+              View
             </button>
           </div>
         </form>
 
-        {message && <p className="error-message-e8">{message}</p>}
+        {message && <p className="error-message">{message}</p>}
       </div>
     </div>
   );

@@ -512,7 +512,7 @@ export default function RegistrationCandidate() {
   return (
     <>
       <div className="bg-container">
-        <div className="form5-container">
+        <div className="form-container">
           <h1>
             අපේක්ෂකයින් ලියාපදිංචි කිරීමේ පත්‍රය<br />
             CANDIDATE REGISTRATION FORM
@@ -789,7 +789,7 @@ export default function RegistrationCandidate() {
               </tbody>
             </table>
 
-            <div className="button-group-c">
+            <div className="button-group">
               <button type="submit" className="submit-btn" disabled={loading}>
                 {loading ? (
                   <>
@@ -800,10 +800,10 @@ export default function RegistrationCandidate() {
                   'Register Candidate'
                 )}
               </button>
-              <button type="button" className="clear-btn-c" onClick={handleClear}>
+              <button type="button" className="clear-btn" onClick={handleClear}>
                 Clear Form
               </button>
-              <button type="button" className="back-btn-c" onClick={handleBack}>
+              <button type="button" className="back-btn" onClick={handleBack}>
                 Back
               </button>
             </div>

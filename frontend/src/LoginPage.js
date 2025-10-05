@@ -30,16 +30,12 @@ const LoginPage = ({ setAdmin }) => {
 
         const role = res.data.role;
 
-        if (role === "Presiding Officer") {
-          navigate("/electionday1");
-        } else if (role === "Officer") {
-          navigate("/officer-dashboard");
-        } else if (role === "Result") {
-          navigate("/results-dashboard");
-        } else if (role === "commission") {
-          navigate("/choose");
+        
+        if (role === "Result") {
+          navigate("/newpage");
+        
         } else {
-          setError("Logged in, but role is undefined.");
+          setError(" Unauthorized or login failed.");
         }
       }
     } catch (err) {
@@ -90,7 +86,7 @@ const LoginPage = ({ setAdmin }) => {
               className="registration-back-btn"
               onClick={() => navigate(-1)}
             >
-              Cansel
+              Cancel
             </button>
           </div>
         </form>

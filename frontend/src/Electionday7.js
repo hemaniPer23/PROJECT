@@ -1,13 +1,33 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Import navigation hook
-import './Css/Electionday7.css'; // Ensure this path is correct
+import { useNavigate } from 'react-router-dom';
+import './Css/Electionday7.css';
+import API from './API';
 
-export default function Electionday1() {
-  const navigate = useNavigate(); // Initialize navigation
+export default function Electionday7() {
+  const navigate = useNavigate();
 
-  const handleDone = () => {
-    // Navigate to Electionday9 page
-    navigate('/electionday9'); // Adjust the path according to your routes
+  // Make the function async to use await
+  const handleDone = async () => {
+    try {
+      // Parse the JSON response from the API
+      const result = await API.get('/api/election/test_one.php').then(response => response.data);
+
+      // Check the custom status from your API's response
+      if (result.status === 'success') {
+        console.log('API call successful:', result.message);
+        // Navigate to the next page only on success
+        navigate('/electionday9');
+      } else {
+        // Handle cases where the API reports an error (e.g., no rows deleted)
+        console.error('API Error:', result.message);
+        alert(`Failed to process request: ${result.message}`);
+      }
+
+    } catch (error) {
+      // Handle network errors or other issues with the fetch call
+      console.error('There was a problem with the fetch operation:', error);
+      alert('Could not connect to the server. Please try again.');
+    }
   };
 
   return (
